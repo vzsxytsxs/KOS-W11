@@ -1,0 +1,7 @@
+[HKEY_LOCAL_MACHINE\SOFTWARE\Intel\GMM]
+"DedicatedSegmentSize" dword, Decimal, Recommanded 512MB VRAM
+2GB RAM = 256MB VRAM
+4GB RAM = 512MB VRAM
+8GB RAM = 1024MB VRAM
+its supported only on i3, i5, i7, i9
+Default VRAM: 128MB
