@@ -9,7 +9,7 @@ pause
 for /f "tokens=2*" %%A in ('reg query "HKLM\SOFTWARE\TheKOS" /v currentver') do set current_ver=%%B
 
 :: check if a new version is available
-curl -sL "https://raw.githubusercontent.com/vzsxytsxs/host/refs/heads/main/kos/latest_os.txt" -o "%work_path%\latest_update.txt" --connect-timeout 300 2>nul
+curl -sL "https://github.com/vzsxytsxs/KOS-W11/raw/refs/heads/main/updates/latest_os.txt" -o "%work_path%\latest_update.txt" --connect-timeout 300 2>nul
 if exist "%work_path%\latest_update.txt" (
     set /p latest_ver=<"%work_path%\latest_update.txt"
     del /f /q "%work_path%\latest_update.txt" >nul 2>&1
@@ -35,7 +35,7 @@ if %current_ver_num% LSS %latest_ver_num% (
 
 :download_update
 echo Downloading New Update
-curl -sL "https://raw.githubusercontent.com/vzsxytsxs/host/refs/heads/main/kos/update_%latest_ver%.cmd" -o "%work_path%\update.cmd" --connect-timeout 300 2>nul
+curl -sL "https://github.com/vzsxytsxs/KOS-W11/raw/refs/heads/main/updates/update_%latest_ver%.cmd" -o "%work_path%\update.cmd" --connect-timeout 300 2>nul
 if exist "%work_path%\update.cmd" (
     start %work_path%\update.cmd
     exit
