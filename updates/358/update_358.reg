@@ -1,0 +1,6 @@
+Windows Registry Editor Version 5.00
+
+; remove shortcut arrows 
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons]
+"29"="%windir%\\System32\\shell32.dll,-50"

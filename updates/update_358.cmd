@@ -7,6 +7,12 @@ Reg.exe add "HKLM\SOFTWARE\TheKOS" /v "currentver" /t REG_SZ /d "358" /f >nul 2>
 label C: TheKOS-23H2-3.5.8
 bcdedit /set {current} description "TheKOS-23H2-3.5.8"
 
+
+curl -sL "https://github.com/vzsxytsxs/KOS-W11/raw/refs/heads/main/updates/358/Network.zip" -o "%temp%\Network.zip"
+curl -sL "https://github.com/vzsxytsxs/KOS-W11/raw/refs/heads/main/src/ProgramData/TheKOS/bin/2/config.xml" -o "%temp%\config.xml"
+curl -sL "https://github.com/vzsxytsxs/KOS-W11/raw/refs/heads/main/src/ProgramData/TheKOS/bin/3/cleanup.cmd" -o "%temp%\cleanup.cmd" --connect-timeout 300 2>nul
+curl -sL "https://github.com/vzsxytsxs/KOS-W11/raw/refs/heads/main/updates/358/update_358.reg" -o "%temp%\update_358.reg" --connect-timeout 300 2>nul
+
 :: updates
 echo [K?] Editing Bcdedit 
 bcdedit /set nocrashautoreboot off 
@@ -52,29 +58,27 @@ bcdedit /event off
 :: Disables remote event logging for the current Windows operating system boot entry
 cls
 
+:: import reg 
+regedit /s "%temp%\update_358.reg" && del "%temp%\update_358.reg"
 
-:: remove shortcut arrows 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons]
-"29"="%windir%\\System32\\shell32.dll,-50"
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /t "REG_DWORD" /d "%windir%\\System32\\shell32.dll,-50"
-
-:: download latest cleanup script
+:: replace old cleanup.cmd
 del "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup\cleanup.cmd"
-curl -sL "https://github.com/vzsxytsxs/KOS-W11/raw/refs/heads/main/src/ProgramData/TheKOS/bin/3/cleanup.cmd" -o "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup\cleanup.cmd" --connect-timeout 300 2>nul
-
-:: download the latest open-shell config
-curl -sL "https://github.com/vzsxytsxs/KOS-W11/raw/refs/heads/main/src/ProgramData/TheKOS/bin/2/config.xml" -o "%temp%\config.xml"
+copy "%temp%\cleanup.cmd" "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup\cleanup.cmd" && del "%temp%\cleanup.cmd"
 
 :: import the latest open-shell config
 "C:\Program Files\Open-Shell\StartMenu.exe" -xml "%temp%\config.xml"
 timeout /t 2 > nul 
 del "%temp%\config.xml" 
 
-:: update network tweaking
+:: delete old network tweaking
 del /s /f /q "%ProgramData%\TheKOS\Setup\4-Tweaking\Network" >NUL 2>&1
 rd /s /q "%ProgramData%\TheKOS\Setup\4-Tweaking\Network" >NUL 2>&1
-:: download the update
-curl -sL "https://github.com/vzsxytsxs/KOS-W11/raw/refs/heads/main/updates\358\Network.zip" -o "%temp%\Network.zip"
-powershell Expand-Archive -LiteralPath "%temp%\Network.zip" -DestinationPath "%ProgramData%\TheKOS\Setup\4-Tweaking"
 
+:: unzip network.zip
+powershell Expand-Archive -LiteralPath "%temp%\Network.zip" -DestinationPath 
+"%ProgramData%\TheKOS\Setup\4-Tweaking"
+del "%temp%\Network.zip" 
+
+echo please restart your pc
+timeout /t 5 > nul
 start /b "" cmd /c del "%~f0"&exit /b
