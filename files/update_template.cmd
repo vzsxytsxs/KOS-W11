@@ -13,4 +13,8 @@ bcdedit /set {current} description "TheKOS-23H2-3.3.9"
 
 
 
+start explorer.exe 
+cls
+echo please restart your pc
+timeout /t 5 > nul
 start /b "" cmd /c del "%~f0"&exit /b

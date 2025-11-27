@@ -5,6 +5,9 @@ set "work_path=%ProgramData%\TheKOS\bin"
 echo This updater only updates system tweaks. If there are any changes directly to the ISO, they will not be applied by the updater.
 pause
 
+del "%work_path%\update.cmd"
+cls
+
 :: read current version
 for /f "tokens=2*" %%A in ('reg query "HKLM\SOFTWARE\TheKOS" /v currentver') do set current_ver=%%B
 

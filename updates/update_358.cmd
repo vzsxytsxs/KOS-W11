@@ -75,10 +75,10 @@ del /s /f /q "%ProgramData%\TheKOS\Setup\4-Tweaking\Network" >NUL 2>&1
 rd /s /q "%ProgramData%\TheKOS\Setup\4-Tweaking\Network" >NUL 2>&1
 
 :: unzip network.zip
-powershell Expand-Archive -LiteralPath "%temp%\Network.zip" -DestinationPath 
-"%ProgramData%\TheKOS\Setup\4-Tweaking"
-del "%temp%\Network.zip" 
+powershell Expand-Archive -LiteralPath "%temp%\Network.zip" -DestinationPath "%ProgramData%\TheKOS\Setup\4-Tweaking" && del "%temp%\Network.zip"
 
+start explorer.exe 
+cls
 echo please restart your pc
 timeout /t 5 > nul
 start /b "" cmd /c del "%~f0"&exit /b
