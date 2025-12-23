@@ -29,9 +29,10 @@ md %windir%\temp >NUL 2>&1
 del /s /f /q %temp%\*.* >NUL 2>&1
 rd /s /q %temp% >NUL 2>&1
 md %temp% >NUL 2>&1
-del /s /f /q %windir%\Installer\*.* >NUL 2>&1
-rd /s /q %windir%\Installer >NUL 2>&1
-md %windir%\Installer >NUL 2>&1
+:: can break msi installers
+:: del /s /f /q %windir%\Installer\*.* >NUL 2>&1
+:: rd /s /q %windir%\Installer >NUL 2>&1
+:: md %windir%\Installer >NUL 2>&1
 del /s /f /q %windir%\*.log >NUL 2>&1
 for %%F in ("C:\Windows\SoftwareDistribution\Download\*") do (
     del "%%F" /q /f >NUL 2>&1

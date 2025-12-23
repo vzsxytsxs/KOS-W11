@@ -10,46 +10,49 @@ label C: TheKOS-23H2-3.5.8
 bcdedit /set {current} description "TheKOS-23H2-3.5.8"
 cls
 
+:: Safe Mode
+:: logs
+
 :: Startup
-move "C:\ProgramData\TheKOS\bin\3\cleanup.cmd" "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup"
+move "%programdata%\TheKOS\bin\3\cleanup.cmd" "%programdata%\Microsoft\Windows\Start Menu\Programs\Startup"
 cls
 
 :: installers
-echo [K?] Installing Visual C++
-start /b /wait "" "C:\ProgramData\TheKOS\bin\1\Visual-C-Runtimes-All-in-One-Nov-2023\install_all.bat" >nul 2>&1
+echo [K?] Visual C++
+start /b /wait "" "%programdata%\TheKOS\bin\1\Visual-C-Runtimes-All-in-One-Dec-2025\install_all.bat" >nul 2>&1
 cls
 
-echo [K?] Installing DirectX
-cd /d "C:\ProgramData\TheKOS\bin\1" >NUL 2>&1
+echo [K?] DirectX
+cd /d "%programdata%\TheKOS\bin\1" >NUL 2>&1
 start /min /wait DirectX\install.bat >NUL 2>&1
 timeout /t 5 /nobreak >NUL 2>&1
 cls
 
-echo [K?] Installing 7z
-start /b /wait "" "C:\ProgramData\TheKOS\bin\1\7z2401-x64.msi" /passive >nul 2>&1
+echo [K?] 7z
+start /b /wait "" "%programdata%\TheKOS\bin\1\7z2501-x64.msi" /passive >nul 2>&1
 cls
 
-echo [K?] Installing VLC 
-C:\ProgramData\TheKOS\bin\1\vlc-3.0.21-win64.exe /L=1033 /S
+echo [K?] VLC 
+%programdata%\TheKOS\bin\1\vlc-3.0.21-win64.exe /L=1033 /S
 del "C:\Users\Public\Desktop\VLC media player.lnk"
 
-echo [K?] Installing Lightshot 
-call "C:\ProgramData\TheKOS\bin\1\lightshot.exe" /VERYSILENT /NORESTART
+echo [K?] Lightshot 
+call "%programdata%\TheKOS\bin\1\lightshot.exe" /VERYSILENT /NORESTART
 cls
 
 :: Open-Shell
-echo [K?] Installing Open-Shell
-start C:\ProgramData\TheKOS\bin\1\openshell.exe /qn ADDLOCAL=StartMenu
+echo [K?] Open-Shell
+start %programdata%\TheKOS\bin\1\openshell.exe /qn ADDLOCAL=StartMenu
 timeout /t 2 /nobreak >NUL 2>&1
-"C:\Program Files\Open-Shell\StartMenu.exe" -xml "C:\ProgramData\TheKOS\bin\2\config.xml"
+"%programfiles%\Open-Shell\StartMenu.exe" -xml "%programdata%\TheKOS\bin\2\config.xml"
 PowerRun.exe /SW:0 taskkill.exe /im "StartMenuExperienceHost.exe" /t /f
-PowerRun.exe /SW:0 powershell.exe Rename-Item -Path "C:\Windows\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\StartMenuExperienceHost.exe" -NewName "StartMenuExperienceHost.old"
+PowerRun.exe /SW:0 powershell.exe Rename-Item -Path "%windir%\SystemApps\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\StartMenuExperienceHost.exe" -NewName "StartMenuExperienceHost.old"
 
 :: TheKOS Reg 
 cls
 echo [K?] Applying TheKOS REG
-start /b /wait "" "C:\ProgramData\TheKOS\bin\2\drvset.bat" >NUL 2>&1
-regedit /s "C:\ProgramData\TheKOS\bin\2\TheKOS_reg.reg"
+start /b /wait "" "%programdata%\TheKOS\bin\2\drvset.bat" >NUL 2>&1
+regedit /s "%programdata%\TheKOS\bin\2\TheKOS_reg.reg"
 
 echo [K?] Disabling Process Mitigations 
 PowerShell Set-ProcessMitigation -System -Disable CFG
@@ -78,24 +81,23 @@ for %%d in (
 )
 cls
 
-echo [K?] Disable reserved storage
+echo [K?] Reserved Storage
 DISM /Online /Set-ReservedStorageState /State:Disabled >nul 2>&1
 
-echo [K?] Disabling Write Cache Buffer
-	for /f "tokens=*" %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Enum\SCSI"^| findstr "HKEY"') do (
-		for /f "tokens=*" %%a in ('reg query "%%i"^| findstr "HKEY"') do reg.exe add "%%a\Device Parameters\Disk" /v "CacheIsPowerProtected" /t REG_DWORD /d "1" /f > NUL 2>&1
-	)
-	for /f "tokens=*" %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Enum\SCSI"^| findstr "HKEY"') do (
-		for /f "tokens=*" %%a in ('reg query "%%i"^| findstr "HKEY"') do reg.exe add "%%a\Device Parameters\Disk" /v "UserWriteCacheSetting" /t REG_DWORD /d "1" /f > NUL 2>&1
-	)
+echo [K?] Write Cache Buffer
+for /f "tokens=*" %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Enum\SCSI"^| findstr "HKEY"') do (
+	for /f "tokens=*" %%a in ('reg query "%%i"^| findstr "HKEY"') do reg.exe add "%%a\Device Parameters\Disk" /v "CacheIsPowerProtected" /t REG_DWORD /d "1" /f > NUL 2>&1
+)
+for /f "tokens=*" %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Enum\SCSI"^| findstr "HKEY"') do (
+	for /f "tokens=*" %%a in ('reg query "%%i"^| findstr "HKEY"') do reg.exe add "%%a\Device Parameters\Disk" /v "UserWriteCacheSetting" /t REG_DWORD /d "1" /f > NUL 2>&1
+)
 cls
 
 echo [K?] Execution Policy To Unrestricted
 powershell set-executionpolicy unrestricted -force >nul 2>&1
 cls
 
-:: 358
-echo [K?] Editing Bcdedit 
+echo [K?] Bcdedit
 bcdedit /set nocrashautoreboot off 
 :: Enables automatic restart on crash.
 bcdedit /set nx alwaysoff
@@ -140,7 +142,7 @@ bcdedit /event off
 cls
 
 cls
-echo [K?] Disabling Device Manager Devices
+echo [K?] Device Manager Devices
 devmanview /disable "Direct memory access Controller"
 devmanview /disable "High Precision Event Timer"
 devmanview /disable "Microsoft GS Wavetable Synth"
@@ -188,7 +190,7 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\
 reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3" /V "1806" /T "REG_DWORD" /D "0000000000" /F
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Internet Explorer\Security" /V "DisableSecuritySettingsCheck" /T "REG_DWORD" /D "00000001" /F
 cls
-echo [K?] Disabling Services
+echo [K?] Applying TheKOS Services
 PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e96c-e325-11ce-bfc1-08002be10318}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
 PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{6bdd1fc6-810f-11d0-bec7-08002be2092f}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
 PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{ca3e7ab9-b4c3-4ae6-8251-579ef933890f}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
@@ -361,6 +363,7 @@ cls
 sc delete nvagent >NUL 2>&1
 net accounts /maxpwage:unlimited
 
+echo [K?] Spectre Meltdown 
 :: BlitzOS Script (Spectre meltdown)
 wmic cpu get name | findstr "Intel" >nul && (
     reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "FeatureSettingsOverride" /t REG_DWORD /d 3 /f
@@ -370,13 +373,13 @@ wmic cpu get name | findstr "AMD" >nul && (
 )
 
 :: cleaner
-rd /s /q "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\7-Zip"
-rd /s /q "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Lightshot"
+rd /s /q "%programdata%\Microsoft\Windows\Start Menu\Programs\7-Zip"
+rd /s /q "%programdata%\Microsoft\Windows\Start Menu\Programs\Lightshot"
 reg delete "HKLM\SOFTWARE\WOW6432Node\Skillbrains\Updater" /f
-rd /s /q "C:\Program Files (x86)\Skillbrains\Updater"
-rd /s /q "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Open-Shell"
-del "C:\Program Files\Open-Shell\Start Screen.lnk"
-del "C:\Users\sysnyxx\AppData\Roaming\OpenShell\Pinned\startscreen.lnk"
+rd /s /q "%programfiles% (x86)\Skillbrains\Updater"
+rd /s /q "%programdata%\Microsoft\Windows\Start Menu\Programs\Open-Shell"
+del "%programfiles%\Open-Shell\Start Screen.lnk"
+del "%appdata%\OpenShell\Pinned\startscreen.lnk"
 move "%programdata%\TheKOS\bin\2\Tools" "%appdata%\OpenShell\Pinned"
 Reg.exe delete "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v "Open-Shell Start Menu" /f >nul 2>&1
 Reg.exe delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v "Open-Shell Start Menu" /f >nul 2>&1
@@ -387,7 +390,7 @@ for /f "tokens=1 delims=," %%a in (
 )
 
 :: Keyboard and Mouse Settings
-echo [K?] Configuring Keyboard and Mouse Settings 
+echo [K?] Keyboard and Mouse Settings 
 Reg.exe add "HKCU\Control Panel\Keyboard" /v "InitialKeyboardIndicators" /t REG_SZ /d "0" /f >nul 2>&1
 Reg.exe add "HKCU\Control Panel\Keyboard" /v "KeyboardDelay" /t REG_SZ /d "0" /f >nul 2>&1
 Reg.exe add "HKCU\Control Panel\Keyboard" /v "KeyboardSpeed" /t REG_SZ /d "31" /f >nul 2>&1
@@ -423,13 +426,12 @@ Reg.exe delete "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v "DisableNo
 Reg.exe delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "DisableNotificationCenter" /f >nul 2>&1
 
 :: disable network adapters
-echo [K?] Disabling network adapters
+echo [K?] Network Adapters
 powershell -NoProfile -Command "Disable-NetAdapterBinding -Name "*" -ComponentID ms_tcpip6, ms_msclient, ms_server, ms_rspndr, ms_lltdio, ms_implat, ms_lldp" >nul 2>&1
 cls
 
-:: 358
 :: netbios 
-echo [K?] Disabling NetBIOS over TCP/IP
+echo [K?] NetBIOS over TCP/IP
 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NetBT\Parameters" /v "EnableLMHOSTS" /t REG_DWORD /d "0" /f
 for /f "delims=" %%u in ('reg query "HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters\Interfaces" /s /f "NetbiosOptions" ^| findstr "HKEY"') do (
     reg add "%%u" /v "NetbiosOptions" /t REG_DWORD /d "2" /f
@@ -437,30 +439,30 @@ for /f "delims=" %%u in ('reg query "HKLM\SYSTEM\CurrentControlSet\Services\NetB
 cls
 
 :: Delete Firewall Rules
-echo [K?] Deleting Firewall Rules
+echo [K?] Firewall Rules
 Reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules" /f > NUL 2>&1
 Reg.exe add "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules" /f > NUL 2>&1
 
 :: autologgers
-echo [K?] Disabling AutoLoggers and Firewall Rules
+echo [K?] AutoLoggers and Firewall Rules
 powerrun "powershell.exe" Remove-AutologgerConfig -Name "autologger-diagtrack-listener", "cellcore", "cloudexperiencehostoobe", "lwtnetlog", "mellanox-Kernel", "microsoft-windows-assignedaccess-trace", "microsoft-windows-rdp-graphics-rdpidd-trace"
 cls
 
 :: dma remapping
-echo [K?] Disabling DMA Remapping
+echo [K?] DMA Remapping
 for %%a in (DmaRemappingCompatible) do for /f "delims=" %%b in ('reg query "HKLM\SYSTEM\CurrentControlSet\Services" /s /f "%%a" ^| findstr "HKEY"') do Reg.exe add "%%b" /v "%%a" /t REG_DWORD /d "0" /f >nul 2>&1
 cls
 
 :: exclusive mode audio
-echo [K?] Disabling Exclusive Mode On Audio Devices
+echo [K?] Exclusive Mode On Audio Devices
 for /f "delims=" %%a in ('reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Capture') do PowerRun.exe /SW:0 Reg.exe add "%%a\Properties" /v "{b3f8fa53-0004-438e-9003-51a46e139bfc},3" /t REG_DWORD /d "0" /f >nul 2>&1
 for /f "delims=" %%a in ('reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Capture') do PowerRun.exe /SW:0 Reg.exe add "%%a\Properties" /v "{b3f8fa53-0004-438e-9003-51a46e139bfc},4" /t REG_DWORD /d "0" /f >nul 2>&1
 for /f "delims=" %%a in ('reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render') do PowerRun.exe /SW:0 Reg.exe add "%%a\Properties" /v "{b3f8fa53-0004-438e-9003-51a46e139bfc},3" /t REG_DWORD /d "0" /f >nul 2>&1
 for /f "delims=" %%a in ('reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render') do PowerRun.exe /SW:0 Reg.exe add "%%a\Properties" /v "{b3f8fa53-0004-438e-9003-51a46e139bfc},4" /t REG_DWORD /d "0" /f >nul 2>&1
 cls
 
-echo [K?] Editing POW & power tweaks
-powercfg /import "C:\Windows\co.pow" b0a71852-3be4-43b1-9aff-70d3c8430794
+echo [K?] POW & Power Tweaks
+powercfg /import "%windir%\co.pow" b0a71852-3be4-43b1-9aff-70d3c8430794
 wevtutil set-log "Microsoft-Windows-SleepStudy/Diagnostic" /e:false >nul 2>&1
 wevtutil set-log "Microsoft-Windows-Kernel-Processor-Power/Diagnostic" /e:false >nul 2>&1
 wevtutil set-log "Microsoft-Windows-UserModePowerService/Diagnostic" /e:false >nul 2>&1
@@ -486,7 +488,7 @@ Reg.exe add "HKLM\System\CurrentControlSet\Control\Power\PowerSettings\54533251-
 Reg.exe add "HKLM\System\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\7b224883-b3cc-4d79-819f-8374152cbe7c" /v "Attributes" /t REG_DWORD /d "0" /f > NUL 2>&1
 cls
 
-echo [K?] Disabling HiperBoot
+echo [K?] HiperBoot
 Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v "HiberbootEnabled" /t Reg_DWORD /d "0" /f  >nul 2>&1
 
 for /f "delims=:{}" %%a in ('wmic path Win32_SystemEnclosure get ChassisTypes ^| findstr [0-9]') do set "CHASSIS=%%a"
@@ -518,9 +520,9 @@ if "%DEVICE_TYPE%" == "LAPTOP" (
     Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling" /v "PowerThrottlingOff" /t REG_DWORD /d "1" /f  >nul 2>&1
     Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v "HibernateEnabled" /t Reg_DWORD /d "0" /f  >nul 2>&1
     Reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v "HibernateEnabledDefault" /t Reg_DWORD /d "0" /f  >nul 2>&1
-    echo [K?] Disable Driver PowerSaving 
+    echo [K?] Driver PowerSaving 
     %SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe -Command "Get-WmiObject MSPower_DeviceEnable -Namespace root\wmi | ForEach-Object { $_.enable = $false; $_.psbase.put(); }"
-    echo [K?] Disabling PowerSaving Features
+    echo [K?] PowerSaving Features
     for %%a in (
 	EnhancedPowerManagementEnabled
 	AllowIdleIrpInD3
@@ -543,7 +545,7 @@ if "%DEVICE_TYPE%" == "LAPTOP" (
 )
 
 :: Scheduled Tasks
-echo [K?] Optimizing Scheduled Tasks
+echo [K?] Scheduled Tasks
 powerrun /SW:0 "schtasks.exe" /change /disable /TN "\Microsoft\Windows\Diagnosis\Scheduled" >nul 2>&1
 powerrun /SW:0 "schtasks.exe" /change /disable /TN "\Microsoft\Windows\DiskDiagnostic\Microsoft-Windows-DiskDiagnosticDataCollector" >nul 2>&1
 powerrun /SW:0 "schtasks.exe" /change /disable /TN "\Microsoft\Windows\DiskFootprint\Diagnostics" >nul 2>&1
@@ -649,7 +651,7 @@ powerrun /SW:0 "schtasks.exe" /Change /Disable /TN "Microsoft\Windows\NetTrace\G
 powerrun /SW:0 "schtasks.exe" /Change /Disable /TN "Microsoft\Windows\FileHistory\File History (maintenance mode)" >NUL 2>&1
 cls
 
-echo [K?] Configuring NIC
+echo [K?] NIC
 for /f %%a in ('reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}" /v "*SpeedDuplex" /s ^| findstr "HKEY"') do (
     for /f %%i in ('reg query "%%a" /v "*DeviceSleepOnDisconnect" ^| findstr "HKEY"') do (
         Reg.exe add "%%i" /v "*DeviceSleepOnDisconnect" /t REG_SZ /d "0" /f >nul 2>&1
@@ -819,10 +821,7 @@ for /f %%a in ('reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\C
 ) >nul 2>&1
 cls
 
-
-
-
-echo [K?] Enabling MSI mode & set to undefined
+echo [K?] MSI mode & Set to Undefined
 for /f %%i in ('wmic path Win32_USBController get PNPDeviceID^| findstr /L "PCI\VEN_"') do reg add "HKLM\System\CurrentControlSet\Enum\%%i\Device Parameters\Interrupt Management\MessageSignaledInterruptProperties" /v "MSISupported" /t REG_DWORD /d "1" /f
 for /f %%i in ('wmic path Win32_USBController get PNPDeviceID^| findstr /L "PCI\VEN_"') do reg delete "HKLM\SYSTEM\CurrentControlSet\Enum\%%i\Device Parameters\Interrupt Management\Affinity Policy" /v "DevicePriority" /f >nul 2>nul
 :: Probably will be reset by installing GPU driver
@@ -857,15 +856,15 @@ PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Classes\
 PowerRun.exe /SW:0 Reg.exe add "HKCR\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}\ShellFolder" /v "Attributes" /t REG_DWORD /d "2962489444" /f >nul 2>&1
 cls
 
-echo [K?] Changing fsutil behaviors
+echo [K?] Fsutil Behaviors
 fsutil behavior set disable8dot3 1 > NUL 2>&1
 fsutil behavior set disablelastaccess 1 > NUL 2>&1
 fsutil behavior set disabledeletenotify 0 > NUL 2>&1
-Fsutil behavior set memoryusage 2 > NUL 2>&1
+fsutil behavior set memoryusage 2 > NUL 2>&1
 fsutil behavior set encryptpagingfile 0 > NUL 2>&1
 cls
 
-echo [K?] Enabling legacy photo viewer
+echo [K?] Legacy Photo Viewer
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows Photo Viewer\Capabilities\FileAssociations" /v ".tif" /t REG_SZ /d "PhotoViewer.FileAssoc.Tiff" /f
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows Photo Viewer\Capabilities\FileAssociations" /v ".tiff" /t REG_SZ /d "PhotoViewer.FileAssoc.Tiff" /f
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows Photo Viewer\Capabilities\FileAssociations" /v ".bmp" /t REG_SZ /d "PhotoViewer.FileAssoc.Tiff" /f
@@ -905,7 +904,7 @@ ren SearchHost.exe SearchHost.old
 taskkill /f /im SearchHost.exe /t
 
 :: Disable HVCI-VBS 
-echo [K?] Disabling HVCI-VBS
+echo [K?] HVCI-VBS
 PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "RequirePlatformSecurityFeatures" /f
 PowerRun.exe /SW:0 Reg.exe add "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "0" /f
 PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "ConfigureSystemGuardLaunch" /f
@@ -935,7 +934,7 @@ for /f "delims=" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Services"') d
 ) >nul 2>&1
 
 :: KnownDLLs
-echo [K?] Disabling KnownDLLs
+echo [K?] KnownDLLs
 powerrun /SW:0 Reg.exe delete "HKLM\System\CurrentControlSet\Control\Session Manager\KnownDLLs" /v "_wow64win" /f > NUL 2>&1
 powerrun /SW:0 Reg.exe delete "HKLM\System\CurrentControlSet\Control\Session Manager\KnownDLLs" /v "_wowarmhw" /f > NUL 2>&1
 powerrun /SW:0 Reg.exe delete "HKLM\System\CurrentControlSet\Control\Session Manager\KnownDLLs" /v "_wow64" /f > NUL 2>&1
@@ -955,7 +954,7 @@ reg add "HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Wi
 
 :: windows defender (ionuttbara)
 echo [K?] Remove SecHealthApp (ionuttbara)
-Powershell -noprofile -executionpolicy bypass -file "C:\ProgramData\TheKOS\bin\2\RemoveSecHealthApp.ps1"
+Powershell -noprofile -executionpolicy bypass -file "%programdata%\TheKOS\bin\2\RemoveSecHealthApp.ps1"
 
 :: pexp
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe" /v "Debugger" /t REG_SZ /d "\"C:\ProgramData\TheKOS\tools\Process Explorer.exe\"" /f
@@ -963,7 +962,7 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image F
 :: Cleanup
 cls
 echo [K?] Cleanup
-cd /d C:\ProgramData\TheKOS\bin
+cd /d %programdata%\TheKOS\bin
 rmdir /s /q "1" >nul 2>&1
 rmdir /s /q "2" >nul 2>&1
 del "%HOMEPATH%\AppData\Local\updater.log" >nul 2>&1
@@ -987,11 +986,12 @@ md %windir%\temp >NUL 2>&1
 del /s /f /q %temp%\*.* >NUL 2>&1
 rd /s /q %temp% >NUL 2>&1
 md %temp% >NUL 2>&1
-del /s /f /q %windir%\Installer\*.* >NUL 2>&1
-rd /s /q %windir%\Installer >NUL 2>&1
-md %windir%\Installer >NUL 2>&1
+:: can break msi installers
+:: del /s /f /q %windir%\Installer\*.* >NUL 2>&1
+:: rd /s /q %windir%\Installer >NUL 2>&1
+:: md %windir%\Installer >NUL 2>&1
 del /s /f /q %windir%\*.log >NUL 2>&1
-for %%F in ("C:\Windows\SoftwareDistribution\Download\*") do (
+for %%F in ("%windir%\SoftwareDistribution\Download\*") do (
     del "%%F" /q /f >NUL 2>&1
     rd "%%F" /s /q >NUL 2>&1
 ) >NUL 2>&1
@@ -1002,10 +1002,10 @@ for %%A in ("%localappdata%\Microsoft\Windows\INetCache\IE\*") do (
 powershell Clear-RecycleBin -Force >NUL 2>&1
 :: reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe" /v "Debugger" /f >nul 2>&1
 echo [K?] Fix explorer white bar bug
-cmd /c "start C:\Windows\explorer.exe"
+cmd /c "start %windir%\explorer.exe"
 taskkill /f /im explorer.exe >nul 2>&1
 taskkill /f /im explorer.exe >nul 2>&1
-cmd /c "start C:\Windows\explorer.exe"
+cmd /c "start %windir%\explorer.exe"
 timeout /t 3 /nobreak >nul 2>&1
 shutdown /r /t 3 /c "restarting..."
 start /b "" cmd /c del "%~f0"&exit /b
