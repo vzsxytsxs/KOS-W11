@@ -5,14 +5,28 @@ SETLOCAL EnableDelayedExpansion
 taskkill /im explorer.exe /f >nul 2>&1
 Reg.exe add "HKCU\Control Panel\Desktop" /v "JPEGImportQuality" /t "REG_DWORD" /d "100" /f
 Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\taskmgr.exe" /v "Debugger" /t REG_SZ /d "." /f >nul 2>&1
-Reg.exe add "HKLM\SOFTWARE\TheKOS" /v "currentver" /t REG_SZ /d "358" /f >nul 2>&1
-label C: TheKOS-23H2-3.5.8
-bcdedit /set {current} description "TheKOS-23H2-3.5.8"
+Reg.exe add "HKLM\SOFTWARE\TheKOS" /v "currentver" /t REG_SZ /d "382" /f >nul 2>&1
+label C: TheKOS-23H2-3.8.2
+bcdedit /set {current} description "TheKOS-23H2-3.8.2"
 cls
 
 :: Safe Mode
-:: logs
+set safe_mode=0
+:input_safe_mode
+cls
+echo Safe Mode? (y/n)
+if "%input%"=="y" (
+    set safe_mode=1
+    goto :main_script
+) else if "%input%"=="n" (
+    goto :main_script
+) else (
+    echo invalid choice. try again.
+    pause
+    goto :input_safe_mode
+)
 
+:main_script
 :: Startup
 move "%programdata%\TheKOS\bin\3\cleanup.cmd" "%programdata%\Microsoft\Windows\Start Menu\Programs\Startup"
 cls
@@ -51,33 +65,35 @@ PowerRun.exe /SW:0 powershell.exe Rename-Item -Path "%windir%\SystemApps\Microso
 :: TheKOS Reg 
 cls
 echo [K?] Applying TheKOS REG
-start /b /wait "" "%programdata%\TheKOS\bin\2\drvset.bat" >NUL 2>&1
+start /b /wait "" "%programdata%\TheKOS\bin\7zip-pexp.bat" >NUL 2>&1
 regedit /s "%programdata%\TheKOS\bin\2\TheKOS_reg.reg"
 
-echo [K?] Disabling Process Mitigations 
-PowerShell Set-ProcessMitigation -System -Disable CFG
-for /f "tokens=3 skip=2" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" /v "MitigationAuditOptions"') do (
-    set "mitigation_mask=%%a"
-)
-for /L %%a in (0,1,9) do (
-    set "mitigation_mask=!mitigation_mask:%%a=2!"
-)
-reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" /v "MitigationOptions" /t REG_BINARY /d "%mitigation_mask%" /f > nul 2>&1
-reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" /v "MitigationAuditOptions" /t REG_BINARY /d "%mitigation_mask%" /f > nul 2>&1
-for %%d in (
-	fontdrvhost.exe
-	dwm.exe
-	lsass.exe
-	svchost.exe
-	WmiPrvSE.exe
-	winlogon.exe
-	csrss.exe
-	audiodg.exe
-	ntoskrnl.exe
-	services.exe
-) do (
-	Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\%%d" /v "MitigationOptions" /t REG_BINARY /d "%mitigation_mask%" /f > NUL 2>&1
-	Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\%%d" /v "MitigationAuditOptions" /t REG_BINARY /d "%mitigation_mask%" /f > NUL 2>&1
+if %safe_mode%==0 ( 
+    echo [K?] Disabling Process Mitigations 
+    PowerShell Set-ProcessMitigation -System -Disable CFG
+    for /f "tokens=3 skip=2" %%a in ('reg query "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" /v "MitigationAuditOptions"') do (
+        set "mitigation_mask=%%a"
+    )
+    for /L %%a in (0,1,9) do (
+        set "mitigation_mask=!mitigation_mask:%%a=2!"
+    )
+    reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" /v "MitigationOptions" /t REG_BINARY /d "%mitigation_mask%" /f > nul 2>&1
+    reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\kernel" /v "MitigationAuditOptions" /t REG_BINARY /d "%mitigation_mask%" /f > nul 2>&1
+    for %%d in (
+        fontdrvhost.exe
+        dwm.exe
+        lsass.exe
+        svchost.exe
+        WmiPrvSE.exe
+        winlogon.exe
+        csrss.exe
+        audiodg.exe
+        ntoskrnl.exe
+        services.exe
+    ) do (
+        Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\%%d" /v "MitigationOptions" /t REG_BINARY /d "%mitigation_mask%" /f > NUL 2>&1
+        Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\%%d" /v "MitigationAuditOptions" /t REG_BINARY /d "%mitigation_mask%" /f > NUL 2>&1
+    )
 )
 cls
 
@@ -93,24 +109,28 @@ for /f "tokens=*" %%i in ('reg query "HKLM\SYSTEM\CurrentControlSet\Enum\SCSI"^|
 )
 cls
 
-echo [K?] Execution Policy To Unrestricted
-powershell set-executionpolicy unrestricted -force >nul 2>&1
-cls
+if %safe_mode%==0 (
+    echo [K?] Execution Policy To Unrestricted
+    powershell set-executionpolicy unrestricted -force >nul 2>&1
+    cls
+)
 
 echo [K?] Bcdedit
+if %safe_mode%==0 (
+    bcdedit /set nx alwaysoff
+    :: Disables Data Execution Prevention || is a security feature, DEP is intended to prevent an application or service from executing code from a non-executable memory region
+    :: In short, DEP perform additional checks on memory to prevent malicious code or exploits from running on the system by shut down the process once detected
+    bcdedit /set hypervisorlaunchtype off
+    :: Enables loading of the hypervisor on a Hyper-V system, or forces it to be disabled.
+)
 bcdedit /set nocrashautoreboot off 
 :: Enables automatic restart on crash.
-bcdedit /set nx alwaysoff
-:: Disables Data Execution Prevention || is a security feature, DEP is intended to prevent an application or service from executing code from a non-executable memory region
-:: In short, DEP perform additional checks on memory to prevent malicious code or exploits from running on the system by shut down the process once detected
 bcdedit /set disabledynamictick yes
 bcdedit /deletevalue useplatformclock
 :: forcing it to off makes mousegraphs unstable, 
 :: even tho wintimertester shows the same QueryPerfFreq as deleted
 bcdedit /set bootmenupolicy legacy
 :: Defines the type of boot menu the system will use.
-bcdedit /set hypervisorlaunchtype off
-:: Enables loading of the hypervisor on a Hyper-V system, or forces it to be disabled.
 bcdedit /deletevalue useplatformtick
 :: Forces the clock to be backed by a platform source.
 :: bcdedit /set loadoptions SYSTEMWATCHDOGPOLICY=DISABLED
@@ -141,29 +161,30 @@ bcdedit /event off
 :: Disables remote event logging for the current Windows operating system boot entry
 cls
 
-cls
 echo [K?] Device Manager Devices
+if %safe_mode%==0 (
+    devmanview /disable "Microsoft Virtual Drive Enumerator"
+    devmanview /disable "Generic Bluetooth Adapter"
+    devmanview /disable "Microsoft Hyper-V Virtualization Infrastructure Driver"
+    devmanview /disable "AMD PSP"
+    devmanview /disable "Intel SMBus"
+    devmanview /disable "Intel Management Engine"
+    devmanview /disable "Communications Port (COM1)"
+)
 devmanview /disable "Direct memory access Controller"
 devmanview /disable "High Precision Event Timer"
 devmanview /disable "Microsoft GS Wavetable Synth"
 devmanview /disable "Remote Desktop Device Redirector Bus"
 devmanview /disable "NDIS Virtual Network Adapter Enumerator"
-devmanview /disable "Microsoft Virtual Drive Enumerator"
 devmanview /disable "UMBus Root Bus Enumerator"
 devmanview /disable "Programmable interrupt controller"
 devmanview /disable "Legacy device"
 devmanview /disable "Numeric data processor"
-devmanview /disable "Generic Bluetooth Adapter"
-devmanview /disable "Microsoft Hyper-V Virtualization Infrastructure Driver"
 devmanview /disable "System Speaker"
 devmanview /disable "PCI Encryption/Decryption Controller"
-devmanview /disable "AMD PSP"
-devmanview /disable "Intel SMBus"
-devmanview /disable "Intel Management Engine"
 devmanview /disable "PCI Memory Controller"
 devmanview /disable "PCI standard RAM Controller"
 devmanview /disable "System Timer"
-devmanview /disable "Communications Port (COM1)"
 devmanview /disable "Fax"
 devmanview /disable "Microsoft Print to PDF"
 devmanview /disable "Microsoft XPS Document Writer"
@@ -191,173 +212,203 @@ reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Internet Explorer\Security" /V "DisableSecuritySettingsCheck" /T "REG_DWORD" /D "00000001" /F
 cls
 echo [K?] Applying TheKOS Services
-PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e96c-e325-11ce-bfc1-08002be10318}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
-PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{6bdd1fc6-810f-11d0-bec7-08002be2092f}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
-PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{ca3e7ab9-b4c3-4ae6-8251-579ef933890f}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
-PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318}" /v "LowerFilters" /t REG_MULTI_SZ /d "" /f
-PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{71a27cdd-812a-11d0-bec7-08002be2092f}" /v "LowerFilters" /t REG_MULTI_SZ /d "" /f
-PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{71a27cdd-812a-11d0-bec7-08002be2092f}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
-PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dhcp" /v "DependOnService" /t REG_MULTI_SZ /d "NSI\0Afd" /f
-PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache" /v "DependOnService" /t REG_MULTI_SZ /d "nsi" /f
-Reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform" /v "InactivityShutdownDelay" /t REG_DWORD /d "4294967295" /f
-for %%z in (
-      DsmSvc
-      autotimesvc
-      W32Time
-      DsSvc
-      icssvc
-      IKEEXT
-      PcaSvc
-      ShellHWDetection
-      tzautoupdate
-      OneSyncSvc
-      Beep
-      cdfs
-      cdrom
-      acpiex
-      acpipagr
-      acpipmi
-      acpitime
-      cnghwassist
-      GpuEnergyDrv
-      Telemetry
-      VerifierExt
-      MsLldp
-      lltdio
-      NdisVirtualBus
-      NDU
-      luafv
-      fvevol
-      UsoSvc
-      cbdhsvc
-      BcastDVRUserService
-      rdyboost
-      rdpbus
-      umbus
-      vdrvroot
-      CompositeBus
-      rspndr
-      NdisCap
-      NetBIOS
-      NetBT
-      spaceport
-      VaultSvc
-      EventSystem
-      bam
-      bowser
-      WarpJITSvc
-      Wecsvc
-      dmwappushservice
-      GraphicsPerfSvc
-      WMPNetworkSvc
-      TermService
-      UmRdpService
-      PimIndexMaintenanceSvc
-      UserDataSvc
-      3ware
-      arcsas
-      buttonconverter
-      circlass
-      Dfsc
-      ErrDev
-      mrxsmb
-      mrxsmb20
-      PEAUTH
-      QWAVEdrv
-      srv
-      SiSRaid2
-      SiSRaid4
-      Tcpip6
-      tcpipreg
-      vsmraid
-      VSTXRAID
-      wcnfs
-      WindowsTrustedRTProxy
-      SstpSvc
-      SSDPSRV
-      SmsRouter
-      CldFlt
-      iphlpsvc
-      IpxlatCfgSvc
-      NetTcpPortSharing
-      KtmRm
-      LanmanWorkstation
-      LanmanServer
-      lmhosts
-      MSDTC
-      QWAVE
-      RmSvc
-      RFCOMM
-      BthEnum
-      bthleenum
-      BTHMODEM
-      BthA2dp
-      microsoft_bluetooth_avrcptransport
-      BthHFEnum
-      BTAGService
-      bthserv
-      BluetoothUserService
-      BthAvctpSvc
-      TsUsbFlt
-      tsusbhub
-      storflt
-      RDPDR
-      bttflt
-      HidBth
-      BthMini
-      BTHPORT
-      BTHUSB     
-      hvservice
-      HvHost     
-      defragsvc
-      dispbrokerdesktopsvc
-      dam
-      FontCache
-      FontCache3.0.0.0
-      lfsvc
-      printworkflowusersvc
-      PhoneSvc
-      SharedAccess
-      SysMain
-      spooler
-      Themes
-      TapiSrv
-      UnistoreSvc
-      udfs
-      vmickvpexchange
-      vmicguestinterface
-      vmicshutdown
-      vmicheartbeat
-      vmicvmsession
-      vmicrdv
-      vmictimesync
-      vmicvss
-      WaaSMedicSvc
-      WSearch
-      WPDBusEnum
-      CLFS
-      lltdsvc
-      gencounter
-      hyperkbd
-      HyperVideo
-      Vid
-      vmbus
-      vmgid
-      vpci
-      scardsvr
-      scdeviceenum
-      scpolicysvc
-      wscsvc
-      BITS
-      webthreatdefsvc
-      DPS
-      DusmSvc
-      edgeupdate
-      edgeupdatem
-) do (
-PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\%%z" /v "Start" /t REG_DWORD /d "4" /f
+if %safe_mode%==0 (
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e96c-e325-11ce-bfc1-08002be10318}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{6bdd1fc6-810f-11d0-bec7-08002be2092f}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{ca3e7ab9-b4c3-4ae6-8251-579ef933890f}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{4d36e967-e325-11ce-bfc1-08002be10318}" /v "LowerFilters" /t REG_MULTI_SZ /d "" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{71a27cdd-812a-11d0-bec7-08002be2092f}" /v "LowerFilters" /t REG_MULTI_SZ /d "" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Class\{71a27cdd-812a-11d0-bec7-08002be2092f}" /v "UpperFilters" /t REG_MULTI_SZ /d "" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dhcp" /v "DependOnService" /t REG_MULTI_SZ /d "NSI\0Afd" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache" /v "DependOnService" /t REG_MULTI_SZ /d "nsi" /f
+    Reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform" /v "InactivityShutdownDelay" /t REG_DWORD /d "4294967295" /f
+    for %%z in (
+        DsmSvc
+        autotimesvc
+        W32Time
+        DsSvc
+        icssvc
+        IKEEXT
+        PcaSvc
+        ShellHWDetection
+        tzautoupdate
+        OneSyncSvc
+        Beep
+        cdfs
+        cdrom
+        acpiex
+        acpipagr
+        acpipmi
+        acpitime
+        cnghwassist
+        GpuEnergyDrv
+        Telemetry
+        VerifierExt
+        MsLldp
+        lltdio
+        NdisVirtualBus
+        NDU
+        luafv
+        fvevol
+        UsoSvc
+        cbdhsvc
+        BcastDVRUserService
+        rdyboost
+        rdpbus
+        umbus
+        vdrvroot
+        CompositeBus
+        rspndr
+        NdisCap
+        NetBIOS
+        NetBT
+        spaceport
+        VaultSvc
+        EventSystem
+        bam
+        bowser
+        WarpJITSvc
+        Wecsvc
+        dmwappushservice
+        GraphicsPerfSvc
+        WMPNetworkSvc
+        TermService
+        UmRdpService
+        PimIndexMaintenanceSvc
+        UserDataSvc
+        3ware
+        arcsas
+        buttonconverter
+        circlass
+        Dfsc
+        ErrDev
+        mrxsmb
+        mrxsmb20
+        PEAUTH
+        QWAVEdrv
+        srv
+        SiSRaid2
+        SiSRaid4
+        Tcpip6
+        tcpipreg
+        vsmraid
+        VSTXRAID
+        wcnfs
+        WindowsTrustedRTProxy
+        SstpSvc
+        SSDPSRV
+        SmsRouter
+        CldFlt
+        iphlpsvc
+        IpxlatCfgSvc
+        NetTcpPortSharing
+        KtmRm
+        LanmanWorkstation
+        LanmanServer
+        lmhosts
+        MSDTC
+        QWAVE
+        RmSvc
+        RFCOMM
+        BthEnum
+        bthleenum
+        BTHMODEM
+        BthA2dp
+        microsoft_bluetooth_avrcptransport
+        BthHFEnum
+        BTAGService
+        bthserv
+        BluetoothUserService
+        BthAvctpSvc
+        TsUsbFlt
+        tsusbhub
+        storflt
+        RDPDR
+        bttflt
+        HidBth
+        BthMini
+        BTHPORT
+        BTHUSB     
+        hvservice
+        HvHost     
+        defragsvc
+        dispbrokerdesktopsvc
+        dam
+        FontCache
+        FontCache3.0.0.0
+        lfsvc
+        printworkflowusersvc
+        PhoneSvc
+        SharedAccess
+        SysMain
+        spooler
+        Themes
+        TapiSrv
+        UnistoreSvc
+        udfs
+        vmickvpexchange
+        vmicguestinterface
+        vmicshutdown
+        vmicheartbeat
+        vmicvmsession
+        vmicrdv
+        vmictimesync
+        vmicvss
+        WaaSMedicSvc
+        wuauserv 
+        WSearch
+        WPDBusEnum
+        CLFS
+        lltdsvc
+        gencounter
+        hyperkbd
+        HyperVideo
+        Vid
+        vmbus
+        vmgid
+        vpci
+        scardsvr
+        scdeviceenum
+        scpolicysvc
+        wscsvc
+        BITS
+        webthreatdefsvc
+        DPS
+        DusmSvc
+        edgeupdate
+        edgeupdatem
+        wisvc
+    ) do (
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\%%z" /v "Start" /t REG_DWORD /d "4" /f
+    )
+) else (
+    :: credits to vantage os
+    Reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform" /v "InactivityShutdownDelay" /t REG_DWORD /d "4294967295" /f
+    for %%z in (
+        Spooler
+        SysMain
+        PhoneSvc
+        luafv
+        :: WSAIFabricSvc | 24h2 - 25h2
+        WSearch
+        wisvc
+        PcaSvc
+        DPS
+        edgeupdate
+        edgeupdatem
+        WaaSMedicSvc
+        wuauserv
+        LanmanWorkstation
+        LanmanServer
+        Telemetry
+        rdyboost
+        bam
+        NetBIOS
+        lmhosts 
+    ) do (
+    PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\%%z" /v "Start" /t REG_DWORD /d "4" /f
+    )
 )
-cls
 
 :: ?? random
 sc delete nvagent >NUL 2>&1
@@ -365,11 +416,13 @@ net accounts /maxpwage:unlimited
 
 echo [K?] Spectre Meltdown 
 :: BlitzOS Script (Spectre meltdown)
-wmic cpu get name | findstr "Intel" >nul && (
-    reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "FeatureSettingsOverride" /t REG_DWORD /d 3 /f
-)
-wmic cpu get name | findstr "AMD" >nul && (
-    reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "FeatureSettingsOverride" /t REG_DWORD /d 64 /f
+if %safe_mode%==0 (
+    wmic cpu get name | findstr "Intel" >nul && (
+        reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "FeatureSettingsOverride" /t REG_DWORD /d 3 /f
+    )
+    wmic cpu get name | findstr "AMD" >nul && (
+        reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "FeatureSettingsOverride" /t REG_DWORD /d 64 /f
+    )
 )
 
 :: cleaner
@@ -400,6 +453,7 @@ Reg.exe add "HKCU\Control Panel\Mouse" /v "MouseThreshold2" /t REG_SZ /d "0" /f 
 
 :: visual effects
 echo [K?] Visual Effects 
+Reg.exe add "HKEY_CURRENT_USER\Control Panel\Desktop" /v "MenuShowDelay" /t REG_DWORD /d "0" /f
 Reg.exe add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "EnableTransparency" /t REG_DWORD /d "0" /f >nul 2>&1
 Reg.exe add "HKCU\Control Panel\Desktop" /v "UserPreferencesMask" /t REG_BINARY /d "9012038010000000" /f > NUL 2>&1
 Reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ListviewShadow" /t REG_DWORD /d "0" /f >nul 2>&1
@@ -430,18 +484,22 @@ echo [K?] Network Adapters
 powershell -NoProfile -Command "Disable-NetAdapterBinding -Name "*" -ComponentID ms_tcpip6, ms_msclient, ms_server, ms_rspndr, ms_lltdio, ms_implat, ms_lldp" >nul 2>&1
 cls
 
-:: netbios 
-echo [K?] NetBIOS over TCP/IP
-Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NetBT\Parameters" /v "EnableLMHOSTS" /t REG_DWORD /d "0" /f
-for /f "delims=" %%u in ('reg query "HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters\Interfaces" /s /f "NetbiosOptions" ^| findstr "HKEY"') do (
-    reg add "%%u" /v "NetbiosOptions" /t REG_DWORD /d "2" /f
-)
+:: netbios
+if %safe_mode%==0 (
+    echo [K?] NetBIOS over TCP/IP
+    Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\NetBT\Parameters" /v "EnableLMHOSTS" /t REG_DWORD /d "0" /f
+    for /f "delims=" %%u in ('reg query "HKLM\SYSTEM\CurrentControlSet\Services\NetBT\Parameters\Interfaces" /s /f "NetbiosOptions" ^| findstr "HKEY"') do (
+        reg add "%%u" /v "NetbiosOptions" /t REG_DWORD /d "2" /f
+    )
+) 
 cls
 
 :: Delete Firewall Rules
-echo [K?] Firewall Rules
-Reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules" /f > NUL 2>&1
-Reg.exe add "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules" /f > NUL 2>&1
+if %safe_mode%==0 (
+    echo [K?] Firewall Rules
+    Reg.exe delete "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules" /f > NUL 2>&1
+    Reg.exe add "HKLM\System\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules" /f > NUL 2>&1
+)
 
 :: autologgers
 echo [K?] AutoLoggers and Firewall Rules
@@ -903,19 +961,21 @@ icacls "%systemdrive%\Windows\SystemApps\MicrosoftWindows.Client.CBS_cw5n1h2txye
 ren SearchHost.exe SearchHost.old
 taskkill /f /im SearchHost.exe /t
 
-:: Disable HVCI-VBS 
+:: Disable HVCI-VBS
+if %safe_mode%==0 (
 echo [K?] HVCI-VBS
-PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "RequirePlatformSecurityFeatures" /f
-PowerRun.exe /SW:0 Reg.exe add "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "0" /f
-PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "ConfigureSystemGuardLaunch" /f
-PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "ConfigureKernelShadowStacksLaunch" /f
-PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "HypervisorEnforcedCodeIntegrity" /f
-PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "LsaCfgFlags" /f
-PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "0" /f
-PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "0" /f
-PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "0" /f
-PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "HVCIMATRequired" /t REG_DWORD /d "0" /f
-PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\Lsa" /v "LsaCfgFlags" /t REG_DWORD /d "0" /f
+    PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "RequirePlatformSecurityFeatures" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "0" /f
+    PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "ConfigureSystemGuardLaunch" /f
+    PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "ConfigureKernelShadowStacksLaunch" /f
+    PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "HypervisorEnforcedCodeIntegrity" /f
+    PowerRun.exe /SW:0 Reg.exe delete "HKLM\Software\Policies\Microsoft\Windows\DeviceGuard" /v "LsaCfgFlags" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d "0" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\DeviceGuard" /v "RequirePlatformSecurityFeatures" /t REG_DWORD /d "0" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "Enabled" /t REG_DWORD /d "0" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v "HVCIMATRequired" /t REG_DWORD /d "0" /f
+    PowerRun.exe /SW:0 Reg.exe add "HKLM\System\ControlSet001\Control\Lsa" /v "LsaCfgFlags" /t REG_DWORD /d "0" /f
+) 
 
 :: Backup TheKOS Services
 set BACKUP="%ProgramData%\TheKOS\Setup\3-Support\Services\TheKOS.services.reg"
