@@ -1,68 +1,8 @@
 Windows Registry Editor Version 5.00
 
-; configure windows updates
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate]
-"ExcludeWUDriversInQualityUpdate"=dword:00000001
-"DoNotConnectToWindowsUpdateInternetLocations"=dword:00000001
-"DisableWindowsUpdateAccess"=dword:00000001
-"WUServer"=" "
-"WUStatusServer"=" "
-"UpdateServiceUrlAlternate"=" "
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState] 
-"DeferQualityUpdates"=dword:00000000
-"DeferFeatureUpdates"=dword:00000000
-"BranchReadinessLevel"="CB"
-"IsDeferralIsActive"=dword:00000001
-"IsWUfBConfigured"=dword:00000000
-"IsWUfBDualScanActive"=dword:00000000
-"UseUpdateClassPolicySource"=dword:00000000
-"SetPolicyDrivenUpdateSourceForFeatureUpdates"=dword:4294967295
-"SetPolicyDrivenUpdateSourceForQualityUpdates"=dword:4294967295
-"SetPolicyDrivenUpdateSourceForDriverUpdates"=dword:4294967295
-"SetPolicyDrivenUpdateSourceForOtherUpdates"=dword:4294967295
-"PolicySources"=dword:00000016
-"QualityUpdatesPaused"=dword:00000001
-"QualityUpdatePausePeriodInDays"=dword:00011115
-"FeatureUpdatesPaused"=dword:000000001
-"FeatureUpdatePausePeriodInDays"=dword:00011115
-"PauseFeatureUpdatesStartTime"="2021-10-05T16:02:16Z"
-"PauseFeatureUpdatesEndTime"="2021-10-05T16:02:16Z"
-"PauseFeatureUpdatesStartTime"="2021-10-05T16:02:16Z"
-"PauseQualityUpdatesEndTime"="2050-01-01T10:38:56Z"
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\Settings] 
-"PausedFeatureStatus"=dword:00000002
-"PausedQualityStatus"=dword:00000002
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX] 
-"IsConvergedUpdateStackEnabled"=dword:00000001
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\RebootDowntime] 
-"CurrentDowntimeEstimate"=dword:00000000
-"RebootDowntimeLongVariantStringEnabled"=dword:00000000
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings] 
-"ActiveHoursEnd"=dword:00000017
-"ActiveHoursStart"=dword:00000008
-"AllowAutoWindowsUpdateDownloadOverMeteredNetwork"=dword:00000000
-"DeferFeatureUpdatesPeriodInDays"=dword:00000000
-"DeferQualityUpdatesPeriodInDays"=dword:00000000
-"FlightCommitted"=dword:00000000
-"LastToastAction"=dword:00000000
-"UxOption"=dword:00000000
-"InsiderProgramEnabled"=dword:00000000
-"PendingRebootStartTime"="2021-10-05T16:02:16Z
-PauseFeatureUpdatesStartTime"="2021-10-05T16:02:16Z"
-"PauseQualityUpdatesStartTime"="2021-10-05T16:02:16Z"
-"PauseUpdatesExpiryTime"="2050-01-01T10:38:56Z"
-"PauseFeatureUpdatesEndTime"="2050-01-01T10:38:56Z"
-"PauseQualityUpdatesEndTime"="2050-01-01T10:38:56Z"
-"PauseUpdatesStartTime"="2021-10-05T16:02:16Z"
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\UX\StateVariables] 
-"SmartSchedulerPredictedConfidence"=dword:0000000050
+; Windows Update
+[HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows\WindowsUpdate\AU]
+"NoAutoUpdate"=dword:00000001
 
 ; add `Windows Batch File`, `Hash`, `Registry Entries`, `Windows Powershell Script`. in context menu
 
@@ -414,14 +354,6 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 
 [HKEY_CURRENT_USER\Software\Classes\SOFTWARE\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy]
 "01"=dword:00000000
-
-; disable game mode
-
-[HKEY_CURRENT_USER\Software\Microsoft\GameBar]
-"AllowAutoGameMode"=dword:00000000
-
-[HKEY_CURRENT_USER\Software\Microsoft\GameBar]
-"AutoGameModeEnabled"=dword:00000000
 
 ; turn off display of recent search entries in the file explorer search box
 
@@ -1042,7 +974,7 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 ; hide useless settings
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer]
-"SettingsPageVisibility"="hide:recovery;autoplay;usb;maps;maps-downloadmaps;findmydevice;privacy;privacy-speechtyping;privacy-speech;privacy-feedback;privacy-activityhistory;search-permissions;privacy-location;privacy-general;sync;printers;cortana-windowssearch;mobile-devices;mobile-devices-addphone;family-group;deviceusage;home;windowsupdate;windowsdefender;project;deviceencryption;network-airplanemode;delivery-optimization;backup;troubleshoot;windowsinsider"
+"SettingsPageVisibility"="hide:recovery;autoplay;usb;maps;maps-downloadmaps;findmydevice;privacy;privacy-speechtyping;privacy-speech;privacy-feedback;privacy-activityhistory;search-permissions;privacy-location;privacy-general;sync;printers;cortana-windowssearch;mobile-devices;mobile-devices-addphone;family-group;deviceusage;home;windowsdefender;project;deviceencryption;network-airplanemode;delivery-optimization;backup;troubleshoot;windowsinsider"
 
 ; disable news and interests on the taskbar
 
@@ -1411,7 +1343,7 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications]
 "ConfigureChatAutoInstall"=dword:00000000
 
-; disable continue experiences on this device
+; disable continue experiences on this device / clipboard (win+v) 
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System]
 "EnableCdp"=dword:00000000
@@ -1827,10 +1759,6 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 [HKEY_CLASSES_ROOT\AllFilesystemObjects\shellex\ContextMenuHandlers\SendTo]
 @=""
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
-"legalnoticecaption"="Welcome to TheKOS"
-"legalnoticetext"="this modified iso is completely free, if you paid for it, ask for a refund."
-
 ; fix downloads folder
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}]
@@ -2018,8 +1946,8 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 "ShutdownWarningDialogTimeout"=dword:00000001
 
 [HKEY_CURRENT_USER\Control Panel\Desktop]
-"AutoEndTasks"="1"
-"MenuShowDelay"="0"
+; "AutoEndTasks"="1"
+; "MenuShowDelay"="0"
 "ForegroundLockTimeout"=dword:00000000
 "WaitToKillAppTimeout"="1"
 "WaitToKillServiceTimeout"=dword:00000001
@@ -2263,8 +2191,33 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\DWM]
 "DisallowFlip3d"=dword:00000001
 
-; remove shortcut arrows 
+; disable fse and disable gamebar
+; disable game mode
 
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons]
-"29"="%windir%\\System32\\shell32.dll,-50"
+[HKEY_CURRENT_USER\Software\Microsoft\GameBar]
+"AllowAutoGameMode"=dword:00000000
+"AutoGameModeEnabled"=dword:00000000
+"GamePanelStartupTipIndex"=-
+"ShowStartupPanel"=-
+"UseNexusForGameBarEnabled"=-
+
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR]
+"AppCaptureEnabled"=dword:00000000
+
+[HKEY_CURRENT_USER\System\GameConfigStore]
+"GameDVR_DSEBehavior"=-
+"GameDVR_DXGIHonorFSEWindowsCompatible"=dword:00000000
+"GameDVR_EFSEFeatureFlags"=dword:00000000
+"GameDVR_Enabled"=dword:00000000
+"GameDVR_FSEBehavior"=-
+"GameDVR_FSEBehaviorMode"=dword:00000002
+"GameDVR_HonorUserFSEBehaviorMode"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\GameDVR]
+"AllowGameDVR"=dword:00000000
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR]
+"value"=dword:00000000
+
+
 

@@ -1,4 +1,6 @@
 @echo off
+title made by vzsxytsxs
+echo [K?] Cleanup
 DeviceCleanupCmd.exe * -s -m:7d
 for %%a in (
     WindowsUpdate.log

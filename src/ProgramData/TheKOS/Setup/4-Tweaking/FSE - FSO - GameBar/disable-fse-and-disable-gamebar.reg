@@ -1,8 +1,11 @@
 Windows Registry Editor Version 5.00
 
-[HKEY_CURRENT_USER\SOFTWARE\Microsoft\GameBar]
-"AllowAutoGameMode"=-
-"AutoGameModeEnabled"=-
+; disable fse and disable gamebar
+; disable game mode
+
+[HKEY_CURRENT_USER\Software\Microsoft\GameBar]
+"AllowAutoGameMode"=dword:00000000
+"AutoGameModeEnabled"=dword:00000000
 "GamePanelStartupTipIndex"=-
 "ShowStartupPanel"=-
 "UseNexusForGameBarEnabled"=-

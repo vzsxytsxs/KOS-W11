@@ -1,0 +1,4 @@
+1. use windows default services -> execute Setup\3-Support\Services\Windows.Default.Services.reg with powerrun
+2. restart your pc
+3. open optionalfeatures.exe (win+r) -> enable hyper-v
+4. restart your pc

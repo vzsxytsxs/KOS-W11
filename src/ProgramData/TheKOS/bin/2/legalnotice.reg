@@ -1,0 +1,5 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"legalnoticecaption"="Welcome to TheKOS"
+"legalnoticetext"="this modified iso is completely free, if you paid for it, ask for a refund."
