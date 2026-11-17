@@ -105,6 +105,8 @@ cls
 echo [K?] Lightshot 
 call "%programdata%\TheKOS\bin\1\lightshot.exe" /VERYSILENT /NORESTART
 set "KOS_RC=!errorlevel!"
+:: Its installer ends with 1 even after installing (seen on fresh installs): the program in place is what counts.
+if exist "%ProgramFiles(x86)%\Skillbrains\lightshot\Lightshot.exe" set "KOS_RC=0"
 call :KOSResult "lightshot" "!KOS_RC!" "205" "Lightshot installer"
 cls
 
