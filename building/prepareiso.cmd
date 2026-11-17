@@ -80,8 +80,16 @@ set "appxFull="
 for /f "tokens=2 delims=: " %%n in ('dism /English /Image:"%mountDir%" /Get-ProvisionedAppxPackages ^| findstr /i /c:"PackageName : %~1_"') do set "appxFull=%%n"
 if not defined appxFull (echo %~1 is not in the image. & exit /b 0)
 dism /English /Image:"%mountDir%" /Set-NonRemovableAppPolicy /PackageFamily:%~1_8wekyb3d8bbwe /NonRemovable:0 >nul 2>&1
-dism /English /Image:"%mountDir%" /Remove-ProvisionedAppxPackage /PackageName:%appxFull% >nul || (echo Removing %~1 failed. & set "appxFailed=1" & exit /b 1)
+set "appxOffline=0"
+dism /English /Image:"%mountDir%" /Remove-ProvisionedAppxPackage /PackageName:%appxFull% >nul || set "appxOffline=1"
 reg load HKLM\KOS_SOFTWARE "%mountDir%\Windows\System32\config\SOFTWARE" >nul || (set "appxFailed=1" & exit /b 1)
+:: DISM's Appx provider refuses some inbox packages (SecHealthUI on 26H2: 0x80073CFA "policy prevents the removal")
+:: even with an empty non-removable policy. Then it is unprovisioned by hand: its all-user store entries and files go.
+if "%appxOffline%"=="1" (
+    reg delete "HKLM\KOS_SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\%appxFull%" /f >nul || (echo Removing %~1 failed. & reg unload HKLM\KOS_SOFTWARE >nul & set "appxFailed=1" & exit /b 1)
+    reg delete "HKLM\KOS_SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Staged\%~1_8wekyb3d8bbwe" /f >nul 2>&1
+    powerrun cmd.exe /c rmdir /s /q "%mountDir%\Program Files\WindowsApps\%appxFull%"
+)
 reg add "HKLM\KOS_SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deprovisioned\%~1_8wekyb3d8bbwe" /f >nul
 reg unload HKLM\KOS_SOFTWARE >nul
 echo %~1 removed.
