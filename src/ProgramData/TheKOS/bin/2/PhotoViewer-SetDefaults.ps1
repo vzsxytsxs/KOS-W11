@@ -35,21 +35,42 @@ try {
     . (Join-Path $PSScriptRoot 'PhotoViewer-FTA.ps1')
     $progId = 'PhotoViewer.FileAssoc.Tiff'
     $extensions = '.bmp', '.dib', '.gif', '.jfif', '.jpe', '.jpeg', '.jpg', '.jxr', '.png', '.tif', '.tiff'
+
+    # Returns the effective ProgID after up to 3 writes. The UserChoice hash includes the current minute: a write that
+    # crosses into the next minute doesn't count, so try again.
+    function Set-Association([string]$extension) {
+        for ($try = 1; $try -le 3; $try++) {
+            try {
+                $null = Set-FTA -ProgId $progId -Extension $extension
+                $effective = Get-EffectiveProgId $extension
+            } catch { $effective = $_.Exception.Message }
+            if ($effective -eq $progId) { break }
+            Start-Sleep -Seconds 2
+        }
+        return $effective
+    }
+
+    # An extension that doesn't take doesn't stop the others: it gets another round at the end.
+    $failed = @()
     foreach ($extension in $extensions) {
         if ((Get-EffectiveProgId $extension) -eq $progId) {
             Write-Log "$extension already $progId"
             continue
         }
-        # The UserChoice hash includes the current minute: a write that crosses into the next minute doesn't count, so try again.
-        for ($try = 1; $try -le 3; $try++) {
-            Set-FTA -ProgId $progId -Extension $extension
-            $effective = Get-EffectiveProgId $extension
-            if ($effective -eq $progId) { break }
-            Start-Sleep -Seconds 2
+        $effective = Set-Association $extension
+        if ($effective -eq $progId) {
+            Write-Log "$extension set to $progId"
+        } else {
+            Write-Log "$extension is still $effective, trying again at the end"
+            $failed += $extension
         }
-        if ($effective -ne $progId) { throw "$extension effective ProgID is $effective, expected $progId" }
-        Write-Log "$extension set to $progId"
     }
+    $left = @()
+    foreach ($extension in $failed) {
+        $effective = Set-Association $extension
+        if ($effective -eq $progId) { Write-Log "$extension set to $progId" } else { $left += "$extension is $effective" }
+    }
+    if ($left) { throw "effective ProgID not $progId`: $($left -join ', ')" }
     Write-Log 'Photo Viewer associations verified'
 } catch {
     Write-Log "FAILED: $($_.Exception.Message)"

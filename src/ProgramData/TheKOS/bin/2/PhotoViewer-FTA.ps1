@@ -348,7 +348,8 @@ function Set-FTA {
         $map.R2[0] = Convert-Int32 (($map.R0 * ([long]$map.MD51)) - (0x10FA9605L * ((Get-ShiftRight $map.R0 16))))
         $map.R2[1] = Convert-Int32 ((0x79F8A395L * ([long]$map.R2[0])) + (0x689B6B9FL * (Get-ShiftRight $map.R2[0] 16)))
         $map.R3 = Convert-Int32 ((0xEA970001L * $map.R2[1]) - (0x3C101569L * (Get-ShiftRight $map.R2[1] 16) ))
-        $map.R4[0] = Convert-Int32 ($map.R3 + $map.R1[0])
+        # [long]: an Int32 + Int32 that overflows turns into a [double] in PowerShell and the hash comes out wrong.
+        $map.R4[0] = Convert-Int32 ([long]$map.R3 + $map.R1[0])
         $map.R5[0] = Convert-Int32 ($map.CACHE + $map.R3)
         $map.R6[0] = Convert-Int32 (($map.R4[0] * [long]$map.MD52) - (0x3CE8EC25L * (Get-ShiftRight $map.R4[0] 16)))
         $map.R6[1] = Convert-Int32 ((0x59C3AF2DL * $map.R6[0]) - (0x2232E0F1L * (Get-ShiftRight $map.R6[0] 16)))
