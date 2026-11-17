@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <DisplayDriverUninstaller ISO="fa-IR" Text="Persian (فارسی)" >
 	<!--
 		See file ' \Settings\Languages\_For translators - ReadMe.txt ' 	
@@ -115,10 +115,24 @@
 		<VisitGuru3DAMDMenuItem>
 			<Text>بازدید از موضوع Guru3d AMD</Text>
 		</VisitGuru3DAMDMenuItem>
+		        <VisitDDUShopMenuItem>
+            <Text>بازدید از فروشگاه رسمی مرچندایز DDU</Text>
+        </VisitDDUShopMenuItem>
+		<VisitDiscord>
+			<Text>به دیسکورد ما بپیوندید.</Text>
+		</VisitDiscord>
 		<VisitGeforceMenuItem>
 			<Text>بازدید از موضوع Geforce</Text>
 		</VisitGeforceMenuItem>
-
+        <DownloadNvidiaMenuItem>
+			<Text>دانلود درایورهای NVIDIA</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>دانلود درایورهای AMD</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>دانلود درایورهای Intel</Text>
+		</DownloadIntelMenuItem>
 		<Messages>
 			<Text1>به روز رسانی در دسترس است! اکنون از وب سایت DDU بازدید می کنید؟</Text1>
 			<Text2>نسخه های قدیمی این نرم افزار پشتیبانی محدودی دارند ، باید قبل از گزارش اشکالات از وجود نسخه های جدیدتر اطمینان حاصل کنید.</Text2>
@@ -213,7 +227,7 @@
 			<Text>گزینه های خاص AMD</Text>
 		</lblAmdspecific>
 		<lblINTELspecific>
-			<Text>گزینه های خاص INTEL</Text>
+			<Text>گزینه های خاص Intel®</Text>
 		</lblINTELspecific>
 		<lblAdvancedO>
 			<Text>(گزینه های پیشرفته (تنظیمات را با احتیاط تغییر دهید</Text>
@@ -264,8 +278,12 @@
 		<lblRemNVCP>
 			<Text>(DCH driver) Remove the NVIDIA Control Panel installed from the Microsoft Store</Text>
 		</lblRemNVCP>
+        <lblRemoveNvidiaCache>
+            <Text>حذف کش شیدر NVIDIA (در صورت استفاده از ASC / کامپایل خودکار شیدر NVIDIA App، تیک را بردارید)
+            </Text>
+        </lblRemoveNvidiaCache>
 		<lblRemINTELCP>
-			<Text>(DCH driver) Remove the INTEL Control Panel installed from the Microsoft Store</Text>
+			<Text>(DCH driver) Remove the Intel® Control Panel installed from the Microsoft Store</Text>
 		</lblRemINTELCP>
 		<lblRemAMDCP>
 			<Text>(DCH driver) Remove the AMD Control Panel installed from the Microsoft Store</Text>
@@ -287,6 +305,9 @@
                توجه: این گذینه از "ویندوز آپدیت" برای بارگیری / نصب درایورهای جدید جلوگیری نمی کند.
               توجه 2: همچنین * به شدت * توصیه می شود که پس از پایان استفاده از این نرم افزار و نصب مجدد درایورواحد پردازش ویدئویی خود، این تغییر را برگردانید یا ممکن است با نصب دستگاه دیگر مشکلی داشته باشید.</Tooltip>
      </lblPreventWinUpdate>
+	 		<lblUseDarkTheme>
+			<Text>استفاده از تم تاریک</Text>
+		</lblUseDarkTheme>
   </frmOptions>
 
 	<frmLaunch Text="گزینه راه اندازی">
@@ -468,6 +489,11 @@
 			</Details>
 			<LastUpdate>23/06/2021</LastUpdate>
 		</Translator>
-	</LanguageTranslators>
 
+		<Translator2>
+			<User>Mats/Onyx</User>
+			<Details>Twitter:onyxwz1</Details>
+			<LastUpdate>17/02/2026</LastUpdate>
+		</Translator2>
+	</LanguageTranslators>
 </DisplayDriverUninstaller>

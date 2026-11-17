@@ -47,9 +47,18 @@
 		</btnCleanGfeDownloads>
 		<btnWuRestore>
 			<Text>
-				將 Windows Update 自動安裝驅動程式設成預設值
+				將 Windows 裝置安裝設定設成預設值
+                                （自動安裝驅動程式）  
 			</Text>
 		</btnWuRestore>
+		<btnCleanCaches>
+			<Text>
+				清除著色器快取 (僅此)
+			</Text>
+			<Tooltip>
+				僅刪除著色器 / 運算快取檔案。於安全模式下執行更有效。
+			</Tooltip>
+		</btnCleanCaches>
 		<lblWinVersion>
 			<Text>偵測到的系統版本：</Text>
 		</lblWinVersion>
@@ -105,6 +114,12 @@
 		<VisitDDUHomeMenuItem>
 			<Text>造訪 DDU 官方網站</Text>
 		</VisitDDUHomeMenuItem>
+		<VisitDDUShopMenuItem>
+            <Text>造訪DDU官方周邊商店</Text>
+        </VisitDDUShopMenuItem>
+		<VisitDiscord>
+			<Text>Discord 伺服器</Text>
+		</VisitDiscord>
 		<VisitSVNMenuItem>
 			<Text>造訪 GitHub</Text>
 		</VisitSVNMenuItem>
@@ -117,6 +132,15 @@
 		<VisitGeforceMenuItem>
 			<Text>造訪 GeForce 論壇上的討論串</Text>
 		</VisitGeforceMenuItem>
+        <DownloadNvidiaMenuItem>
+			<Text>NVIDIA 驅動程式下載</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>AMD 驅動程式下載</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>Intel 驅動程式下載</Text>
+		</DownloadIntelMenuItem>
 
 		<Messages>
 			<Text1>有可用更新！是否造訪 DDU 網站？</Text1>
@@ -135,6 +159,15 @@
 			<Text14>現有等待中的重新啟動程序，請在使用 DDU 前先重新啟動。</Text14>
 			<Text15>系統未變更。Windows 裝置安裝設定已回復預設值。</Text15>
 			<Text16>正常移除驅動程式時 Windows 發生嚴重錯誤。為確保安全，DDU 將停止刪除檔案及登錄碼。您必須在使用 DDU 前修正系統問題。</Text16>
+			<Text17>這似乎是您第一次啟動 DDU。
+				
+					在使用之前，請知道以下事項：
+					1: 根據您的問題和配置，可能有幫助或使情況變得更糟。
+					2: 您應該有備份。
+					3: 您應該閱讀授權、Readme 和服務條款。
+					4: 我們不對任何損壞或資料遺失負責。
+					5: 如果有問題，我們隨時樂意提供幫助。
+			</Text17>
 		</Messages>
 		<Options_Type>
 			<Options1>---選擇裝置類型---</Options1>
@@ -145,7 +178,9 @@
 			<Options1>---選擇裝置---</Options1>
 			<Options2>NVIDIA</Options2>
 			<Options3>AMD</Options3>
-			<Options4>Intel</Options4>
+			<Options4>INTEL</Options4>
+			<Options5>LISUAN</Options5>
+			<Options6>所有 GPU</Options6>
 		</Options_GPU>
 		<Options_AUDIO>
 			<Options1>---選擇裝置---</Options1>
@@ -200,6 +235,13 @@
 	</frmMain>
 
 	<frmOptions Text="選項">
+		<btnResetDefaults>
+			<Text>重設為建議值</Text>
+			<Tooltip>將所有選項重設為建議的預設值。</Tooltip>
+		</btnResetDefaults>
+		<Messages>
+			<Text1>將所有選項重設為建議的預設值嗎？</Text1>
+		</Messages>
 		<btnClose>
 			<Text>關閉</Text>
 		</btnClose>
@@ -212,6 +254,9 @@
 		<lblAmdspecific>
 			<Text>AMD 專用選項</Text>
 		</lblAmdspecific>
+		<lblINTELspecific>
+			<Text>INTEL 專用選項</Text>
+		</lblINTELspecific>
 		<lblAdvancedO>
 			<Text>進階選項（請自行承擔修改所帶來的後果）</Text>
 		</lblAdvancedO>
@@ -261,6 +306,41 @@
 		<lblRemGFE>
 			<Text>移除 GeForce Experience (GFE)</Text>
 		</lblRemGFE>
+		<lblRemNVBROADCAST>
+			<Text>移除 NVIDIA Broadcast</Text>
+		</lblRemNVBROADCAST>
+		<lblRemNVCP>
+			<Text>(DCH 驅動程式) 移除從 Microsoft Store 安裝的 NVIDIA 控制台</Text>
+		</lblRemNVCP>
+        <lblRemoveNvidiaCache>
+            <Text>移除 NVIDIA 著色器快取 (若使用 ASC / NVIDIA App 自動著色器編譯，請取消勾選)
+            </Text>
+        </lblRemoveNvidiaCache>
+		<lblKeepNVCPopt>
+			<Text>保留 NVIDIA 控制台的全局/程式設定。</Text>
+			<Tooltip>
+				如果您遇到需要使用 DDU 進行清理的問題，我們建議避免選擇此選項。
+				此選項不是為了解決問題，可能無法解決您正在遇到的問題。
+			</Tooltip>
+		</lblKeepNVCPopt>
+		<lblRemINTELCP>
+			<Text>(DCH 驅動程式) 移除透過 Microsoft Store 安裝的 Intel® 控制面板</Text>
+		</lblRemINTELCP>
+		<lblRemINTELIGS>
+			<Text>移除 Intel® Arc Control / Intel® 圖形軟體</Text>
+		</lblRemINTELIGS>
+		<lblRemOneAPI>
+			<Text>移除 Intel® oneAPI Level Zero SDK</Text>
+		</lblRemOneAPI>
+		<lblRemEnduranceGaming>
+			<Text>移除 Intel® Endurance Gaming</Text>
+		</lblRemEnduranceGaming>
+		<lblRemIntelNpu>
+			<Text>移除 Intel® NPU</Text>
+		</lblRemIntelNpu>
+		<lblRemAMDCP>
+			<Text>(DCH 驅動程式) 移除從 Microsoft Store 安裝的 AMD 控制台</Text>
+		</lblRemAMDCP>
 		<lblRemCrimsonCache>
 			<Text>移除 AMD Crimson Shader Cache 資料夾</Text>
 			<Tooltip>
@@ -278,6 +358,12 @@
                備註：此選項不會禁止 Windows Update 下載或安裝新驅動程式。
                備註二：建議您於使用 DDU 並重新安裝驅動程式後取消此變更，否則使用新裝置時可能發生問題。</Tooltip>
      </lblPreventWinUpdate>
+	 	<lblRememberLastChoice>
+			<Text>記住上次選擇的GPU</Text>	
+		</lblRememberLastChoice>
+						<lblUseDarkTheme>
+			<Text>使用深色主題</Text>
+		</lblUseDarkTheme>
   </frmOptions>
 
 	<frmLaunch Text="啟動選項">
@@ -287,6 +373,11 @@
 				重新啟動至安全模式
 			</Text2>
 		</btnAccept>
+		<btnWuRestore>
+			<Text>
+				將 Windows 裝置安裝設定設成預設值後關閉
+			</Text>
+		</btnWuRestore>
 		<btnClose>
 			<Text>關閉</Text>
 		</btnClose>
@@ -374,12 +465,23 @@
 			<Text>
         非常感謝以下的贊助者們，也十分感謝有捐助但未列在此處的各位！
 
-        - honnmaguro (自 2018-03-16)
-		-Kaseb (Since 2019-09-05)
-		-Frank Brown (Since 2019-10-31)
-		-Sergey Bolshakow (Since 2020-09-10)
-		-James Tiller (Since 2021-04-03)
-		-Paulo Henrique (Since 2021-04-19)
+                                -Alberto Bursi
+				-honnmaguro
+				-ZaoDaDong
+				-Kaseb
+				-Frank Brown
+				-Sergey Bolshakow
+				-James Tiller
+				-Paulo Henrique
+				-Graeme Small
+				-SMiThaYe
+				-Chris Ross
+				-Fabio
+				-Matti Metsikko
+				-mikalonia - mika
+				-ChaosDMNS
+				-Eduardo Macias
+				-Peter Le
       </Text>
 		</lblPatron>
 	</frmAbout>
@@ -409,7 +511,7 @@
 				- 若本工具成功解決您（曾）遇到的驅動程式障礙，歡迎分享結果。
 
 				請記住，NVIDIA、AMD、或 Microsoft 都不對您或您的電腦的任何損失與損害負上任何責任，
-				因此 DDU 創始人及其團隊也不付負上任何責任。
+				因此 DDU 創始人及其團隊也不負上任何責任。
 				-------------------------------
 
 				由 Wagnard 創始。
@@ -422,7 +524,9 @@
 
 				十分感謝 Jackalito 捐助 AMD 7850。
 
-				感謝 Helge Klein (http://helgeklein.com/setacl/) for the permission to use his Program with DDU "SetAcl"
+				Special thanks to Guru3D https://www.guru3d.com/ for helping provide early exposure.
+
+				感謝 Helge Klein (https://helgeklein.com/setacl/) for the permission to use his Program with DDU "SetAcl"
 
 				非常感謝花時間進行測試的各位：Gamer1291 (Optimus)、Octopuss (AMD Enduro)、nedooo` (花費時間偵錯)
 				Extraordinary (測試臭蟲修復)
@@ -450,14 +554,22 @@
 	<LanguageTranslators>
 	
 		<Translator>
+			<User>Danfong Hsieh（謝慶憲）</User>
+			<Details>
+				Chinese (Traditional) translator 正體中文譯者
+			</Details>
+			<LastUpdate>22/04/2024</LastUpdate>
+		</Translator>
+		
+		<Translator1>
 			<User>Hugwalk</User>
 			<Details>
 				Chinese (Traditional) translator 正體中文譯者
 				感謝 pan93412 的協助。
-				以丹楓之版本作為參考製作出目前版本。
+				以謝慶憲之版本作為參考製作出目前版本。
 			</Details>
 			<LastUpdate>30/01/2019</LastUpdate>
-		</Translator>
+		</Translator1>
 
 		<Translator2>
 			<User>pan93412</User>
@@ -466,15 +578,12 @@
 			</Details>
 			<LastUpdate>30/01/2019</LastUpdate>
 		</Translator2>
-
-		<Translator3>
-			<User>Danfong Hsieh（丹楓）</User>
-			<Details>
-				Chinese (Traditional) translator 正體中文譯者
-			</Details>
-			<LastUpdate>10/06/2016</LastUpdate>
-		</Translator3>
 				
+		<Translator3>
+			<User>Mats/Onyx</User>
+			<Details>Twitter:onyxwz1</Details>
+			<LastUpdate>17/02/2026</LastUpdate>
+		</Translator3>
 	</LanguageTranslators>
 
 </DisplayDriverUninstaller>

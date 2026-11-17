@@ -1,4 +1,5 @@
-1. use windows default services -> execute Setup\3-Support\Services\Windows.Default.Services.reg with powerrun
-2. restart your pc
-3. open optionalfeatures.exe (win+r) -> enable hyper-v
-4. restart your pc
+Hyper-V part1.cmd now runs Windows Features\HyperV Enable-Disable.cmd on, which turns on the whole Hyper-V stack:
+the Hyper-V drivers and services, the virtualization infrastructure device, the optional features (Hyper-V,
+Virtual Machine Platform, Windows Hypervisor Platform) and the hypervisor at boot. Restart your pc afterwards.
+
+The toolbox has the same switch: Windows > Security > Hyper-V.

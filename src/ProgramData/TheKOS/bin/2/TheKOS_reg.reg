@@ -172,25 +172,15 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize]
 "EnableTransparency"=dword:00000000
 
-; disable variable refresh rate
+; Disable passwordless sign-in for microsoft accounts (read from HKLM only)
 
-[HKEY_CURRENT_USER\Software\Microsoft\DirectX\UserGpuPreferences​]
-"DirectXUserGlobalSettings"="VRROptimizeEnable=1"
-
-; Disable passwordless sign-in for microsoft accounts
-
-[HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device]
-"DevicePasswordLessBuildVersion"=dword:00000001
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device]
+"DevicePasswordLessBuildVersion"=dword:00000000
 
 ; set Launching applications and unsafe files to Enable
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\Zones\3]
 "1806"=dword:00000000
-
-; disable show recently added apps on startmenu
-
-[HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer]
-"HideRecentlyAddedApps"=-
 
 ; turn off recommendations in startmenu
 
@@ -283,10 +273,10 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 "NoAutoTrayNotify"=dword:00000001
 
-; enable printscreen for snipping tool
+; Print Screen goes to Lightshot, not the Snipping Tool
 
 [HKEY_CURRENT_USER\Control Panel\Keyboard]
-"PrintScreenKeyForSnippingEnabled"=dword:00000001
+"PrintScreenKeyForSnippingEnabled"=dword:00000000
 
 ; Disable automatic folder type discovery
 
@@ -316,7 +306,7 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer]
 "NoNetConnectDisconnect"=dword:00000001
 
-; turn off quiet hours
+; allow quiet hours (1 = Windows default; the "Turn off Quiet Hours" policy writes 0)
 
 [HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\CurrentVersion\QuietHours]
 "Enable"=dword:00000001
@@ -451,13 +441,13 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 "Flags"="0"
 
 [HKEY_CURRENT_USER\Control Panel\Accessibility\StickyKeys]
-"Flags"="0"
+"Flags"="506"
 
 [HKEY_CURRENT_USER\Control Panel\Accessibility\Keyboard Response]
-"Flags"="0"
+"Flags"="122"
 
 [HKEY_CURRENT_USER\Control Panel\Accessibility\ToggleKeys]
-"Flags"="0"
+"Flags"="58"
 
 [HKEY_CURRENT_USER\Control Panel\Accessibility\HighContrast]
 "Flags"="0"
@@ -1354,6 +1344,8 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 "InstallDefault"=dword:00000000
 "Install{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}"=dword:00000000
 "Install{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}"=dword:00000001
+"Update{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}"=dword:00000000
+"Update{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}"=dword:00000000
 "DoNotUpdateToEdgeWithChromium"=dword:00000001
 
 ; disable auto maintenance
@@ -1482,22 +1474,27 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 "AllowRspndrOnPublicNet"=dword:00000000
 "ProhibitRspndrOnPrivateNet"=dword:00000000
 
-; turn off module logging
+; powershell logging on (KOS default): module and script block logging, without invocation start/stop events.
+; Toggle: Setup\4-Tweaking\QOL\PowerShell Logging Enable-Disable.cmd
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging]
-"EnableModuleLogging"=dword:00000000
+"EnableModuleLogging"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames]
+"*"="*"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging]
-"EnableModuleLogging"=dword:00000000
+"EnableModuleLogging"=dword:00000001
 
-; turn off powershell script block logging
+[HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ModuleLogging\ModuleNames]
+"*"="*"
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging]
-"EnableScriptBlockLogging"=dword:00000000
+"EnableScriptBlockLogging"=dword:00000001
 "EnableScriptBlockInvocationLogging"=-
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging]
-"EnableScriptBlockLogging"=dword:00000000
+"EnableScriptBlockLogging"=dword:00000001
 "EnableScriptBlockInvocationLogging"=-
 
 ; disable superfetch`s eventlog connection
@@ -1571,6 +1568,11 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 "DisableWindowsLocationProvider"=dword:00000001
 "DisableLocationScripting"=dword:00000001
 "DisableLocation"=dword:00000001
+
+; find my device
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\FindMyDevice]
+"AllowFindMyDevice"=dword:00000000
+"LocationSyncEnabled"=dword:00000000
 
 ; disable Cloud optimized content (Programmable Taskbar)
 
@@ -1694,7 +1696,7 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\BitLocker]
 "PreventDeviceEncryption"=dword:00000001
 
-; configure crash control
+; crash control: no automatic restart, small memory dump (C:\Windows\Minidump) to diagnose crashes
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CrashControl]
 "AutoReboot"=dword:00000000
@@ -1746,12 +1748,6 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 [HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\SharedAccess\Parameters\FirewallPolicy\FirewallRules]
 "Block-Unified-Telemetry-Client"="v2.31|Action=Block|Active=TRUE|Dir=Out|RA42=IntErnet|RA62=IntErnet|App=%SystemRoot%\system32\svchost.exe|Svc=DiagTrack|Name=Block-Unified-Telemetry-Client|Desc=Block-Unified-Telemetry-Client|EmbedCtxt=DiagTrack|"
 "Block-Windows-Error-Reporting"="v2.31|Action=Block|Active=TRUE|Dir=Out|RA42=IntErnet|RA62=IntErnet|App=%SystemRoot%\system32\svchost.exe|Svc=WerSvc|Name=Block-Unified-Telemetry-Client|Desc=Block-Windows-Error-Reporting|EmbedCtxt=WerSvc|"
-
-; oeminformations
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation]
-"Manufacturer"="saawkt"
-"Model"="TheKOS"
 
 [HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\CI\Config]
 "VulnerableDriverBlocklistEnable"=dword:00000000
@@ -1956,12 +1952,12 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control]
 "WaitToKillServiceTimeout"="1"
-"DisableRemoteScmEndpoints"dword:00000000
+"DisableRemoteScmEndpoints"=dword:00000001
 "HandlerTimeout"=dword:7FFFFFFF
 
 [HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control]
 "WaitToKillServiceTimeout"="1"
-"DisableRemoteScmEndpoints"dword:00000000
+"DisableRemoteScmEndpoints"=dword:00000001
 "HandlerTimeout"=dword:7FFFFFFF
 
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\PnP]
@@ -1981,123 +1977,30 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Reliability]
 "TimeStampInterval"=dword:00000000
 
-; WMI AutoLogger
+; Disable Firewall Notifications
 
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\NtfsLog]
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile]
+"DisableNotifications"=dword:00000001
 
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\RefsLog]
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile]
+"DisableNotifications"=dword:00000001
 
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\GlobalLogger]
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile]
+"DisableNotifications"=dword:00000001
 
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\WMI_Traces]
+; Disable Firewall Logging
 
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\EventLog-Nefarius-Drivers-HidHide-Diagnostic]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile\Logging]
+"LogDroppedPackets"=dword:00000000
+"LogSuccessfulConnections"=dword:00000000
 
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\EventLog-Nefarius-Drivers-HidHideClient-Diagnostic]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile\Logging]
+"LogDroppedPackets"=dword:00000000
+"LogSuccessfulConnections"=dword:00000000
 
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\EventLog-Nefarius-Drivers-HidHideCLI-Diagnostic]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\Cellcore]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\Circular Kernel Context Logger]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\CloudExperienceHostOobe]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\DataMarket]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\HolographicDevice]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\iclsClient]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\iclsProxy]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\Mellanox-Kernel]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\Microsoft-Windows-AssignedAccess-Trace]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\Microsoft-Windows-Setup]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\NBSMBLOGGER]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\PEAuthLog]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\RdrLog]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\ReadyBoot]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\SetupPlatform]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\SetupPlatformTel]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\SocketHeciServer]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\SpoolerLogger]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\SQMLogger]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\TileStore]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\Tpm]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\TPMProvisioningService]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\WiFiDriverIHVSession]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\WiFiDriverIHVSessionRepro]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\WifiDriverSession]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\WiFiSession]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\Microsoft-Windows-Rdp-Graphics-RdpIdd-Trace]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\UBPM]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\WFP-IPsec Trace]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\WinPhoneCritical]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\Diagtrack-Listener]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\DiagLog]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\UnionFS-Filter]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\Microsoft-Windows-ProjFS-Filter-Log]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\NetCore]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\WdiContextLog]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\RadioMgr]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\FilterMgr-Logger]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\LwtNetLog]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\WMI\Autologger\TCPIPLOGGER]
-
-;WINEVT Logging
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\CloudExperienceHost]
-"ETWLoggingEnabled"=dword:00000000
-
-[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Publishers]
-
-[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Channels]
-
-; firewall logging
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile\Logging]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\Logging]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\DomainProfile\Logging]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Defaults\FirewallPolicy\PublicProfile\Logging]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Defaults\FirewallPolicy\StandardProfile\Logging]
-
-[-HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Defaults\FirewallPolicy\DomainProfile\Logging]
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsFirewall\PublicProfile\Logging]
+"LogDroppedPackets"=dword:00000000
+"LogSuccessfulConnections"=dword:00000000
 
 ; block outlook & dev home from installing
 
@@ -2109,6 +2012,9 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Orchestrator\UScheduler\OutlookUpdate]
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Orchestrator\UScheduler\CrossDeviceUpdate]
 [-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Orchestrator\UScheduler\EdgeUpdate]
+; Auto Super Resolution (AI upscaling, Copilot+): expedited Store install of Microsoft.AutoSuperResolution2
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\MS_AutoSuperRes]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Orchestrator\UScheduler\MS_AutoSuperRes]
 
 ; make background apps use less polling rate to improve mouse latency and fps while moving
 
@@ -2218,6 +2124,115 @@ C2,0A,01,D2,1E,26,4D,00,69,00,63,00,72,00,6F,00,73,00,6F,00,66,00,74,00,2E,\
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR]
 "value"=dword:00000000
+
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR]
+"AudioCaptureEnabled"=dword:00000000
+"CursorCaptureEnabled"=dword:00000000
+
+; game bar processes don't start (redirected to systray.exe); the toolbox's Game Bar setting removes this when enabled
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GameBarPresenceWriter.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\bcastdvr.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GamePanel.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GameBar.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GameBarFTServer.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GameBarFT.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\XboxGameBarWidgets.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+; windows search app blocked (RunOnce also renames SearchHost.exe to .old); the toolbox's Windows Search setting undoes both
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\SearchApp.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\SearchUI.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\SearchHost.exe]
+"Debugger"="%SystemRoot%\\System32\\systray.exe"
+
+; background apps denied for every store app (the toolbox's Background apps setting)
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy]
+"LetAppsRunInBackground"=dword:00000002
+
+; no sleep study logging (the toolbox's System usage and diagnostics setting)
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power]
+"SleepStudyDisabled"=dword:00000001
+
+; troubleshoot compatibility context menu (from vain)
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Shell Extensions\Blocked]
+"{1d27f844-3a1f-4410-85ac-14651078412d}"=""
+
+; .pow file association
+; CAB install context menu
+; from vain
+
+[HKEY_CLASSES_ROOT\.pow]
+@="Power Plan"
+"FriendlyTypeName"="Power Plan"
+
+[HKEY_CLASSES_ROOT\.pow\DefaultIcon]
+@=hex(2):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f,\
+  00,74,00,25,00,5c,00,53,00,79,00,73,00,74,00,65,00,6d,00,33,00,\
+  32,00,5c,00,70,00,6f,00,77,00,65,00,72,00,63,00,66,00,67,00,2e,\
+  00,63,00,70,00,6c,00,2c,00,2d,00,32,00,30,00,32,00,00,00
+
+[HKEY_CLASSES_ROOT\.pow\shell\Import\command]
+@="powercfg /import \"%1\""
+
+[HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs]
+@="Install"
+"HasLUAShield"=""
+
+[HKEY_CLASSES_ROOT\CABFolder\Shell\RunAs\Command]
+@="cmd /k dism /online /add-package /packagepath:\"%1\""
+
+; Explorer Compact Mode 
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"UseCompactMode"=dword:00000001
+
+; dev mode on
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock]
+"AllowDevelopmentWithoutDevLicense"=dword:00000001
+
+; Smart App Control
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\CI\Policy]
+"VerifiedAndReputablePolicyState"=dword:00000000
+
+; cross device resume
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FeatureManagement\Overrides\8\1694661260]
+"EnabledState"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FeatureManagement\Overrides\8\1387020943]
+"EnabledState"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\Connectivity\DisableCrossDeviceResume]
+"value"=dword:00000001
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\CrossDeviceResume\Configuration]
+"IsResumeAllowed"=dword:00000000
+
+; skip gpuz prompt
+[HKEY_CURRENT_USER\Software\techPowerUp\GPU-Z] 
+"Install_Dir"="no"
 
 
 

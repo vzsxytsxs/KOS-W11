@@ -606,7 +606,7 @@ $cb_PMARPOffload.BackColor       = [System.Drawing.ColorTranslator]::FromHtml("#
 $cb_PriorityVLANTag              = New-Object system.Windows.Forms.ComboBox
 $cb_PriorityVLANTag.width        = 190
 $cb_PriorityVLANTag.height       = 20
-@('0 - Paketpriorität and VLAN disabled','1 - Paketpriorität enabled','2 - VLAN enabled','3 - Paketpriorität and VLAN enabled') | ForEach-Object {[void] $cb_PriorityVLANTag.Items.Add($_)}
+@('0 - Packet Priority and VLAN disabled','1 - Packet Priority enabled','2 - VLAN enabled','3 - Packet Priority and VLAN enabled') | ForEach-Object {[void] $cb_PriorityVLANTag.Items.Add($_)}
 $cb_PriorityVLANTag.location     = New-Object System.Drawing.Point(193,256)
 $cb_PriorityVLANTag.Font         = New-Object System.Drawing.Font('Calibri',9)
 $cb_PriorityVLANTag.ForeColor    = [System.Drawing.ColorTranslator]::FromHtml("#4a90e2")
@@ -3224,7 +3224,7 @@ function RSSEnable{
             Set-ItemProperty -Path "$KeyPath" -Name "*PriorityVLANTag" -Value "0" -Force}
             
             elseif ($cb_PriorityVLANTag.SelectedIndex -eq '1'){
-            Write-Host "Enabling Paketpriorität" -ForegroundColor Green
+            Write-Host "Enabling Packet Priority" -ForegroundColor Green
             Set-ItemProperty -Path "$KeyPath" -Name "*PriorityVLANTag" -Value "1" -Force}
             
             elseif ($cb_PriorityVLANTag.SelectedIndex -eq '2'){
@@ -3232,7 +3232,7 @@ function RSSEnable{
             Set-ItemProperty -Path "$KeyPath" -Name "*PriorityVLANTag" -Value "2" -Force}
             
             elseif ($cb_PriorityVLANTag.SelectedIndex -eq '3'){
-            Write-Host "Enabling Paketpriorität and VLAN" -ForegroundColor Green
+            Write-Host "Enabling Packet Priority and VLAN" -ForegroundColor Green
             Set-ItemProperty -Path "$KeyPath" -Name "*PriorityVLANTag" -Value "3" -Force}
             
         #ReceiveBuffers   

@@ -1,0 +1,46 @@
+TheKOS post-setup logs
+======================
+
+RunOnce.cmd writes one directory per execution:
+  C:\ProgramData\TheKOS\Logs\PostSetup\RunOnce-yyyyMMdd-HHmmss-fff\
+
+runonce.log contains timestamped milestone and result events. status.txt starts
+as INCOMPLETE and becomes COMPLETED, COMPLETED_WITH_WARNINGS, or
+COMPLETED_WITH_ERRORS when RunOnce reaches the restart request. This confirms
+that restart was requested, not that the next boot finished successfully.
+Selected child logs (Visual C++, DirectX, 7-Zip, and service snapshots) are
+saved beside these files. The Photo Viewer keeps its detailed log under the
+installing user's LocalAppData\TheKOS\PhotoViewer-Defaults.log.
+
+No automatic log deletion or retention limit is configured. Service snapshot
+REG/JSON files are separate backups and are never cleaned by this logger.
+
+Every runonce.log result records the native command exit code and a KOS code:
+  0        No KOS error for the event
+  201-207  Installer result (Visual C++, DirectX, 7-Zip, VLC, Lightshot,
+           Open-Shell, Notepad++)
+  211-213  Laptop/desktop profile, security profile (Basic/Advanced),
+           startup logon task (\TheKOS\Startup)
+  301-303  Default service capture, TheKOS capture, service comparison
+  401-405  Photo Viewer, security-app script (older builds), Edge/WebView
+           invocation, OneDrive removal (onedrive.log beside runonce.log),
+           Notepad++ as the default text editor
+  408      7-Zip executable missing after installer
+  501-503  One-time directories remain or restart request failed
+  999      Simulated failure in the logger self-test only
+
+The original native exit code is more specific than the KOS category. Exit
+code 3010 from an installer is logged as INFO because it requests a restart;
+RunOnce already schedules a restart at its end. Other nonzero installer codes
+are WARN and do not change the existing continue-on-error behavior.
+
+The logger only checks selected steps. It does not prove that every individual
+registry tweak succeeded. edge-webview.cmd currently returns 0 even if an
+inner operation fails, so its RunOnce event means invocation completed, not
+that Edge/WebView postconditions were independently verified. Startup scripts
+in bin\3 run on every boot and are outside this one-time log.
+
+For a safe logger-only test, run a copy of RunOnce.cmd with --test-logging.
+Optional second arguments: incomplete leaves the status marker in place;
+fail writes a simulated failure. These test modes do not run installers,
+tweaks, cleanup, or restart.

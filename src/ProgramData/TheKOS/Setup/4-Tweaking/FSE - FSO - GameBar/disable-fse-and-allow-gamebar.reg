@@ -14,7 +14,7 @@ Windows Registry Editor Version 5.00
 "GameDVR_DSEBehavior"=-
 "GameDVR_DXGIHonorFSEWindowsCompatible"=dword:00000000
 "GameDVR_EFSEFeatureFlags"=dword:00000000
-"GameDVR_Enabled"=dword:00000000
+"GameDVR_Enabled"=dword:00000001
 "GameDVR_FSEBehavior"=-
 "GameDVR_FSEBehaviorMode"=dword:00000002
 "GameDVR_HonorUserFSEBehaviorMode"=dword:00000000
@@ -26,3 +26,30 @@ Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR]
 "value"=dword:00000001
+
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR]
+"AudioCaptureEnabled"=-
+"CursorCaptureEnabled"=-
+
+; game bar processes allowed again (removes the redirect the other two files add)
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GameBarPresenceWriter.exe]
+"Debugger"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\bcastdvr.exe]
+"Debugger"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GamePanel.exe]
+"Debugger"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GameBar.exe]
+"Debugger"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GameBarFTServer.exe]
+"Debugger"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\GameBarFT.exe]
+"Debugger"=-
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\XboxGameBarWidgets.exe]
+"Debugger"=-

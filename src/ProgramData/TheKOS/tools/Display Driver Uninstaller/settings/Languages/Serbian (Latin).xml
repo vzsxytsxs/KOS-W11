@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <DisplayDriverUninstaller ISO="Lt-sr-SP" Text="Serbian (Latin)">
 	<!--
 		See file ' \Settings\Languages\_For translators - ReadMe.txt ' 	
@@ -116,13 +116,27 @@
 		<VisitGuru3DNvidiaMenuItem>
 			<Text>Poseti Guru3d NVIDIA odeljak</Text>
 		</VisitGuru3DNvidiaMenuItem>
+		        <VisitDDUShopMenuItem>
+            <Text>Poseti zvanični DDU Merch Shop</Text>
+        </VisitDDUShopMenuItem>
+		<VisitDiscord>
+			<Text>Pridruži se našem Discordu</Text>
+		</VisitDiscord>
 		<VisitGuru3DAMDMenuItem>
 			<Text>Poseti Guru3d AMD odeljak</Text>
 		</VisitGuru3DAMDMenuItem>
 		<VisitGeforceMenuItem>
 			<Text>Poseti Geforce odeljak</Text>
 		</VisitGeforceMenuItem>
-
+        <DownloadNvidiaMenuItem>
+			<Text>Preuzmi drajvere NVIDIA</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>Preuzmi drajvere AMD</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>Preuzmi drajvere Intela</Text>
+		</DownloadIntelMenuItem>
 		<Messages>
 			<Text1>Nova verzija je raspoloživa! Želite li sada da posetite DDU sajt?</Text1>
 			<Text2>Očekujte ograničenu podršku za starije verzije uodnosu na trenutno najnovije. Molimo pokušajte sa najnovijom verzijom pre prijavljivanja grešaka.</Text2>
@@ -257,6 +271,9 @@
 			<Text>Koristi SetupAPI *Eksperimentalno*</Text>
 			<Tooltip>Koristi SetupAPI umesto eksternog alata DDUDR (DEVCON)</Tooltip>
 		</lblUseSetupAPI>
+				<lblUseDarkTheme>
+			<Text>Користи тамну тему</Text>
+		</lblUseDarkTheme>
 	</frmOptions>
 
 	<frmLaunch Text="Launch option">
@@ -435,7 +452,12 @@
 			<Details>boris.precep@hotmail.com</Details>
 			<LastUpdate>18/03/2017</LastUpdate>
 		</Translator2>
-	</LanguageTranslators>
 
+		<Translator3>
+			<User>Mats/Onyx</User>
+			<Details>Twitter:onyxwz1</Details>
+			<LastUpdate>17/02/2026</LastUpdate>
+		</Translator3>
+	</LanguageTranslators>
 
 </DisplayDriverUninstaller>

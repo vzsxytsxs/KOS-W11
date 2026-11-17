@@ -51,6 +51,14 @@
 				(自动执行下载并安装驱动程序)
 			</Text>
 		</btnWuRestore>
+		<btnCleanCaches>
+			<Text>
+				清理着色器缓存 (仅此)
+			</Text>
+			<Tooltip>
+				仅删除着色器 / 计算缓存文件。安全模式下执行效果更佳。
+			</Tooltip>
+		</btnCleanCaches>
 		<lblWinVersion>
 			<Text>当前操作系统: </Text>
 		</lblWinVersion>
@@ -106,6 +114,12 @@
 		<VisitDDUHomeMenuItem>
 			<Text>DDU 官方网站</Text>
 		</VisitDDUHomeMenuItem>
+		<VisitDDUShopMenuItem>
+            <Text>访问DDU官方周边商店</Text>
+        </VisitDDUShopMenuItem>
+			<VisitDiscord>
+			<Text>Discord 伺服器</Text>
+		</VisitDiscord>
 		<VisitSVNMenuItem>
 			<Text>DDU GitHub 仓库</Text>
 		</VisitSVNMenuItem>
@@ -118,6 +132,15 @@
 		<VisitGeforceMenuItem>
 			<Text>NVIDIA 论坛 DDU 讨论帖</Text>
 		</VisitGeforceMenuItem>
+        <DownloadNvidiaMenuItem>
+			<Text>NVIDIA 驱动程序下载</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>AMD 驱动程序下载</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>Intel 驱动程序下载</Text>
+		</DownloadIntelMenuItem>
 
 		<Messages>
 			<Text1>新版 DDU 已发布。是否立刻前往 DDU 官方网站下载更新?</Text1>
@@ -147,6 +170,8 @@
 			<Options2>NVIDIA</Options2>
 			<Options3>AMD</Options3>
 			<Options4>Intel</Options4>
+			<Options5>LISUAN</Options5>
+			<Options6>所有 GPU</Options6>
 		</Options_GPU>
 		<Options_AUDIO>
 			<Options1>--- 设备供应商 ---</Options1>
@@ -200,6 +225,13 @@
 	</frmMain>
 
 	<frmOptions Text="选项">
+		<btnResetDefaults>
+			<Text>重置为推荐值</Text>
+			<Tooltip>将所有选项重置为推荐的默认值。</Tooltip>
+		</btnResetDefaults>
+		<Messages>
+			<Text1>将所有选项重置为推荐的默认值吗？</Text1>
+		</Messages>
 		<btnclose>
 			<Text>关闭</Text>
 		</btnclose>
@@ -264,9 +296,25 @@
 		<lblRemNVCP>
 			<Text>(仅适用于 DCH 驱动程序) 卸载从 Microsoft Store 安装的 NVIDIA 控制面板</Text>
 		</lblRemNVCP>
+        <lblRemoveNvidiaCache>
+            <Text>卸载 NVIDIA 着色器缓存 (如使用 ASC / NVIDIA App 自动着色器编译，请取消勾选)
+            </Text>
+        </lblRemoveNvidiaCache>
 		<lblRemINTELCP>
-			<Text>(仅适用于 DCH 驱动程序) 卸载从 Microsoft Store 安装的英特尔显卡控制中心</Text>
+			<Text>(DCH 驱动程序) 移除通过 Microsoft Store 安装的 Intel® 控制面板</Text>
 		</lblRemINTELCP>
+		<lblRemINTELIGS>
+			<Text>移除 Intel® Arc Control / Intel® 图形软件</Text>
+		</lblRemINTELIGS>
+		<lblRemOneAPI>
+			<Text>移除 Intel® oneAPI Level Zero SDK</Text>
+		</lblRemOneAPI>
+		<lblRemEnduranceGaming>
+			<Text>移除 Intel® Endurance Gaming</Text>
+		</lblRemEnduranceGaming>
+		<lblRemIntelNpu>
+			<Text>移除 Intel® NPU</Text>
+		</lblRemIntelNpu>
 		<lblRemAMDCP>
 			<Text>(仅适用于 DCH 驱动程序) 卸载从 Microsoft Store 安装的 AMD Radeon Settings</Text>
 		</lblRemAMDCP>
@@ -288,6 +336,12 @@
 				注 2: 当您已经完成使用 DDU 并且已经给显卡安装合适的驱动程序后, 强烈建议您将此选项恢复默认, 以防止其他设备出现问题。
 			</Tooltip>
 		</lblPreventWinUpdate>
+		<lblRememberLastChoice>
+			<Text>记住上次选择的GPU</Text>	
+		</lblRememberLastChoice>
+						<lblUseDarkTheme>
+			<Text>使用深色主题</Text>
+		</lblUseDarkTheme>
 	</frmOptions>
 
 	<frmLaunch Text="启动选项">
@@ -433,6 +487,8 @@
 				新版本中文资源维护：雷锋、chenyiping1995
 
 				非常感谢 Jackalito 捐赠的一块 AMD 7850 显示卡。
+				
+				Special thanks to Guru3D https://www.guru3d.com/ for helping provide early exposure.
 
 				感谢 Helge Klein (https://helgeklein.com/setacl/) 允许 DDU 软件使用他的程序 "SetACL"。
 
@@ -468,5 +524,12 @@
 			<Details>プリンにしてやるの！</Details>
 			<LastUpdate>26/03/2021</LastUpdate>
 		</Translator2>
+
+		<Translator3>
+			<User>Mats/Onyx</User>
+			<Details>Twitter:onyxwz1</Details>
+			<LastUpdate>17/02/2026</LastUpdate>
+		</Translator3>
 	</LanguageTranslators>
+
 </DisplayDriverUninstaller>

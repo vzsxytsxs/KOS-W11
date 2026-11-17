@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <DisplayDriverUninstaller ISO="sv-SE" Text="Swedish">
 	<!--
 		See file ' \Settings\Languages\_For translators - ReadMe.txt ' 	
@@ -51,6 +51,14 @@
 				 (automatisk drivrutininstallation)
 			</Text>
 		</btnWuRestore>
+		<btnCleanCaches>
+			<Text>
+				Rensa Shader-cache (Endast)
+			</Text>
+			<Tooltip>
+				Tar endast bort shader-/compute-cachefiler. Mer effektivt i felsäkert läge.
+			</Tooltip>
+		</btnCleanCaches>
 		<lblWinVersion>
 			<Text>Detekterad Windows-version</Text>
 		</lblWinVersion>
@@ -106,6 +114,12 @@
 		<VisitDDUHomeMenuItem>
 			<Text>Besök officiell DDU webbplats</Text>
 		</VisitDDUHomeMenuItem>
+		       <VisitDDUShopMenuItem>
+            <Text>Besök den officiella DDU Merch-butiken</Text>
+        </VisitDDUShopMenuItem>
+		<VisitDiscord>
+			<Text>Gå med i vår Discord</Text>
+		</VisitDiscord>
 		<VisitSVNMenuItem>
 			<Text>Besök SVN webbplats</Text>
 		</VisitSVNMenuItem>
@@ -118,7 +132,15 @@
 		<VisitGeforceMenuItem>
 			<Text>Besök Geforce tråd</Text>
 		</VisitGeforceMenuItem>
-
+        <DownloadNvidiaMenuItem>
+			<Text>Ladda ner NVIDIA-drivers</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>adda ner AMD-drivers</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>Ladda ner Intel-drivers</Text>
+		</DownloadIntelMenuItem>
 		<Messages>
 			<Text1>Uppdateringar hittades! Besök DDUs webbplats nu?</Text1>
 			<Text2>Förvänta dig begränsad support på äldre versioner än den senaste. Var god kontrollera med nyare version innnan du rapporterar fel.</Text2>
@@ -136,6 +158,15 @@
 			<Text14>Det finns en väntande omstart, var god och starta om innan du använder DDU</Text14>
 			<Text15>Ingen ändring gjordes. Windows Enhetsinstallationsinställningar var redan satta till standard.</Text15>
             <Text16>Ett kritiskt fel i Windows förhindrar borttagning av drivrutiner. Som en säkerhetsåtgärd, kommer DDU inte att fortsätta att ta bort i filer och registret. Du måste fixa dina systemproblem innan DDU används.</Text16>
+            <Text17>Detta verkar vara första gången du har startat DDU.
+
+					Innan du använder det, var god notera följande:
+					1: Beroende på dina problem och konfiguration, kan det hjälpa eller göra saker värre.
+					2: Du bör ha en backup.
+					3: Du bör läsa License.txt, Readme.txt, och Användarvillkor(ToS).
+					4: Vi är inte ansvariga för någon sorts skada eller dataförlust.
+					5: Vi är alltid villiga att hjälpa om det finns ett problem.
+			</Text17>
 		</Messages>
 		<Options_Type>
 			<Options1>---Välj enhetstyp---</Options1>
@@ -147,6 +178,8 @@
 			<Options2>NVIDIA</Options2>
 			<Options3>AMD</Options3>
 			<Options4>INTEL</Options4>
+			<Options5>LISUAN</Options5>
+			<Options6>Alla GPU:er</Options6>
 		</Options_GPU>
 		<Options_AUDIO>
 			<Options1>---Välj enhet---</Options1>
@@ -168,7 +201,7 @@
 			<Text12>GPU #</Text12>
 			<Text13>Detekterad</Text13>
 			<Text14>GPU DeviceId</Text14>
-			<Text15>Detekterad(e) Drivrutin(er) Version(er)</Text15>
+			<Text15>Detekterad(e) Drivrutin(er)/Version(er)</Text15>
 			<Text16>INF</Text16>
 			<Text17>INF Sektion</Text17>
 			<Text18>GPU är inte korrekt installerad</Text18>
@@ -200,6 +233,13 @@
 	</frmMain>
 
 	<frmOptions Text="Inställningar">
+		<btnResetDefaults>
+			<Text>Återställ rekommenderade</Text>
+			<Tooltip>Återställ alla alternativ till deras rekommenderade standardvärden.</Tooltip>
+		</btnResetDefaults>
+		<Messages>
+			<Text1>Återställ alla alternativ till deras rekommenderade standardvärden?</Text1>
+		</Messages>
 		<btnClose>
 			<Text>Stäng</Text>
 		</btnClose>
@@ -222,7 +262,7 @@
 			<Text>Generella alternativ</Text>
 		</lblGeneral>
 		<lblRemNvidiaDirs>
-			<Text>Ta bort "C:\NVIDIA" Drivrutinskataloger (INTE rekommenderat)</Text>
+			<Text>Ta bort "C:\NVIDIA" Drivrutinskataloger</Text>
 		</lblRemNvidiaDirs>
 		<lblSaveLogs>
 			<Text>Spara loggfiler i startkatalogen (rekommenderas)</Text>
@@ -243,7 +283,7 @@
 			<Text>Ta bort AMD Ljudbuss</Text>
 		</lblRemAMDAudioBus>
 		<lblRemAMDDirs>
-			<Text>Ta bort "C:\AMD" Drivrutinskataloger (INTE rekommenderat)</Text>
+			<Text>Ta bort "C:\AMD" Drivrutinskataloger.</Text>
 		</lblRemAMDDirs>
 		<lblRemAMDKMPFD>
 			<Text>Ta bort drivrutinen/filtret AMDKMPFD (En backup rekommenderas för AMD kretschips)</Text>
@@ -261,14 +301,40 @@
 		<lblRemGFE>
 			<Text>Ta bort Geforce Experience (GFE)</Text>
 		</lblRemGFE>
-<lblRemNVCP>
-			<Text>(DCH-drivrutin) Ta bort NVIDIA Kontrollpanel installerat från Microsoft Store</Text>
+		<lblRemNVBROADCAST>
+			<Text>Ta bort NVIDIA Broadcast</Text>
+		</lblRemNVBROADCAST>
+		<lblRemNVCP>
+			<Text>(DCH-drivrutin) Ta bort NVIDIA Kontrollpanel installerad från Microsoft Store</Text>
 		</lblRemNVCP>
+        <lblRemoveNvidiaCache>
+            <Text>Ta bort NVIDIA Shader-cache (Avmarkera om du använder ASC / NVIDIA App Auto Shader Compilation)
+            </Text>
+        </lblRemoveNvidiaCache>
+		<lblKeepNVCPopt>
+			<Text>Behåll Global NVIDIA Kontrollpanel / Programinställningar.</Text>
+			<Tooltip>
+				Om du har problem som lett dig att använda DDU för rensning, rekommenderas att undvika val av denna funktion.
+				Denna funktion är inte designad att fixa problem och kan kanske inte åtgärda det problem du har."
+			</Tooltip>
+		</lblKeepNVCPopt>
 		<lblRemINTELCP>
-			<Text>(DCH-drivrutin) Ta bort INTEL Kontrollpanel installerat från Microsoft Store</Text>
+			<Text>(DCH-drivrutin) Ta bort Intel® Kontrollpanel installerad från Microsoft Store</Text>
 		</lblRemINTELCP>
+		<lblRemINTELIGS>
+			<Text>Ta bort Intel® Arc Control / Intel® Graphics Software</Text>
+		</lblRemINTELIGS>
+		<lblRemOneAPI>
+			<Text>Ta bort Intel® oneAPI Level Zero SDK</Text>
+		</lblRemOneAPI>
+		<lblRemEnduranceGaming>
+			<Text>Remove Intel® Endurance Gaming</Text>
+		</lblRemEnduranceGaming>
+		<lblRemIntelNpu>
+			<Text>Ta bort Intel® NPU</Text>
+		</lblRemIntelNpu>
 		<lblRemAMDCP>
-			<Text>(DCH-drivrutin) Ta bort AMD Kontrollpanel installerat från Microsoft Store</Text>
+			<Text>(DCH-drivrutin) Ta bort AMD Kontrollpanel installerad från Microsoft Store</Text>
 		</lblRemAMDCP>
 		<lblRemCrimsonCache>
 			<Text>Ta bort AMD Crimson Skuggningscachekatalog</Text>
@@ -286,7 +352,13 @@
       <Tooltip>I enkla termer, detta val förhindrar "Windows/Enhetshanteraren" att söka efter drivrutinsuppdateringar i "Windows Uppdatering". 
                Notering: Detta förhindrar inte "Windows Uppdatering" att ladda ner/installera nya drivrutiner. 
                Notering2: Det är också rekommenderat att ändra denna ändring efter du har avslutat DDU och återinstallerat din GPU drivrutin eller du får problem med andra enhetsinstallationer.</Tooltip>
-     </lblPreventWinUpdate>
+        </lblPreventWinUpdate>
+		<lblRememberLastChoice>
+			<Text>Kom ihåg sist valda GPU</Text>	
+		</lblRememberLastChoice>
+				<lblUseDarkTheme>
+			<Text>Använd mörkt tema</Text>
+		</lblUseDarkTheme>
   </frmOptions>
 
 	<frmLaunch Text="Launch option">
@@ -297,6 +369,11 @@
 				Felsäkert läge
 			</Text2>
 		</btnAccept>
+		<btnWuRestore>
+			<Text>
+				Sätt Windows Enhetsinstallationsinställningar som Standard och Stäng
+			</Text>
+		</btnWuRestore>
 		<btnClose>
 			<Text>Stäng</Text>
 		</btnClose>
@@ -311,7 +388,7 @@
 		</lblNotSafeMode>
 		<lblWinPasswordWarn>
 			<Text>
-				Viktig notering för Windows 8/8.1/10 användare:
+				Viktig notering för Windows 8/8.1/10/11 användare:
 				Ditt Windows "LÖSENORD" behövs! (PIN fungerar INTE i Felsäkert läge)
 				Avbryt omedelbart om du har förlorat eller inte vet det!
 			</Text>
@@ -378,7 +455,7 @@
 			<Text>Donatorer</Text>
 		</btnPatron>
 		<lblTranslators>
-			<Text>Stort tack till följande översättare och även till de som inte listas!</Text>
+			<Text>Big thanks to the following translators and also those who aren't listed!</Text>
 		</lblTranslators>
 		<lblPatron>
 			<Text>
@@ -396,6 +473,16 @@
 				-SMiThaYe
 				-Chris Ross
 				-Fabio
+				-Matti Metsikko
+				-mikalonia - mika
+				-ChaosDMNS
+				-Eduardo Macias
+				-Peter Le
+				-Kater Willschie
+				-Duke Hanson
+				-Sam Gooding
+				-Zero Chung
+				-Remy Starshade
 			</Text>
 		</lblPatron>
 	</frmAbout>
@@ -441,7 +528,9 @@
 
 Stort tack till Jackalito för donationen av en AMD7850.			
 
-Tack till Helge Klein (http://helgeklein.com/setacl/) : för tillståndet att använda hans program med DDU "SetAcl"
+Speciellt tack till Guru3D https://www.guru3d.com/ för hjälp med tidig exponering.
+
+Tack till Helge Klein (https://helgeklein.com/setacl/) : för tillståndet att använda hans program med DDU "SetAcl"
 
 				Stort tack för deras tid för att testa: Gamer1291 (optimus), Octopuss (Amd Enduro) , nedooo` (tog sig tid att debugga med mig)
 				Extraordinärt (Testade en felfix)
@@ -469,9 +558,13 @@ Tack till Helge Klein (http://helgeklein.com/setacl/) : för tillståndet att an
 	<LanguageTranslators>
 		<Translator>
 			<User>Hans Eriksson</User>
-			<Details>hans.ericson@bredband.net</Details>
-			<LastUpdate>23/12/2021</LastUpdate>
+			<Details>hanseriksson980@gmail.com</Details>
+			<LastUpdate>02/06/2025</LastUpdate>
 		</Translator>
+		<Translator2>
+			<User>Mats/Onyx</User>
+			<Details>Twitter:onyxwz1</Details>
+			<LastUpdate>17/02/2026</LastUpdate>
+		</Translator2>
 	</LanguageTranslators>
-
 </DisplayDriverUninstaller>

@@ -51,11 +51,19 @@
 				(automatically install drivers)
 			</Text>
 		</btnWuRestore>
+		<btnCleanCaches>
+			<Text>
+				Clean Shader Cache (Only)
+			</Text>
+			<Tooltip>
+				Only deletes shader / compute cache files. More effective if run from Safe Mode.
+			</Tooltip>
+		</btnCleanCaches>
 		<lblWinVersion>
 			<Text>Detected operating system:</Text>
 		</lblWinVersion>
 		<lblDonate>
-			<Text>*** You like DDU? Think about a donation, it will help further development. ***</Text>
+			<Text>*** You like DDU? Leave a tip to support development ***</Text>
 		</lblDonate>
 		<lblLog>
 			<Text>Log</Text>
@@ -104,20 +112,26 @@
 			<Text>Patrons</Text>
 		</PatronMenuItem>
 		<VisitDDUHomeMenuItem>
-			<Text>Visit official DDU website</Text>
+			<Text>DDU Website</Text>
 		</VisitDDUHomeMenuItem>
+        <VisitDDUShopMenuItem>
+            <Text>DDU Merch Shop</Text>
+        </VisitDDUShopMenuItem>
+		<VisitDiscord>
+			<Text>Discord Server</Text>
+		</VisitDiscord>
 		<VisitSVNMenuItem>
-			<Text>Visit SVN website</Text>
+			<Text>GitHub Repository</Text>
 		</VisitSVNMenuItem>
-		<VisitGuru3DNvidiaMenuItem>
-			<Text>Visit Guru3d NVIDIA thread</Text>
-		</VisitGuru3DNvidiaMenuItem>
-		<VisitGuru3DAMDMenuItem>
-			<Text>Visit Guru3d AMD thread</Text>
-		</VisitGuru3DAMDMenuItem>
-		<VisitGeforceMenuItem>
-			<Text>Visit GeForce thread</Text>
-		</VisitGeforceMenuItem>
+        <DownloadNvidiaMenuItem>
+			<Text>NVIDIA Driver Downloads</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>AMD Driver Downloads</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>Intel Driver Downloads</Text>
+		</DownloadIntelMenuItem>
 
 		<Messages>
 			<Text1>Updates are available! Visit DDU website now?</Text1>
@@ -136,6 +150,15 @@
 			<Text14>There is a pending reboot, please reboot before using DDU</Text14>
 			<Text15>No change was made. Windows Device Installation Settings were already set to Default.</Text15>
 			<Text16>A critical error occured from Windows that is preventing the correct removal of drivers. As a security measure, DDU will not continue the files and registry removal. You must fix your system issue(s) before using DDU.</Text16>
+			<Text17>This seems to be the first time you've launched DDU.
+				
+					Before using, please know the following:
+					1: Depending on your problems and configuration, it could help or make things worse.
+					2: You should have a backup.
+					3: You should read the license, Readme, and ToS.
+					4: We are not responsible for any damage or data loss of any kind.
+					5: We are always willing to help if there's a problem.
+			</Text17>
 		</Messages>
 		<Options_Type>
 			<Options1>---Select device type---</Options1>
@@ -146,7 +169,9 @@
 			<Options1>---Select device---</Options1>
 			<Options2>NVIDIA</Options2>
 			<Options3>AMD</Options3>
-			<Options4>INTEL</Options4>
+			<Options4>Intel®</Options4>
+			<Options5>LISUAN</Options5>
+			<Options6>All GPUs</Options6>
 		</Options_GPU>
 		<Options_AUDIO>
 			<Options1>---Select device---</Options1>
@@ -203,6 +228,13 @@
 		<btnClose>
 			<Text>Close</Text>
 		</btnClose>
+		<btnResetDefaults>
+			<Text>Reset to recommended</Text>
+			<Tooltip>Reset all options to their recommended default values.</Tooltip>
+		</btnResetDefaults>
+		<Messages>
+			<Text1>Reset all options to their recommended default values?</Text1>
+		</Messages>
 		<lblOffer>
 			<Text>Show offers from our partners</Text>
 		</lblOffer>
@@ -213,7 +245,7 @@
 			<Text>AMD Specific Options</Text>
 		</lblAmdspecific>
 		<lblINTELspecific>
-			<Text>INTEL Specific Options</Text>
+			<Text>Intel® Specific Options</Text>
 		</lblINTELspecific>
 		<lblAdvancedO>
 			<Text>Advanced Options (Change at your own risks)</Text>
@@ -259,7 +291,7 @@
 			<Text>Automatically check for DDU updates on startup (Recommended)</Text>
 		</lblCheckUpdates>
 		<lblRemGFE>
-			<Text>Remove GeForce Experience (GFE)</Text>
+			<Text>Remove GeForce Experience (GFE) / NVIDIA App</Text>
 		</lblRemGFE>
 		<lblRemNVBROADCAST>
 			<Text>Remove NVIDIA Broadcast</Text>
@@ -267,9 +299,32 @@
 		<lblRemNVCP>
 			<Text>(DCH driver) Remove the NVIDIA Control Panel installed from the Microsoft Store</Text>
 		</lblRemNVCP>
+        <lblRemoveNvidiaCache>
+            <Text>Remove NVIDIA Shader Cache (Untick if using ASC / NVIDIA App Auto Shader Compilation)
+            </Text>
+        </lblRemoveNvidiaCache>
+		<lblKeepNVCPopt>
+			<Text>Keep NVIDIA Control Panel Global / Program Settings.</Text>
+			<Tooltip>
+				If you encountered issues that led you to use DDU for cleanup, we recommend avoiding selecting this option.
+				This option is not designed to fix problems and may not address the issue you're experiencing."
+			</Tooltip>
+		</lblKeepNVCPopt>
 		<lblRemINTELCP>
-			<Text>(DCH driver) Remove the INTEL Control Panel installed from the Microsoft Store</Text>
+			<Text>(DCH driver) Remove the Intel® Control Panel installed from the Microsoft Store</Text>
 		</lblRemINTELCP>
+		<lblRemINTELIGS>
+			<Text>Remove Intel® Arc Control / Intel® Graphics Software</Text>
+		</lblRemINTELIGS>
+		<lblRemOneAPI>
+			<Text>Remove Intel® oneAPI Level Zero SDK</Text>
+		</lblRemOneAPI>
+		<lblRemEnduranceGaming>
+			<Text>Remove Intel® Endurance Gaming</Text>
+		</lblRemEnduranceGaming>
+		<lblRemIntelNpu>
+			<Text>Remove Intel® NPU</Text>
+		</lblRemIntelNpu>
 		<lblRemAMDCP>
 			<Text>(DCH driver) Remove the AMD Control Panel installed from the Microsoft Store</Text>
 		</lblRemAMDCP>
@@ -284,12 +339,18 @@
 			<Text>Remove Vulkan Runtime</Text>
 			<Tooltip>Not recommended if you have two different GPUs capable of using the Vulkan API.</Tooltip>
 		</lblVulkan>
-    <lblPreventWinUpdate>
-      <Text>Prevent downloads of drivers from "Windows update" when "Windows" search for a driver for a device.</Text>
-      <Tooltip>In easy term, this option will denies "Windows/Device Manager" to check for driver update on "Windows Update". 
-               Note: This doesn't prevent "Windows Update" to download/install new drivers. 
-               Note2: It is also *HIGHLY* recommended to revert this change after you have finished using DDU and re-installed your GPU driver or you may have problem with other device installation.</Tooltip>
-     </lblPreventWinUpdate>
+		<lblPreventWinUpdate>
+			<Text>Prevent downloads of drivers from "Windows update" when "Windows" search for a driver for a device.</Text>
+			<Tooltip>In easy terms, this option will deny "Windows/Device Manager" from checking for a driver update on "Windows Update". 
+               Note: This doesn't prevent "Windows Update" from downloading/installing new drivers. 
+               Note2: It is also *HIGHLY* recommended to revert this change after you have finished using DDU and re-installed your GPU driver or else you may have a problem with other device installations.</Tooltip>
+		</lblPreventWinUpdate>
+		<lblRememberLastChoice>
+			<Text>Remember last selected GPU</Text>	
+		</lblRememberLastChoice>
+		<lblUseDarkTheme>
+			<Text>Use dark theme</Text>
+		</lblUseDarkTheme>
   </frmOptions>
 
 	<frmLaunch Text="Launch option">
@@ -300,6 +361,11 @@
 				Safe Mode
 			</Text2>
 		</btnAccept>
+		<btnWuRestore>
+			<Text>
+				Set Windows Device Installation settings to Default and Close
+			</Text>
+		</btnWuRestore>
 		<btnClose>
 			<Text>Close</Text>
 		</btnClose>
@@ -385,22 +451,32 @@
 		</lblTranslators>
 		<lblPatron>
 			<Text>
-				Big thanks to the following Patrons and also those who aren't listed!
+                Big thanks to the following Patrons and also those who aren't listed!
 
-				-Alberto Bursi
-				-honnmaguro
-				-ZaoDaDong
-				-Kaseb
-				-Frank Brown
-				-Sergey Bolshakow
-				-James Tiller
-				-Paulo Henrique
-				-Graeme Small
-				-SMiThaYe
-				-Chris Ross
-				-Fabio
-				-Matti Metsikko
-			</Text>
+                -Alberto Bursi
+                -honnmaguro
+                -ZaoDaDong
+                -Kaseb
+                -Frank Brown
+                -Sergey Bolshakow
+                -James Tiller
+                -Paulo Henrique
+                -Graeme Small
+                -SMiThaYe
+                -Chris Ross
+                -Fabio
+                -Matti Metsikko
+                -mikalonia - mika
+                -ChaosDMNS
+                -Eduardo Macias
+                -Peter Le
+                -Kater Willschie
+                -Duke Hanson
+                -Sam Gooding
+                -Zero Chung
+                -Remy Starshade
+                -Lion-man
+            </Text>
 		</lblPatron>
 	</frmAbout>
 
@@ -439,13 +515,15 @@
 
 				Coders: Wagnard, Devmltk, Shady7557
 
-				Tester: Dellon132
+				Tester: Dellon132, Mats/Onyx
 
 				Logos: juanchacin
 
 				Huge Thanks to Jackalito for the donation of a AMD 7850.
 
-				Thanks to Helge Klein (http://helgeklein.com/setacl/) for the permission to use his Program with DDU "SetAcl"
+				Special thanks to Guru3D (https://www.guru3d.com/) for helping to provide early exposure.
+
+				Thanks to Helge Klein (https://helgeklein.com/setacl/) for the permission to use his Program with DDU "SetAcl"
 
 				Huge Thanks for their time for testing: Gamer1291 (optimus), Octopuss (Amd Enduro) , nedooo` (took time debugging with me)
 				Extraordinary (Testing a bug fix)
@@ -474,7 +552,7 @@
 		<Translator>
 			<User>Wagnard</User>
 			<Details>Owner</Details>
-			<LastUpdate>03/04/2021</LastUpdate>
+			<LastUpdate>17/03/2026</LastUpdate>
 		</Translator>
 
 		<Translator2>

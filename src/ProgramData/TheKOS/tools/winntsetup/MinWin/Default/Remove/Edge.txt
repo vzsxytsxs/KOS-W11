@@ -1,0 +1,14 @@
+\Program Files (x86)\Microsoft\Edge
+
+\Windows\System32\edgeangle.dll
+\Windows\System32\edgecontent.dll
+\Windows\System32\edgehtml.dll
+\Windows\System32\edgeiso.dll
+\Windows\System32\edgemanager.dll
+
+\Windows\System32\MicrosoftEdgeBCHost.exe
+\Windows\System32\MicrosoftEdgeCP.exe
+\Windows\System32\MicrosoftEdgeDevTools.exe
+\Windows\System32\MicrosoftEdgeSH.exe
+
+\Windows\System32\Microsoft-Edge-WebView

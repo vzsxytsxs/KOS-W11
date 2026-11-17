@@ -1,0 +1,629 @@
+v3.8.7 (8 August 2025)
+- fixed not logical crash (issue #2012)
+- fixed context menu performance
+- updated locale (issue #1984)
+- updated project sdk
+- cosmetic fixes
+
+v3.8.6.1 (21 May 2025)
+- fixed "open containing folder" error (issue #1977)
+- fixed crash at startup (issue #1979)
+- fixed crash dump (issue #1958)
+
+v3.8.6 (1 April 2025)
+- fixed check for update, does not bring up popup (issue #1923)
+- fixed memory heap error (issue #1945)
+- fixed possible crash
+- improved dark theme support
+
+v3.8.5 (27 November 2024)
+- fixed adding apps with drive letters instead of specific apps (issue #1887)
+- fixed creating rules for inaccessible paths (issue #1891)
+- fixed opening log with spaces path (issue #1912)
+- fixed windows 7 loopback rules
+- cosmetic fixes
+
+v3.8.4 (11 September 2024)
+- added listview empty markup
+- fixed tray icon middle click not worked when log ui is disabled
+- fixed notification displays invalid signature (issue #1871)
+- fixed does not show up tray icon (issue #1844)
+- fixed crash when cleanup timers (issue #1860)
+- fixed possible memory leak
+- updated project sdk
+- updated rule hint
+- cosmetic fixes
+
+v3.8.3 (8 August 2024)
+- added remember last position of notification window (issue #1659)
+- added watch services & uwp apps for install/uninstall
+- added displays long time for apps
+- improved windows 7 compatibility
+- improved arm64 compatibility
+- improved dark theme support
+- fixed show log button does not work as expected (issue #1757, again!)
+- fixed apps sometimes delete themselves (issue #1794, not fixed)
+- fixed duplicate process at startup (issue #1769)
+- fixed do not save hash when it is not enabled
+- fixed row colors for dark mode (issue #1767)
+- fixed log listview sorting by date
+- fixed displaying timer tooltip
+- updated project sdk
+
+v3.8.2 (9 May 2024)
+- revert back windows 7 & windows 8 support
+- improved dark theme support
+- improved log subscription
+- fixed show log button does not work as expected (issue #1757)
+- fixed search visibility
+
+v3.8.1 (27 April 2024)
+- fixed lacks search context (issue #1760)
+- fixed incorrect log ui listview item counting
+- updated confirm message for timers cleanup
+- updated confirm message for unused cleanup
+- updated cppwinrt package
+- updated project sdk
+
+v3.8 (1 April 2024)
+- added mitigations (win10+) (issue #611)
+- added dark theme support (issue #248)
+- fixed displaying same context menu on apps and packets log
+- updated search engine
+- updated project sdk
+
+v3.7.8 (28 January 2024)
+- added saving flag state for install/uninstall filters
+- fixed crash on tooltip (issue #1686)
+- fixed apps disabled removal menu
+- updated dropped packets (ui) listview context menu
+- updated project sdk
+
+v3.7.7 (3 January 2024)
+- added error message when loading library on subscribe
+- added comment item for apps/rules (issue #1664)
+- added recheck app hash in properies dialog
+- added highlighting of undelatable apps
+- fixed displaying incorrect error messages
+- fixed high disk usage (issue #1665)
+- updated ports list
+
+v3.7.6 (30 November 2023)
+- fixed configuration of windows update (issue #1648)
+- fixed auto update fails to install (issue #1565)
+- updated project sdk
+
+v3.7.5 (1 November 2023)
+- fixed saving services and uwp apps (issue #1616)
+- fixed file locked by simplewall (issue #1621)
+- fixed removing unused apps
+- fixed process creation
+- updated project sdk
+
+v3.7.4 (27 October 2023)
+- added set option to disable apps removal from profile (issue #1155)
+- fixed cannot save itself as unchecked (issue #1609)
+- fixed could not save profile (issue #1594)
+- fixed crash (issue #1582)
+- updated project sdk
+
+v3.7.3 (11 October 2023)
+- added error message for saving profile
+- removed redistributable package requirement (issue #1587)
+- fixed profile was not found message (issue #1557)
+- fixed crash on reading version information
+- revert back certificates checking option
+- updated project sdk
+
+v3.7.2 (21 September 2023)
+- dropped windows 7 and windows 8 support
+- fixed launch of several copies of the application (issue #1547)
+- fixed create filters for inaccessible apps (issue #1528)
+- fixed displaying update dialog at startup (issue #1511)
+- fixed retrieving version information for some files
+- fixed slow apps search (issue #1477)
+- fixed periodicaly crashing (issue #1486)
+- fixed retrieving some apps icons
+- fixed saving input on settings
+- fixed saving unused apps
+- fixed process creation
+- improved signature checking
+- updated project sdk
+
+v3.7.1 (31 July 2023)
+- fixed import not correcly worked (issue #1466)
+- fixed crash when checking files (issue #1455)
+- updated project sdk
+
+v3.7 (27 July 2023)
+- added profile encryption [oldest versions cannot open new profile] (issue #599)
+- added terminate process into notification window (issue #1398)
+- added checksum calculation for the apps (issue #394)
+- added error message for log subscription
+- improved search performance (issue #1383)
+- fixed timer and apps timestamp displays incorrect information (32-bit only)
+- fixed sometimes application displays incrorrect icons
+- fixed possible crash when clearing log
+- fixed silent uninstaller do not worked
+- fixed arm64 build crash (issue #1228)
+- fixed internal bugs
+- fixed memory leaks
+- updated nuget package
+- updated project sdk
+- updated locale
+
+v3.6.7 (21 September 2022)
+- added windows update service solution (issue #677, thx @taviso) [win10+]
+- added feature to allow only the requested ip in notification (issue #1265)
+- added 12 and 24 hour timer values (issue #1298)
+- fixed opening editor are overlapped by notification window
+- fixed uwp apps are reset after installing updates (issue #1294)
+- fixed select all with search filter selects everything (issue #1264)
+- fixed loading default icons for services and uwp apps
+- fixed check update option in main menu (issue #1309)
+- fixed port numbers are now verified (issue #1240)
+
+v3.6.6 (12 August 2022)
+- fixed editor does not disable save button when rule name is empty
+- fixed network monitor duplicate calls
+- fixed application crash (issue #1272)
+
+v3.6.5 (11 August 2022)
+- added group for apps with timers
+- display long time in packets log date column
+- fixed uwp packages display name parsing
+- fixed blank notifications (again!) (issue #1009)
+
+v3.6.4 (19 Juny 2022)
+- added focus assistant support (win10rs3+)
+- fixed notification sometimes can lose focus of fullscreen app
+- fixed internal profile loading crash (issue #1228)
+
+v3.6.3 (10 May 2022)
+- fixed installer launches simplewall without asking user (issue #1119)
+- fixed saving unused apps in profile (issue #1216)
+- fixed app crash on create process (issue ##1224)
+- fixed uninstaller delete not all files
+- improved workqueue environment
+- improved threading model
+- fixed internal bugs
+
+v3.6.2 (26 April 2022)
+- added autoinstall non-executable updates feature (issue #1122)
+- added clear search with escape button for editor
+- added fallback for font loading when it does not exists
+- improved uwp packages information loading
+- fixed restore properties window position
+- fixed rule tooltip whitespace
+- fixed internal bugs
+- updated network monitor
+- updated locales
+- cosmetic fixes
+
+v3.6.1 (11 November 2021)
+- added clear search with escape button
+- fixed crash on delete filters (issue #1084)
+- fixed import profile warning (issue #1086)
+- fixed crash dumps processing
+- updated locales
+- cosmetic fixes
+
+v3.6 (9 November 2021)
+- improved multi-threading safety
+- improved startup time
+- improved dpi support
+- added option to confirm allowing applications (issue #1070)
+- added filtering for the application list (issue #663)
+- added editor list items count mark for tab title
+- added wfp initialization failure workaround
+- added filtering for editor apps and rules
+- added layer name into log
+- moved log exclude configuration into another settings page (issue #1064)
+- revert notification x button (issue #973)
+- changed create rule toolbar icon (#723)
+- fixed filters with hard permit can access internet (issue #689)
+- fixed issue with hotkeys for switch tabs (issue #723)
+- fixed rebar incrorrect resizing when dpi was changed
+- fixed update installation issue (issue #1061)
+- fixed notification multi-monitor support
+- fixed service missing path (issue #1036)
+- fixed editor can cause crash (#1071)
+- fixed big memory leak (issue #1066)
+- fixed net events unsubscription
+- optimized listview sorting
+- fixed internal bugs
+- cosmetic fixes
+
+v3.5.3 (18 October 2021)
+- fixed using uninitialzed port variable in ip ranges [regression] (issue #1055)
+
+v3.5.2 (17 October 2021)
+- builded with windows 11 sdk
+- fixed port can be omited when parsing ip ranges (issue #1010)
+- fixed remote range replaces local range (issue #1044)
+- fixed interface stuck by comctl library (issue #1009)
+- fixed massive gdi handles leak
+- fixed internal bugs
+
+v3.5.1 (6 October 2021)
+- optimized certificate checking
+- fixed check apps for digital signatures option not works (issue #1037)
+- fixed lock to avoid duplicate file information loading
+- fixed crash on profile loading (issue #1033)
+
+v3.5 (4 October 2021)
+- in this release fqdn support was removed because of security issue (issues #1012)
+- improved performance due caching network resolution and file information
+- partially revert of windows defender power off (issue #1022)
+- added ballon tip to display input limitations (issue #809)
+- added compress internal profile in resources with lznt1
+- fixed signatures information pointer use-after-free when dns resolver avoid arpa requests (issue #1008)
+- fixed resolve network addresses can cause crash (issue #1015)
+- fixed notification color issues (issue #1007)
+- fixed update installation (issue #1016)
+- fixed version information retrieval
+- fixed workqueue environment
+- fixed internal bugs
+
+v3.4.3 (30 August 2021)
+- added verify code signatures from catalog files (issue #1003)
+- fixed crash at startup (issue #995)
+- fixed rule reference (issue #1002)
+
+v3.4.2 (24 August 2021)
+- enable checking apps certificates by default
+- show notifications immediately without waiting for busy operations to complete
+- impoved listview responsiveness by using virtual listview callback
+- fixed packets log displays incorrect direction (issue #945)
+- fixed missed listview icons on refresh
+- fixed thread environment
+- fixed internal bugs
+- cosmetic fixes
+
+v3.4.1 (15 August 2021)
+- fixed blocklist can does not change action status
+- fixed crash at startup (issue #976)
+- fixed profile import compatibility
+- fixed install update
+
+v3.4 (11 August 2021)
+- added arm64 binaries (portable only)
+- added protocol and host name information into network alert window (issue #843)
+- added limit number of packets log entries (issue #941)
+- added host resolving for packet logger listview
+- added listview group for forever blocked apps
+- fixed loading icons of each application freezes interface (issue #830)
+- fixed log listview can have empty lines due to race condition
+- fixed ui not properly display installation status (issue #962)
+- fixed memory leak when loading profile (issue #888, #937)
+- fixed high cpu usage for packet logger (issue #949)
+- updated system rules
+- updated project sdk
+- fixed internal bugs
+
+v3.3.5 (5 July 2021)
+- added command line short opts
+- use guid for tray icon
+- updated project sdk
+- fixed toolbar glitch on hidpi displays (issue #950)
+- fixed multi-monitor with diffirent dpi support
+- fixed installer creates unused files
+- fixed internal bugs
+
+v3.3.4 (3 June 2021)
+- autoclean packets log ui when system suspended
+- fixed config may not be saved when profile directory does not exist
+- fixed unnecessary checking for app paths attributes
+- fixed threadpool does not initialized com library
+- fixed installer silent mode (issue #907)
+- updated blocklist and system rules
+- fixed internal bugs
+
+v3.3.3 (29 April 2021)
+- fixed listview tooltip can cause crash (issue #890)
+- fixed editor does not create filters for the app
+- fixed incorrect shared icons behaviour
+- fixed interlocked operations logic
+- fixed caching behaviour
+- fixed internal bugs
+
+v3.3.2 Beta (23 April 2021)
+- added half an hour timer
+- added missing spinlocks
+- fixed file write operation can cause crash
+- fixed path unexpand does not worked
+- fixed running log viewer
+- fixed little memory leak
+- fixed bugs
+
+v3.3.1 Beta (16 April 2021)
+- added workaround for native paths on profile loading (issue #817)
+- fixed net events does not subscribe on os version lower than 1607
+
+v3.3 Beta (15 April 2021)
+- added option for tray icon to open window in single click
+- added warning message for allowing service host
+- added quic service for internal rules (issue #819)
+- added multiple rules at once in rules editor
+- added properties dialog for apps
+- added index column for logs
+- added sorting for logs
+- do not mark apps as unused if it applied for rules
+- set limit for rules popup menu (issue #692)
+- increased speed of service enumeration
+- removed notification ignore button
+- use threadpool for timers
+- improved multi-monitor support
+- improved listviews highlighting
+- improved file dialogs
+- fixed rule window does not display rule length limitation (issue #867)
+- fixed update period timestamp does not set correctly (issue #745)
+- fixed crash when user uses ipv6 range in rules (issue #822)
+- fixed support filesystems with custom driver (issue #817)
+- fixed blank notification window (issue #775)
+- fixed dependencies load flags for win10rs1+
+- fixed crash on app startup (issue #775)
+- updated project sdk
+- cosmetic fixes
+- fixed bugs
+
+v3.2.4 (5 September 2020)
+- removed assertion from release builds (issue #764)
+- removed user service instance from the list (win10+)
+- fixed parsing not existing apps (issue #732, #739)
+- displays incorrect name on timer expiration
+- check app timer expiration on profile load
+- incorrect read-only rules tooltip markup
+- create filter does not report errors
+- fixed checking of file attributes
+- fixed parsing ip/port ranges
+- cosmetic fixes
+- fixed bugs
+
+v3.2.3 (25 August 2020)
+- added ncsi system rule (issue #709)
+- added command line mutex checking (issue #750)
+- added noficitation window redraw (issue #731)
+- use logical sorting order (issue #735)
+- check for provider status before create filters
+- do not highlight connections in log tab
+- fixed support oldest win7 versions (issue #737)
+- removed listview empty markup
+- cosmetic fixes
+- fixed bugs
+
+v3.2.2 (29 July 2020)
+- user rules broken with 3.2.1 (issue #729)
+
+v3.2.1 (29 July 2020)
+- added Enable silent-mode when full screen app in foreground option
+- added error message for createprocess failure (issue #720)
+- highlighting valid connections in network tab
+- changed "Disabled apps" group title into "Apps without internet access"
+- skip uac warning does not worked (issue #724)
+- notification window localized in english only
+- revert ip version selection ipv4/ipv6 in rules editor (issue #723)
+- revert expand rules in tooltip (issue #723)
+- revert "recommended" tag (fix #719)
+- fixed bugs
+
+v3.2 Beta (18 July 2020)
+- new rules editor
+- added option "IsInternalRulesDisabled" for completely disable internal rules (issue #630)
+- added temporary filtering mode whether is active until reboot (issue #576)
+- added packets logging interface (issue #672)
+- added tile view for listview
+- added information for export profile failure (issue #707)
+- improved tooltips details for apps and rules
+- improved listview resizing performance
+- changed "Enabled apps" group title into "Apps with internet access"
+- now highlight app with user rules only when user rules group is disabled
+- removed compatibility with v2 profile databases
+- removed special group for rules
+- removed user id from title
+- fixed local network connection treats as valid network connection (issue #579)
+- fixed notification window will bring focus to it's parent window (issue #668)
+- fixed "/uninstall" argument does not removing filters (issue #645)
+- fixed wfp engine security violation (issue #680)
+- fixed support custom windows themes (issue #701)
+- fixed getting uwp app paths and timestamps
+- fixed dpi support (issue #693)
+- fixed internal upnp rule
+- fixed bugs
+
+v3.1.2 (26 March 2020)
+- reverted disable windows firewall on startup (issue #559 and #562)
+- fixed application cannot be started because of continuously restart
+- fixed possible duplicate apps entries with short path (issue #640)
+- fixed network alert steals the focus (issue #637)
+- fixed network paths parsing (issue #629)
+- fixed netbios direction (issue #636)
+- fixed localization (issue #607)
+- fixed bugs
+
+v3.1.1 (27 February 2020)
+- fixed displaying tooltips for non-existing apps in network tab (issue #422)
+- fixed wsl apps do not display names in the network tab (issue #606)
+- fixed incorrect default locale name on some systems (issue #621)
+- fixed process mitigation policy (win10rs2+) (issue #611)
+- fixed persistent dark theme (win10rs5+) (issue #609)
+- fixed update window does not close (issue #616)
+- fixed log cleanup (issue #613)
+- updated blocklist
+- fixed bugs
+
+v3.1 (8 February 2020)
+- changed compiler build settings
+- changed settings interface
+- improved windows 10 1903+ suppport
+- show log cleanup confirmation only when it has entries
+- fixed notification tabstop processing (issue #497) by @flipkick
+- fixed downloading updates progress gets stuck (issue #568)
+- fixed find dialog does not worked correctly (issue #511)
+- fixed drawing filename in notification (issue #595)
+- fixed adjust privileges (theoretically fixes #596)
+- fixed inbound direction recognition (issue #581)
+- fixed search for next/active notification
+- fixed notification hotkeys (issue #597)
+- fixed memory duplicate allocation
+- updated project sdk (routine++)
+- updated ports definitions
+- updated blocklist
+- fixed bugs
+
+v3.0.9 (15 November 2019)
+- do not set notification to top when fullscreen apps working
+- fixed disable notifications for app from notification (issue #563)
+- fixed crash on system settings changing (issue #552)
+- fixed winhttp encoding conversion (issue #568)
+- fixed statusbar glitch (issue #569)
+- updated blocklist
+- fixed bugs
+
+v3.0.8 (8 November 2019)
+- removed disable windows firewall on startup (issue #554)
+- updated default timer values (issue #340)
+- fixed non-default system dpi (issue #544)
+- fixed overwrite notifications
+- fixed crash (issue #552)
+- cosmetics fixes
+- fixed bugs
+
+v3.0.7 (1 November 2019)
+- improved dpi support (win81+)
+- fixed ended timer handling on restart
+- fixed regular update message (issue #543)
+- fixed components update installation
+- fixed window and listview sizing
+- updated project sdk
+- updated blocklist
+- cosmetics fixes
+- fixed bugs
+
+v3.0.6 RC (12 October 2019)
+- added windows 10 1903+ support
+- added csv file title (clear the log to see changes)
+- disable network address resolution in network tab by default (issue #515)
+- improved refreshing filters on device connecting
+- improved network monitoring speed and ui
+- improved notification ui
+- improved dpi support (win81+)
+- fixed collecting services & uwp information
+- fixed device names resolution (issue #529)
+- fixed toolbar gray text draw (issue #437)
+- fixed network items blinking on refresh
+- fixed flickering on window resizing
+- fixed notification windows refresh
+- fixed hostname restricted symbols
+- fixed wfp security attributes
+- fixed highlighting priority
+- fixed memory leak
+- updated system rules
+- cosmetics fixes
+- fixed bugs
+
+v3.0.5 RC (6 August 2019)
+- added option to block outbound connections globally
+- added close connection feature (issue #506)
+- added powerful blocklist configuration
+- removed listen layer
+- skip saving default rules configuration
+- fixed connections port byte order (issue #504)
+- fixed user rules ui bug (issue #500)
+- fixed dropped packets log layout
+- fixed internal rules editor
+- fixed ipv6 rule formatting (issue #475)
+- fixed connections hashing
+- listview menu cosmetics
+- cosmetics fixes
+- fixed bugs
+
+v3.0.4 RC (23 July 2019)
+- added rules and blocklist options into main menu
+- set security settings enabled by default
+- set protocol names based on IEEE
+- made correct backups for profile on reset
+- bring notification window to top
+- correct determine connections for apps
+- fixed error message on new device insertion (issue #215)
+- fixed missing connections (issue #423)
+- fixed listview sorting does not save state sometimes
+- fixed listview sorting compare checked items
+- fixed uninstaller does not remove new profile
+- fixed tray menu notifications cosmetics
+- optimized group items counting
+- optimized listview sorting
+- cosmetics fixes
+- fixed bugs
+
+v3.0.3 Beta (3 July 2019)
+- added option to show notification window on tray
+- added highlighting for network tab
+- redraw app item on connection change
+- remove "beta" mark from network tab
+- improved wfp transactions
+- fixed ipv6 rules port parsing for system rules (issue #475)
+- fixed direction case for log and notification (issue #474)
+- fixed notification action adds timer (issue #472)
+- fixed timer set does not work (issue #484)
+- fixed notification refresh when app remove
+- fixed configuration reset does not work
+- fixed menu graphics (issue #473)
+- fixed log stack cleanup
+- updated port service names
+- cosmetics fixes
+- fixed bugs
+
+v3.0.2 Beta (22 Juny 2019)
+- new notification ui
+- allow microsoft update & microsoft apps servers by default
+- added information about ports into the log
+- moved icmp4 and icmp6 rules into custom rules
+- improved dropped packets log markup cosmetics
+- improved network monitoring speed
+- improved blocklist configuration
+- fixed saving special rules for uwp apps and services (issue #454)
+- fixed tray icon dissapear sometimes (issue #450)
+- fixed profile import does not work (issue #445)
+- fixed semicolons in app paths (issue #462)
+- fixed windows 20h1 uwp apps loading crash
+- fixed parsing rules with "*"
+- updated locales
+- cosmetic fixes
+- fixed bugs
+
+v3.0.1 Beta (22 May 2019)
+- new profile structure
+- added checking for correct xml file format before import
+- added service name resolution for connections
+- added Reverse DNS Lookup for IP
+- more flexible autoresizing for listview
+- fixed column size initialization (issue #426)
+- fixed apps list sorting by date (issue #412)
+- fixed status refreshing on timer deletion
+- fixed table view for rules (issue #438)
+- fixed connections recognition condition
+- fixed highlighting (issue #408)
+- fixed timers sets (issue #424)
+- fixed services icons
+- updated locales
+- cosmetic fixes
+- fixed bugs
+
+v3.0 Beta (7 May 2019)
+- dropped windows vista support
+- improved dpi support (ui)
+- moved rules list into main window
+- added services and uwp apps tab
+- added network connections monitor
+- fixed displaying notifications when it's disabled
+- fixed log file write through (issue #369)
+- fixed notifications safety timeout
+- fixed possible race conditions
+- fixed services path retrieve
+- fixed notifications cleanup
+- improved listview resizing
+- improved listview sorting
+- removed blacklist mode
+- cosmetic fixes
+- fixed bugs

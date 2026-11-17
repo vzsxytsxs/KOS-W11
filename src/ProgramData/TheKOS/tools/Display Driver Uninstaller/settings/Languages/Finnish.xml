@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <DisplayDriverUninstaller ISO="fi-FI" Text="Finnish">
 	<!--
 		See file ' \Settings\Languages\_For translators - ReadMe.txt ' 	
@@ -114,6 +114,12 @@
 		<VisitSVNMenuItem>
 			<Text>Avaa lähdekoodi(SVN) sivu</Text>
 		</VisitSVNMenuItem>
+		        <VisitDDUShopMenuItem>
+            <Text>Käy virallisessa DDU Merch -kaupassa</Text>
+        </VisitDDUShopMenuItem>
+		<VisitDiscord>
+			<Text>Liittykää meidän discordryhmään</Text>
+		</VisitDiscord>
 		<VisitGuru3DNvidiaMenuItem>
 			<Text>Avaa Guru3D:n NVIDIA viestiketju</Text>
 		</VisitGuru3DNvidiaMenuItem>
@@ -123,6 +129,15 @@
 		<VisitGeforceMenuItem>
 			<Text>Avaa Geforce viestiketju</Text>
 		</VisitGeforceMenuItem>
+        <DownloadNvidiaMenuItem>
+			<Text>NVIDIA-ohjainten lataukset</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>AMD-ohjainten lataukset</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>Intel-ohjainten lataukset</Text>
+		</DownloadIntelMenuItem>
 
 		<Messages>
 			<Text1>Päivityksiä saatavilla! Vieraile DDU verkkosivulla nyt?</Text1>
@@ -189,6 +204,13 @@
 	</frmMain>
 
 	<frmOptions Text="Asetukset">
+		<btnResetDefaults>
+			<Text>Palauta suositellut</Text>
+			<Tooltip>Palauta kaikki asetukset suositeltuihin oletusarvoihinsa.</Tooltip>
+		</btnResetDefaults>
+		<Messages>
+			<Text1>Palautetaanko kaikki asetukset suositeltuihin oletusarvoihinsa?</Text1>
+		</Messages>
 		<btnClose>
 			<Text>Sulje</Text>
 		</btnClose>
@@ -262,6 +284,9 @@
 			<Text>Käytä SetupAPI ohjelmointirajapintaa</Text>
 			<Tooltip>Käytä SetupAPI ulkoisen ohjelman DDUDR (DEVCON) sijasta.</Tooltip>
 		</lblUseSetupAPI>
+		<lblUseDarkTheme>
+			<Text>Käytä tummaa teemaa</Text>
+		</lblUseDarkTheme>
 	</frmOptions>
 
 	<frmLaunch Text="Käynnistysvalinta">
@@ -426,6 +451,12 @@
 			<Details></Details>
 			<LastUpdate>08/06/2017</LastUpdate>
 		</Translator>
+
+		<Translator2>
+			<User>Mats/Onyx</User>
+			<Details>Twitter:onyxwz1</Details>
+			<LastUpdate>17/02/2026</LastUpdate>
+		</Translator2>
 	</LanguageTranslators>
 
 </DisplayDriverUninstaller>

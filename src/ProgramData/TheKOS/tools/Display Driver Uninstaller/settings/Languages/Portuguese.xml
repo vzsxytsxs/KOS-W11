@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <DisplayDriverUninstaller ISO="pt-PT" Text="Portuguese">
 	<!--
 		See file ' \Settings\Languages\_For translators - ReadMe.txt ' 	
@@ -51,6 +51,14 @@
 				(instalar automaticamente)
 			</Text>
 		</btnWuRestore>
+		<btnCleanCaches>
+			<Text>
+				Limpar Cache de Shader (Somente)
+			</Text>
+			<Tooltip>
+				Exclui apenas arquivos de cache de shader / computação. Mais eficaz no Modo de Segurança.
+			</Tooltip>
+		</btnCleanCaches>
 		<lblWinVersion>
 			<Text>Sistema operativo detectado:</Text>
 		</lblWinVersion>
@@ -75,7 +83,7 @@
 		</lblUpdate>
 
 		<lblOffer>
-			<Text>Ofertas dos nossos parceiros</Text>
+			<Text>Ofertas dos nossos parceiros, (Recomendado)</Text>
 			<Tooltip>Pode desactivar isto no menu opções.</Tooltip>
 		</lblOffer>
 
@@ -106,6 +114,12 @@
 		<VisitDDUHomeMenuItem>
 			<Text>Visite a página oficial do DDU</Text>
 		</VisitDDUHomeMenuItem>
+		        <VisitDDUShopMenuItem>
+            <Text>Visite a loja oficial de mercadorias DDU</Text>
+        </VisitDDUShopMenuItem>
+		<VisitDiscord>
+			<Text>Junte-se ao nosso Discord</Text>
+		</VisitDiscord>
 		<VisitSVNMenuItem>
 			<Text>Visite a página SVN</Text>
 		</VisitSVNMenuItem>
@@ -118,24 +132,41 @@
 		<VisitGeforceMenuItem>
 			<Text>Visite os Tópicos Geforce</Text>
 		</VisitGeforceMenuItem>
-
+        <DownloadNvidiaMenuItem>
+			<Text>Downloads de drivers NVIDIA</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>Downloads de drivers AMD</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>Downloads de drivers Intel</Text>
+		</DownloadIntelMenuItem>
 		<Messages>
 			<Text1>Estão disponíveis actualizações! Visitar o site DDU agora?</Text1>
 			<Text2>É de esperar apoio limitado em versões mais antigas do que na mais recente. Por favor veja se existe uma nova versão antes de reportar erros.</Text2>
 			<Text3>Não está a usar o DDU com previlégios de Administrador. A aplicação irá ser encerrada.</Text3>
-			<Text4>Não é possível localizar o ddudr. Por favor consulte o registo.</Text4>
+			<Text4>Não é possível localizar o PAExec. Por favor consulte o registo.</Text4>
 			<Text5>O Display Driver Uninstaller (DDU) vai fazer grandes alterações no seu Registo. O DDU irá tentar criar um ponto de Restauro do Sistema automaticamente (Apenas no modo Normal).</Text5>
 			<Text6>Ocorreu um problema num dos módulos, envie os seus registos do DDU para o autor.</Text6>
 			<Text7>O DDU detectou que tem um Portátil AMD comutável (Enduro ou equivalente), O DDU ainda não é totalmente compatível e testado com sistemas Enduro. Use por sua conta e risco.</Text7>
 			<Text8>O DDU detectou que NÃO está em Modo Segurança... Para uma melhor limpeza sem problemas, recomenda-se que reinicie para modo segurança.</Text8>
 			<Text9>O DDU alterou a configuração que impede a transferência automática dos controladores através da Actualização do Windows. Se preferir, pode repor a definição para o valor padrão, APÓS a instalação do novo controlador.</Text9>
 			<Text10>Desinstalação limpa concluída! Deseja sair agora?</Text10>
-			<Text11>Concluído!</Text11>
+			<Text11>As definições de instalação do dispositivo do Windows foram alteradas para instalar automaticamente os controladores.</Text11>
 			<Text12>Não está em Modo Segurança. É altamente recomendável que reinicie para o modo segurança para evitar possíveis problemas. Reiniciar para Modo Segurança agora?</Text12>
 			<Text13>Eis o que precisa seleccionar no ecrã azul de recuperação : Resolução de Problemas -&gt; opções avançadas -&gt; Definições de Arranque.</Text13>
 			<Text14>Existe um Reinício pendente, por favor reinicie antes de usar o DDU</Text14>
-			<Text15>No change was made. Windows Device Installation Settings were already set to Default.</Text15>
+			<Text15>Não foi feita nenhuma alteração. As definições de instalação de dispositivos do Windows já estavam definidas para padrão.</Text15>
 			<Text16>Ocorreu um erro crítico do Windows que está a impedir a remoção correcta dos controladores. Como medida de segurança, o DDU não vai continuar a remoção dos ficheiros e do registo. Deve reparar o(s) problema(s) do sistema antes de utilizar o DDU.</Text16>
+			<Text17>Parece ser a primeira vez que está a usar o DDU.
+				
+					Antes de utilizar, saiba o seguinte:
+					1: Dependo dos seus problemas e configuração, ele pode ajudar ou piorar as coisas.
+					2: Deve ter uma cópia de segurança.
+					3: Deve ler a licença, Readme, e ToS.
+					4: Não somos responsáveis por quaisque danos ou perda de dados de qualquer espécie.
+					5: Estamos sempre dispostos a ajudar se houver algum problema.
+			</Text17>
 		</Messages>
 		<Options_Type>
 			<Options1>---Seleccine o tipo de dispositivo---</Options1>
@@ -146,7 +177,9 @@
 			<Options1>---Seleccionar dispositivo---</Options1>
 			<Options2>NVIDIA</Options2>
 			<Options3>AMD</Options3>
-			<Options4>INTEL</Options4>
+			<Options4>INTEL®</Options4>
+			<Options5>LISUAN</Options5>
+			<Options6>Todas as GPUs</Options6>
 		</Options_GPU>
 		<Options_AUDIO>
 			<Options1>---Seleccionar dispositivo---</Options1>
@@ -171,13 +204,13 @@
 			<Text15>Versão(ões) de Controlador(es) Detectada(s)</Text15>
 			<Text16>INF</Text16>
 			<Text17>Secção INF</Text17>
-			<Text18>O GPU não está Instalado Correctamente</Text18>
+			<Text18>O GPU não está instalado correctamente</Text18>
 			<Text19>A eliminar algumas pastas especiais, isso pode demorar alguns minutos...</Text19>
 			<Text20>Limpeza iniciada...</Text20>
 			<Text21>Desinstalação</Text21>
 			<Text22>Controlador</Text22>
 			<Text23>A executar a remoção SetupAPI , por favor aguarde(pode demorar alguns minutos)</Text23>
-			<Text24>GPU(s) Removido(s) do Gestor de Dispositivos.</Text24>
+			<Text24>GPU(s) removido(s) do Gestor de Dispositivos.</Text24>
 			<Text25>A Executar Remoção SetupAPI do controlador áudio.</Text25>
 			<Text26>Adaptadores HD áudio Removidos !</Text26>
 			<Text27>Adaptador USB 3D Vision Removido do Gestor de Dispositivos.</Text27>
@@ -200,6 +233,13 @@
 	</frmMain>
 
 	<frmOptions Text="Opções">
+		<btnResetDefaults>
+			<Text>Repor recomendados</Text>
+			<Tooltip>Repor todas as opções para os valores predefinidos recomendados.</Tooltip>
+		</btnResetDefaults>
+		<Messages>
+			<Text1>Repor todas as opções para os valores predefinidos recomendados?</Text1>
+		</Messages>
 		<btnClose>
 			<Text>Fechar</Text>
 		</btnClose>
@@ -212,6 +252,9 @@
 		<lblAmdspecific>
 			<Text>Opções Específicas AMD</Text>
 		</lblAmdspecific>
+		<lblINTELspecific>
+			<Text>Opções Específicas Intel®</Text>
+		</lblINTELspecific>
 		<lblAdvancedO>
 			<Text>Opções avançadas (Altere por sua conta e risco)</Text>
 		</lblAdvancedO>
@@ -219,7 +262,7 @@
 			<Text>Opções Gerais</Text>
 		</lblGeneral>
 		<lblRemNvidiaDirs>
-			<Text>Remover pastas de controladores "C:\NVIDIA" (NÃO recomendado)</Text>
+			<Text>Remover pastas de controladores "C:\NVIDIA"</Text>
 		</lblRemNvidiaDirs>
 		<lblSaveLogs>
 			<Text>Guardar ficheiros de registo no caminho de arranque (Altamente recomendado)</Text>
@@ -234,13 +277,13 @@
 			<Text>Criar um ponto de restauro do sistema (se permitido)</Text>
 		</lblCreateRestorePoint>
 		<lblRemMonitors>
-			<Text>Remover monitores existentes e não existentes (Recomendado)</Text>
+			<Text>Remover monitores presentes e ausentes (Recomendado)</Text>
 		</lblRemMonitors>
 		<lblRemAMDAudioBus>
 			<Text>Remover AMD Audio Bus</Text>
 		</lblRemAMDAudioBus>
 		<lblRemAMDDirs>
-			<Text>Remover pastas de controladores "C:\AMD" (NÃO recomendado)</Text>
+			<Text>Remover pastas de controladores "C:\AMD"</Text>
 		</lblRemAMDDirs>
 		<lblRemAMDKMPFD>
 			<Text>Remover o controlador/filtro AMDKMPFD (Recomenda-se uma cópia de segurança para chipset AMD).</Text>
@@ -256,8 +299,43 @@
 			<Text>Procurar automaticamente actualizações do DDU ao iniciar. (Recomendado)</Text>
 		</lblCheckUpdates>
 		<lblRemGFE>
-			<Text>Remover Geforce Experience (GFE)</Text>
+			<Text>Remover Geforce Experience (GFE) / App NVIDIA</Text>
 		</lblRemGFE>
+		<lblRemNVBROADCAST>
+			<Text>Remover NVIDIA Broadcast</Text>
+		</lblRemNVBROADCAST>
+		<lblRemNVCP>
+			<Text>(controlador DCH) Remover o Painel de Controlo NVIDIA instalado da Microsoft Store</Text>
+		</lblRemNVCP>
+        <lblRemoveNvidiaCache>
+            <Text>Remover Cache de Shader NVIDIA (Desmarque se usar ASC / Compilação Automática de Shader do NVIDIA App)
+            </Text>
+        </lblRemoveNvidiaCache>
+		<lblKeepNVCPopt>
+			<Text>Manter o Painel de Controlo Global NVIDIA / Definições do Programa.</Text>
+			<Tooltip>
+				Se encontrou problemas que o levaram a utilizar o DDU para a limpeza, recomendamos evitar seleccionar esta opção.
+				Esta opção não foi concebida para corrigir problemas e pode não resolver o problema que está a ter."
+			</Tooltip>
+		</lblKeepNVCPopt>
+		<lblRemINTELCP>
+			<Text>(controlador DCH) Remover o Painel de Controlo Intel® instalado da Microsoft Store</Text>
+		</lblRemINTELCP>
+		<lblRemINTELIGS>
+			<Text>Remover Intel® Arc Control / Intel® Graphics Software</Text>
+		</lblRemINTELIGS>
+		<lblRemOneAPI>
+			<Text>Remover Intel® oneAPI Level Zero SDK</Text>
+		</lblRemOneAPI>
+		<lblRemEnduranceGaming>
+			<Text>Remover Intel® Endurance Gaming</Text>
+		</lblRemEnduranceGaming>
+		<lblRemIntelNpu>
+			<Text>Remover Intel® NPU</Text>
+		</lblRemIntelNpu>
+		<lblRemAMDCP>
+			<Text>(controlador DCH) Remover o Painel de Controlo AMD Control Panel instalado da Microsoft Store</Text>
+		</lblRemAMDCP>
 		<lblRemCrimsonCache>
 			<Text>Remover pasta Cache AMD Crimson Shader</Text>
 			<Tooltip>
@@ -274,7 +352,13 @@
       <Tooltip>Esta opção irá impedir que o "Windows/Device Manager" procure actualizações de controladores no "Windows Update". 
                Nota: Isto não impede o "Windows Update" de transferir/instalar novos controladores. 
                Nota2: Também é *ALTAMENTE* recomendado reverter esta alteração depois de ter acabado de usar o DDU e reinstalado o controlador do GPU ou poderá vir a ter problemas com a instalação de outros dispositivos.</Tooltip>
-     </lblPreventWinUpdate>	
+    </lblPreventWinUpdate>
+	<lblRememberLastChoice>
+			<Text>Lembrar a última GPU seleccionada</Text>	
+		</lblRememberLastChoice>
+				<lblUseDarkTheme>
+			<Text>Usar tema escuro</Text>
+		</lblUseDarkTheme>
 	</frmOptions>
 
 	<frmLaunch Text="Opção de Arranque">
@@ -285,6 +369,11 @@
 				Modo Segurança
 			</Text2>
 		</btnAccept>
+		<btnWuRestore>
+			<Text>
+				Definir as definições de instalação do dispositivo Windows para Padrão e Fechar
+			</Text>
+		</btnWuRestore>>
 		<btnClose>
 			<Text>Fechar</Text>
 		</btnClose>
@@ -299,8 +388,8 @@
 		</lblNotSafeMode>
 		<lblWinPasswordWarn>
 			<Text>
-				Nota importante para utilizadores do Windows 8/8.1/10:
-				É necessária a sua "PALAVRA-PASSE" do Windows! (o PIN NÃO funciona em
+				Nota importante para utilizadores do Windows 8/8.1/10/11:
+				É necessária a sua "PALAVRA-PASSE" do Windows! (o PIN *pode* NÃO funcionar em
 				modo segurança). Saia Imediatamente se a perdeu ou não a sabe!
 			</Text>
 		</lblWinPasswordWarn>
@@ -371,15 +460,29 @@
 		<lblPatron>
 			<Text>
 				Muito obrigado aos seguintes Patronos e também aos que não constam da lista!
-
-				-honnmaguro   (Desde 2018-03-16)
-				-ZaoDaDong   (Desde 2019-02-06)
-				-Alberto Bursi (doador de longa data/apoiante)
-				-Kaseb (Desde 2019-09-05)
-				-Frank Brown (Desde 2019-10-31)
-				-Sergey Bolshakow (Since 2020-09-10)
-				-James Tiller (Since 2021-04-03)
-				-Paulo Henrique (Since 2021-04-19)
+				
+				-Alberto Bursi
+				-honnmaguro
+				-ZaoDaDong
+				-Kaseb
+				-Frank Brown
+				-Sergey Bolshakow
+				-James Tiller
+				-Paulo Henrique
+				-Graeme Small
+				-SMiThaYe
+				-Chris Ross
+				-Fabio
+				-Matti Metsikko
+				-mikalonia - mika
+				-ChaosDMNS
+				-Eduardo Macias
+				-Peter Le
+				-Kater Willschie
+				-Duke Hanson
+				-Sam Gooding
+				-Zero Chung
+				
 			</Text>
 		</lblPatron>
 	</frmAbout>
@@ -426,7 +529,9 @@
 
 				Imenso Agradecimento a Jackalito pela doação de um AMD 7850.
 
-				Agradecimentos a Helge Klein (http://helgeklein.com/setacl/) : pela autorização para usar o seu Programa com o DDU "SetAcl"
+				Special thanks to Guru3D https://www.guru3d.com/ for helping provide early exposure.
+
+				Agradecimentos a Helge Klein (https://helgeklein.com/setacl/) : pela autorização para usar o seu Programa com o DDU "SetAcl"
 
 				Imenso Agradecimento pelo seu tempo para fazer testes : Gamer1291 (optimus), Octopuss (Amd Enduro) , nedooo` (gastou tempo em depurações comigo)
 				Extraordinary (Teste da reparação de um erro)
@@ -455,13 +560,13 @@
 		<Translator>
 			<User>Luis Neves</User>
 			<Details>luis.a.neves@sapo.pt</Details>
-			<LastUpdate>28/01/2020</LastUpdate>
+			<LastUpdate>17/04/2025</LastUpdate>
 		</Translator>
 
 		<Translator2>
-			<User></User>
-			<LastUpdate></LastUpdate>
+			<User>Mats/Onyx</User>
+			<Details>Twitter:onyxwz1</Details>
+			<LastUpdate>17/02/2026</LastUpdate>
 		</Translator2>
 	</LanguageTranslators>
-
 </DisplayDriverUninstaller>

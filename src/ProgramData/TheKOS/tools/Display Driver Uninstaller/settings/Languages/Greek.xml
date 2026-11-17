@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <DisplayDriverUninstaller ISO="el-GR" Text="Greek" >
 	<!--
 		See file ' \Settings\Languages\_For translators - ReadMe.txt ' 	
@@ -109,13 +109,27 @@
 		<VisitGuru3DNvidiaMenuItem>
 			<Text>Επισκεφθείτε το Guru3d NVIDIA Νήμα</Text>
 		</VisitGuru3DNvidiaMenuItem>
+		      <VisitDDUShopMenuItem>
+            <Text>Επισκεφθείτε το Επίσημο DDU Merch Shop</Text>
+        </VisitDDUShopMenuItem>
+		<VisitDiscord>
+			<Text>Μπες στο Discord μας</Text>
+		</VisitDiscord>
 		<VisitGuru3DAMDMenuItem>
 			<Text>Επισκεφθείτε το Guru3d AMD Νήμα</Text>
 		</VisitGuru3DAMDMenuItem>
 		<VisitGeforceMenuItem>
 			<Text>Επισκεφθείτε το GeForce Νήμα</Text>
 		</VisitGeforceMenuItem>
-
+        <DownloadNvidiaMenuItem>
+			<Text>Λήψεις Οδηγών NVIDIA</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>Λήψεις Οδηγών AMD</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>Λήψεις Οδηγών Intel</Text>
+		</DownloadIntelMenuItem>
 		<Messages>
 			<Text1>Υπάρχουν διαθέσιμες ενημερώσεις! Επίσκεψη στην ιστοσελίδα DDU τώρα;</Text1>
 			<Text2>Θα έχετε περιορισμένη υποστήριξη σε παλαιότερες εκδόσεις από την πιο πρόσφατη. Ελέγξτε τη νεότερη έκδοση προτού αναφέρετε σφάλματα.</Text2>
@@ -181,6 +195,13 @@
 	</frmMain>
 
 	<frmOptions Text="Options">
+		<btnResetDefaults>
+			<Text>Επαναφορά προτεινόμενων</Text>
+			<Tooltip>Επαναφορά όλων των επιλογών στις προτεινόμενες προεπιλεγμένες τιμές τους.</Tooltip>
+		</btnResetDefaults>
+		<Messages>
+			<Text1>Επαναφορά όλων των επιλογών στις προτεινόμενες προεπιλεγμένες τιμές τους;</Text1>
+		</Messages>
 		<btnClose>
 			<Text>Κλείσιμο</Text>
 		</btnClose>
@@ -250,6 +271,9 @@
 			<Text>Αφαίρεση του Vulkan Runtime</Text>
 			<Tooltip>Δεν συνιστάται αν έχετε δύο διαφορετικές μονάδες GPU που μπορούν να χρησιμοποιήσουν το Vulkan API.</Tooltip>
 		</lblVulkan>
+				<lblUseDarkTheme>
+			<Text>Χρήση σκούρου θέματος</Text>
+		</lblUseDarkTheme>
 	</frmOptions>
 
 	<frmLaunch Text="Launch option">
@@ -408,6 +432,12 @@
 			<Details></Details>
 			<LastUpdate></LastUpdate>
 		</Translator>
+
+		<Translator2>
+			<User>Mats/Onyx</User>
+			<Details>Twitter:onyxwz1</Details>
+			<LastUpdate>17/02/2026</LastUpdate>
+		</Translator2>
 	</LanguageTranslators>
 
 </DisplayDriverUninstaller>

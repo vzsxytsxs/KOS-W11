@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <DisplayDriverUninstaller ISO="es-ES" Text="Castellano (Español de España)" >
 	<!--
 		See file ' \Settings\Languages\_For translators - ReadMe.txt ' 	
@@ -112,13 +112,27 @@
 		<VisitGuru3DNvidiaMenuItem>
 			<Text>Visite el hilo de NVIDIA en Guru3D</Text>
 		</VisitGuru3DNvidiaMenuItem>
+		        <VisitDDUShopMenuItem>
+            <Text>Visita la tienda oficial de mercancía DDU</Text>
+        </VisitDDUShopMenuItem>
+		<VisitDiscord>
+			<Text>Únete a nuestro Discord</Text>
+		</VisitDiscord>
 		<VisitGuru3DAMDMenuItem>
 			<Text>Visite el hilo de AMD en Guru3D</Text>
 		</VisitGuru3DAMDMenuItem>
 		<VisitGeforceMenuItem>
 			<Text>Visite el hilo de GeForce</Text>
 		</VisitGeforceMenuItem>
-
+        <DownloadNvidiaMenuItem>
+			<Text>Descarga de controladores NVIDIA</Text>
+		</DownloadNvidiaMenuItem>
+        <DownloadAmdMenuItem>
+			<Text>Descarga de controladores AMD</Text>
+		</DownloadAmdMenuItem>
+        <DownloadIntelMenuItem>
+			<Text>Descarga de controladores Intel</Text>
+		</DownloadIntelMenuItem>
 		<Messages>
 			<Text1>¡Hay actualizaciones disponibles! ¿Desea visitar la web de DDU ahora?</Text1>
 			<Text2>Tenga en cuenta que el soporte en versiones más antiguas es más limitado que en la más reciente. Por favor, pruebe con una versión más nueva antes de reportar errores.</Text2>
@@ -200,6 +214,13 @@
 	</frmMain>
 
 	<frmOptions Text="Opciones">
+		<btnResetDefaults>
+			<Text>Restablecer recomendados</Text>
+			<Tooltip>Restablecer todas las opciones a sus valores predeterminados recomendados.</Tooltip>
+		</btnResetDefaults>
+		<Messages>
+			<Text1>¿Restablecer todas las opciones a sus valores predeterminados recomendados?</Text1>
+		</Messages>
 		<btnClose>
 			<Text>Cerrar</Text>
 		</btnClose>
@@ -275,6 +296,9 @@
                Nota: Esto no impide a "Windows Update" descargar/instalar nuevos controladores. 
                Nota2: También es *MUY* recomendable revertir este cambio tras haber usado DDU y reinstalado sus controladores gráficos para evitar tener problemas con la instalación de otros dispositivos.</Tooltip>
      </lblPreventWinUpdate>
+	 		<lblUseDarkTheme>
+			<Text>Usar tema oscuro</Text>
+		</lblUseDarkTheme>
   </frmOptions>
 
 	<frmLaunch Text="Opción de Arranque">
@@ -463,6 +487,11 @@
 			<Details>Traductor</Details>
 			<LastUpdate>12/03/2020</LastUpdate>
 		</Translator>
-	</LanguageTranslators>
 
+		<Translator2>
+			<User>Mats/Onyx</User>
+			<Details>Twitter:onyxwz1</Details>
+			<LastUpdate>17/02/2026</LastUpdate>
+		</Translator2>
+	</LanguageTranslators>
 </DisplayDriverUninstaller>

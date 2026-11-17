@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NotepadPlus>
+    <GUIConfigs>
+        <GUIConfig name="RememberLastSession">no</GUIConfig>
+        <GUIConfig name="Backup" action="0" useCustumDir="no" dir="" isSnapshotMode="no" snapshotBackupTiming="7000" />
+        <GUIConfig name="DarkMode" enable="yes" colorTone="0" enableWindowsMode="no" darkThemeName="DarkModeDefault.xml" />
+    </GUIConfigs>
+</NotepadPlus>
