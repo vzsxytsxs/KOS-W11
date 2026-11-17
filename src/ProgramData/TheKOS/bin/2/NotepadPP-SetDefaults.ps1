@@ -41,8 +41,13 @@ try {
     . (Join-Path $PSScriptRoot 'PhotoViewer-FTA.ps1')
     $extensions = '.txt', '.log', '.ini', '.inf', '.scp', '.wtx', '.cfg', '.conf', '.md', '.json', '.xml', '.yml', '.yaml'
     foreach ($extension in $extensions) {
-        Set-FTA -ProgId $progId -Extension $extension
-        $effective = Get-EffectiveProgId $extension
+        # The UserChoice hash includes the current minute: a write that crosses into the next minute doesn't count, so try again.
+        for ($try = 1; $try -le 3; $try++) {
+            Set-FTA -ProgId $progId -Extension $extension
+            $effective = Get-EffectiveProgId $extension
+            if ($effective -eq $progId) { break }
+            Start-Sleep -Seconds 2
+        }
         if ($effective -ne $progId) { throw "$extension effective ProgID is $effective, expected $progId" }
         Write-Log "$extension set to $progId"
     }
