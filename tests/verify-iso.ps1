@@ -234,7 +234,8 @@ Invoke-Check 'Security profile' {
 
     $override = Get-Reg 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management' 'FeatureSettingsOverride'
     $intel = (Get-Reg 'HKLM:\HARDWARE\DESCRIPTION\System\CentralProcessor\0' 'VendorIdentifier') -eq 'GenuineIntel'
-    if ($basic) { Test-Item $area ($null -eq $override) "Spectre/Meltdown at the Windows default (FeatureSettingsOverride = $(if ($null -eq $override) { 'absent' } else { $override }))" }
+    # Basic writes the documented "mitigations on" values (override 0, mask 3); absent is the same.
+    if ($basic) { Test-Item $area ($null -eq $override -or $override -eq 0) "Spectre/Meltdown on (FeatureSettingsOverride = $(if ($null -eq $override) { 'absent' } else { $override }))" }
     elseif ($intel) { Test-Item $area ($override -eq 3) "Spectre/Meltdown off (FeatureSettingsOverride = $override)" }
 
     $mask = Get-Reg 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\dwm.exe' 'MitigationOptions'
