@@ -249,7 +249,9 @@ PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Serv
 PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Dnscache"                                    /v "DependOnService" /t REG_MULTI_SZ /d "nsi" /f
 Reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform"                                            /v "InactivityShutdownDelay" /t REG_DWORD /d "4294967295" /f
 :: No comments inside the list below: in the for, each word of a :: line becomes a disabled service.
-:: Notes: dispbrokerdesktopsvc is left out (with 4 the display configuration is not saved); wuauserv, bits, dosvc, UsoSvc and
+:: Notes: dispbrokerdesktopsvc is left out (with 4 the display configuration is not saved); CLFS too (the Common Log File
+:: System under registry and file transactions: without it every DISM/CBS change fails with 0x80071A91, ERROR_RM_NOT_ACTIVE,
+:: so optional features, Hyper-V, updates and repairs stop working); wuauserv, bits, dosvc, UsoSvc and
 :: WaaSMedicSvc = Windows Update (dosvc breaks the Store); CDPSvc, CDPUserSvc and wlidsvc = GDID tracking; whesvc = Windows
 :: Health and Optimized Experiences; WSAIFabricSvc = Windows AI Fabric, the AI runtime (the AIFabric package goes in prepareiso).
 for %%z in (
@@ -357,7 +359,6 @@ for %%z in (
       udfs
       WSearch
       WPDBusEnum
-      CLFS
       lltdsvc
       gencounter
       scardsvr
