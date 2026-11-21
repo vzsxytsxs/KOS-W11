@@ -2674,14 +2674,37 @@
     {"root":"HKLM","key":"SYSTEM\\CurrentControlSet\\Services\\wuauserv"}
   ],
   "ignore": [
+    "hkcu\\control panel\\desktop|max*dimension",
     "hkcu\\control panel\\desktop|wallpaper",
     "hkcu\\control panel\\keyboard|initialkeyboardindicators",
+    "hkcu\\software\\classes\\local settings\\software\\microsoft\\windows\\shell\\bagmru|?*",
+    "hkcu\\software\\classes\\local settings\\software\\microsoft\\windows\\shell\\bags\\allfolders\\shell|*pos*",
+    "hkcu\\software\\microsoft\\notepad|f*",
+    "hkcu\\software\\microsoft\\notepad|i*",
+    "hkcu\\software\\microsoft\\windows\\currentversion\\explorer\\advanced|taskbarstatelastrun",
     "hkcu\\software\\microsoft\\windows\\currentversion\\explorer\\taskband|*",
+    "hkcu\\software\\microsoft\\windows\\currentversion\\explorer|logoncount",
+    "hkcu\\software\\microsoft\\windows\\currentversion\\search|installedpackagedappsrevision",
     "hkcu\\software\\skillbrains\\*",
     "hkcu\\software\\sysinternals\\*",
     "hklm\\software\\classes\\7-zip.*",
+    "hklm\\software\\microsoft\\windows nt\\currentversion\\appcompatflags\\telemetrycontroller|checksum",
     "hklm\\software\\microsoft\\windows nt\\currentversion\\schedule\\taskcache\\*",
+    "hklm\\software\\microsoft\\windows nt\\currentversion\\softwareprotectionplatform|actionlist",
+    "hklm\\software\\microsoft\\windows nt\\currentversion\\softwareprotectionplatform|servicesessionid",
+    "hklm\\software\\microsoft\\windows nt\\currentversion\\winlogon|lastlogoffendtimeperfcounter",
+    "hklm\\software\\microsoft\\windows nt\\currentversion\\winlogon|shutdownflags",
+    "hklm\\software\\microsoft\\windows\\currentversion\\explorer|globalassocchangedcounter",
     "hklm\\software\\microsoft\\windows\\currentversion\\runonce|*",
-    "hklm\\system\\currentcontrolset\\services\\sharedaccess\\parameters\\firewallpolicy\\firewallrules|*"
+    "hklm\\system\\currentcontrolset\\control\\lsa|lsapid",
+    "hklm\\system\\currentcontrolset\\control\\session manager\\memory management\\prefetchparameters|basetime",
+    "hklm\\system\\currentcontrolset\\control\\session manager\\memory management\\prefetchparameters|bootid",
+    "hklm\\system\\currentcontrolset\\control\\session manager\\memory management|pagefileusage",
+    "hklm\\system\\currentcontrolset\\control\\session manager\\power|posttime",
+    "hklm\\system\\currentcontrolset\\control|lastbootshutdown",
+    "hklm\\system\\currentcontrolset\\control|lastbootsucceeded",
+    "hklm\\system\\currentcontrolset\\control|systemstartoptions",
+    "hklm\\system\\currentcontrolset\\services\\sharedaccess\\parameters\\firewallpolicy\\firewallrules|*",
+    "hklm\\system\\currentcontrolset\\services\\tcpip\\parameters|health"
   ]
 }

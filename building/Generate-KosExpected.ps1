@@ -39,6 +39,31 @@ $Exclude = @(
     'hklm\system\currentcontrolset\services\sharedaccess\parameters\firewallpolicy\firewallrules|*'
     # Task Scheduler rebuilds a deleted TaskCache key from the task's file at the next start; the task itself is in the task list.
     'hklm\software\microsoft\windows nt\currentversion\schedule\taskcache\*'
+    # Windows' own runtime state in keys the KOS also sets (found by applying every "other change" on a test VM, 2026-11-21):
+    # counters, ids, boot and shutdown records, window positions. Named one by one: the KOS values in the same keys stay checked.
+    'hklm\system\currentcontrolset\control|lastbootshutdown'
+    'hklm\system\currentcontrolset\control|lastbootsucceeded'
+    'hklm\system\currentcontrolset\control|systemstartoptions'     # the boot options, rewritten at each boot
+    'hklm\system\currentcontrolset\control\lsa|lsapid'
+    'hklm\system\currentcontrolset\control\session manager\power|posttime'
+    'hklm\system\currentcontrolset\control\session manager\memory management|pagefileusage'
+    'hklm\system\currentcontrolset\control\session manager\memory management\prefetchparameters|basetime'
+    'hklm\system\currentcontrolset\control\session manager\memory management\prefetchparameters|bootid'
+    'hklm\system\currentcontrolset\services\tcpip\parameters|health'
+    'hklm\software\microsoft\windows nt\currentversion\winlogon|lastlogoffendtimeperfcounter'
+    'hklm\software\microsoft\windows nt\currentversion\winlogon|shutdownflags'
+    'hklm\software\microsoft\windows nt\currentversion\softwareprotectionplatform|actionlist'
+    'hklm\software\microsoft\windows nt\currentversion\softwareprotectionplatform|servicesessionid'
+    'hklm\software\microsoft\windows nt\currentversion\appcompatflags\telemetrycontroller|checksum'
+    'hklm\software\microsoft\windows\currentversion\explorer|globalassocchangedcounter'
+    'hkcu\software\microsoft\windows\currentversion\explorer|logoncount'
+    'hkcu\software\microsoft\windows\currentversion\explorer\advanced|taskbarstatelastrun'
+    'hkcu\software\microsoft\windows\currentversion\search|installedpackagedappsrevision'
+    'hkcu\control panel\desktop|max*dimension'                     # MaxMonitorDimension, MaxVirtualDesktopDimension
+    'hkcu\software\microsoft\notepad|f*'                           # classic Notepad's own options and window position
+    'hkcu\software\microsoft\notepad|i*'
+    'hkcu\software\classes\local settings\software\microsoft\windows\shell\bags\allfolders\shell|*pos*' # window positions
+    'hkcu\software\classes\local settings\software\microsoft\windows\shell\bagmru|?*' # its values; the deleted key stays checked
 )
 
 $Reg = [ordered]@{}        # "root\key|name" (lower) -> entry
