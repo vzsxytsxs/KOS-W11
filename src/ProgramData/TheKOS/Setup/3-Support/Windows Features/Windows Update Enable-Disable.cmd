@@ -60,7 +60,18 @@ powerrun "schtasks.exe" /change /enable /TN "\Microsoft\Windows\UpdateOrchestrat
 powerrun "schtasks.exe" /change /enable /TN "\Microsoft\Windows\WindowsUpdate\Refresh Group Policy Cache" >nul 2>&1
 powerrun "schtasks.exe" /change /enable /TN "\Microsoft\Windows\WindowsUpdate\Scheduled Start" >nul 2>&1
 powerrun "schtasks.exe" /change /enable /TN "\Microsoft\Windows\WaaSMedic\PerformRemediation" >nul 2>&1
+:: The feature update pin (KOS RunOnce, toolbox "Stay on this Windows version") outlives the policy reset: it only
+:: keeps Windows Update from moving to the next Windows version.
+set "pinOn=" & set "pinProduct=" & set "pinRelease="
+for /f "tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v TargetReleaseVersion 2^>nul ^| findstr /i "REG_DWORD"') do set "pinOn=%%B"
+for /f "tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v ProductVersion 2^>nul ^| findstr /i "REG_SZ"') do set "pinProduct=%%B"
+for /f "tokens=2,*" %%A in ('reg query "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v TargetReleaseVersionInfo 2^>nul ^| findstr /i "REG_SZ"') do set "pinRelease=%%B"
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f >nul 2>&1
+if "%pinOn%"=="0x1" if defined pinProduct if defined pinRelease (
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v TargetReleaseVersion /t REG_DWORD /d 1 /f >nul
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v ProductVersion /t REG_SZ /d "%pinProduct%" /f >nul
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v TargetReleaseVersionInfo /t REG_SZ /d "%pinRelease%" /f >nul
+)
 reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\DriverSearching" /f >nul 2>&1
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" /v SearchOrderConfig /t REG_DWORD /d 1 /f >nul
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Device Metadata" /v PreventDeviceMetadataFromNetwork /f >nul 2>&1
