@@ -49,6 +49,8 @@ if "%deviceType%"=="LAPTOP" (
     reg add "HKLM\SYSTEM\CurrentControlSet\Services\serial" /v Start /t REG_DWORD /d 3 /f >nul 2>&1
     reg add "HKLM\SYSTEM\CurrentControlSet\Services\dispbrokerdesktopsvc" /v Start /t REG_DWORD /d 3 /f >nul 2>&1
     reg add "HKLM\SYSTEM\CurrentControlSet\Services\wmiacpi" /v Start /t REG_DWORD /d 2 /f >nul 2>&1
+    rem bam (Background Activity Moderator) throttles background apps on battery: on, as Windows sets it.
+    reg add "HKLM\SYSTEM\CurrentControlSet\Services\bam" /v Start /t REG_DWORD /d 1 /f >nul 2>&1
     call "%powerScript%" laptop || set "failed=1"
 ) else (
     call "%wifiScript%" 2 || set "failed=1"
@@ -57,7 +59,7 @@ if "%deviceType%"=="LAPTOP" (
     call :checkStart vwififlt 4 || set "failed=1"
     call :checkStart bthserv 4 || set "failed=1"
     call :checkStart BTHPORT 4 || set "failed=1"
-    for %%S in (sensorservice sensordataservice sensrsvc DisplayEnhancementService wmiacpi) do reg add "HKLM\SYSTEM\CurrentControlSet\Services\%%S" /v Start /t REG_DWORD /d 4 /f >nul 2>&1
+    for %%S in (sensorservice sensordataservice sensrsvc DisplayEnhancementService wmiacpi bam) do reg add "HKLM\SYSTEM\CurrentControlSet\Services\%%S" /v Start /t REG_DWORD /d 4 /f >nul 2>&1
     call "%powerScript%" desktop || set "failed=1"
 )
 echo [KOS] Device profile complete. Result=%failed%.

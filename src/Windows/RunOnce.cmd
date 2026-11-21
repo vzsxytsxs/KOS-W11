@@ -295,7 +295,6 @@ for %%z in (
       spaceport
       VaultSvc
       EventSystem
-      bam
       bowser
       WarpJITSvc
       Wecsvc
@@ -445,6 +444,15 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v UseWUServ
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODownloadMode /t REG_DWORD /d 99 /f >nul
 reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsStore" /v AutoDownload /t REG_DWORD /d 2 /f >nul
 for %%v in (IsContinuousInnovationOptedIn AllowMUUpdateService IsExpedited) do reg add "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v %%v /t REG_DWORD /d 0 /f >nul
+:: Feature update pin: if Windows Update is turned back on, it stays on this version (DisplayVersion, e.g. 26H2) instead of
+:: upgrading to the next one, which would undo KOS. The toolbox's "Stay on this Windows version" turns it off.
+set "kosRelease="
+for /f "tokens=3" %%V in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v DisplayVersion 2^>nul ^| findstr /i "DisplayVersion"') do set "kosRelease=%%V"
+if defined kosRelease (
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v TargetReleaseVersion /t REG_DWORD /d 1 /f >nul
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v ProductVersion /t REG_SZ /d "Windows 11" /f >nul
+    reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v TargetReleaseVersionInfo /t REG_SZ /d "!kosRelease!" /f >nul
+)
 
 echo [K?] Windows Defender - Ancel
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender"                                     /v "DisableAntiSpyware" /t REG_DWORD /d "1" /f > nul
@@ -1069,8 +1077,13 @@ echo [K?] Windows Features (ViVeTool)
 
 echo [K?] Misc
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "WinStationsDisabled" /t REG_SZ /d "1" /f >NUL 2>&1
-:: not sure what this does / test
-reg add "HKLM\SYSTEM\ControlSet001\Control\GraphicsDrivers" /v "TdrLevel" /t REG_DWORD /d "0" /f >NUL 2>&1
+:: GPU hang recovery (TDR) stays on, with 8 s instead of 2 before a busy GPU counts as hung: with TdrLevel 0 (no recovery)
+:: a driver hang froze the whole PC instead of restarting the driver.
+reg add "HKLM\SYSTEM\ControlSet001\Control\GraphicsDrivers" /v "TdrDelay" /t REG_DWORD /d "8" /f >NUL 2>&1
+:: WPAD (proxy auto-discovery) off: no discovery lookups, and no spoofed proxy from the local network.
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp" /v "DisableWpad" /t REG_DWORD /d "1" /f >NUL 2>&1
+:: A failed DNS lookup is remembered for 5 s instead of minutes (a site that was down works again right away).
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" /v "MaxNegativeCacheTtl" /t REG_DWORD /d "5" /f >NUL 2>&1
 
 :: Last Good Known Config Creation
 reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "ReportBootOk" /t REG_SZ /d "0" /f >NUL 2>&1

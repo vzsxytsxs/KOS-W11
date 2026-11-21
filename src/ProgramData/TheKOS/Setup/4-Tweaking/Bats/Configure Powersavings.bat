@@ -67,6 +67,11 @@ powercfg /SETDCVALUEINDEX SCHEME_CURRENT 0012ee47-9041-4b5d-9b77-535fba8b1442 67
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\0012ee47-9041-4b5d-9b77-535fba8b1442\0b2d69d7-a2a1-449c-9680-f91c70521c60" /v Attributes /t REG_DWORD /d 2 /f >nul || set "failed=1"
 powercfg /SETACVALUEINDEX SCHEME_CURRENT 0012ee47-9041-4b5d-9b77-535fba8b1442 0b2d69d7-a2a1-449c-9680-f91c70521c60 0 || set "failed=1"
 powercfg /SETDCVALUEINDEX SCHEME_CURRENT 0012ee47-9041-4b5d-9b77-535fba8b1442 0b2d69d7-a2a1-449c-9680-f91c70521c60 0 || set "failed=1"
+:: NVMe drives stay out of their idle power states (no wake-up delay on the next read): idle timeouts 0 = never.
+powercfg /SETACVALUEINDEX SCHEME_CURRENT 0012ee47-9041-4b5d-9b77-535fba8b1442 d639518a-e56d-4345-8af2-b9f32fb26109 0 || set "failed=1"
+powercfg /SETDCVALUEINDEX SCHEME_CURRENT 0012ee47-9041-4b5d-9b77-535fba8b1442 d639518a-e56d-4345-8af2-b9f32fb26109 0 || set "failed=1"
+powercfg /SETACVALUEINDEX SCHEME_CURRENT 0012ee47-9041-4b5d-9b77-535fba8b1442 d3d55efd-c1ff-424e-9dc3-441be7833010 0 || set "failed=1"
+powercfg /SETDCVALUEINDEX SCHEME_CURRENT 0012ee47-9041-4b5d-9b77-535fba8b1442 d3d55efd-c1ff-424e-9dc3-441be7833010 0 || set "failed=1"
 powercfg /SETACTIVE SCHEME_CURRENT || set "failed=1"
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\USBHUB3\Parameters" /v DisableLPM /t REG_DWORD /d 1 /f >nul || set "failed=1"
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\USBHUB3\Parameters" /v D3ColdSupported /t REG_DWORD /d 0 /f >nul || set "failed=1"
@@ -76,12 +81,15 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Services\usbccgp\Parameters" /v D3ColdSup
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\pci\Parameters" /v D3ColdSupported /t REG_DWORD /d 0 /f >nul || set "failed=1"
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\pci\Parameters" /v D3ColdSupport /t REG_DWORD /d 0 /f >nul || set "failed=1"
 powercfg /h off || set "failed=1"
+:: "Allow the computer to turn off this device" off for every device that has it (MSPower_DeviceEnable), and sound devices
+:: stay powered when silent (no delay or pop on the first sound; the driver's values are kept as Kos* for Laptop).
+powershell.exe -NoProfile -Command "$ErrorActionPreference='SilentlyContinue'; Get-CimInstance -Namespace root\wmi MSPower_DeviceEnable | Where-Object Enable | ForEach-Object { $_.Enable = $false; Set-CimInstance -InputObject $_ }; Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e96c-e325-11ce-bfc1-08002be10318}' | ForEach-Object { $k = Join-Path $_.PSPath 'PowerSettings'; if (Test-Path $k) { $p = Get-ItemProperty $k; foreach ($n in 'ConservationIdleTime','PerformanceIdleTime','IdlePowerState') { if ($null -ne $p.$n) { if ($null -eq $p.('Kos' + $n)) { New-ItemProperty $k ('Kos' + $n) -Value $p.$n -PropertyType Binary -Force | Out-Null }; Set-ItemProperty $k $n ([byte[]](0,0,0,0)) -Type Binary } } } }" < nul
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling" /v PowerThrottlingOff /t REG_DWORD /d 1 /f >nul || set "failed=1"
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power" /v EnergyEstimationEnabled /t REG_DWORD /d 0 /f >nul || set "failed=1"
 wevtutil sl Microsoft-Windows-SleepStudy/Diagnostic /e:false >nul 2>&1
 wevtutil sl Microsoft-Windows-Kernel-Processor-Power/Diagnostic /e:false >nul 2>&1
 wevtutil sl Microsoft-Windows-UserModePowerService/Diagnostic /e:false >nul 2>&1
-echo [KOS] Desktop power defaults applied. USB selective suspend disabled.
+echo [KOS] Desktop power defaults applied. USB selective suspend, NVMe idle and device power-off disabled.
 if /i "%~1"=="desktop" exit /b %failed%
 pause
 goto menu
@@ -112,6 +120,8 @@ reg delete "HKLM\SYSTEM\CurrentControlSet\Services\usbccgp\Parameters" /v D3Cold
 reg delete "HKLM\SYSTEM\CurrentControlSet\Services\pci\Parameters" /v D3ColdSupported /f >nul 2>&1
 reg delete "HKLM\SYSTEM\CurrentControlSet\Services\pci\Parameters" /v D3ColdSupport /f >nul 2>&1
 powercfg /h on || set "failed=1"
+:: Windows can turn devices off again to save power, and sound devices get their driver's idle values back.
+powershell.exe -NoProfile -Command "$ErrorActionPreference='SilentlyContinue'; Get-CimInstance -Namespace root\wmi MSPower_DeviceEnable | Where-Object { -not $_.Enable } | ForEach-Object { $_.Enable = $true; Set-CimInstance -InputObject $_ }; Get-ChildItem 'HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e96c-e325-11ce-bfc1-08002be10318}' | ForEach-Object { $k = Join-Path $_.PSPath 'PowerSettings'; if (Test-Path $k) { $p = Get-ItemProperty $k; foreach ($n in 'ConservationIdleTime','PerformanceIdleTime','IdlePowerState') { if ($null -ne $p.('Kos' + $n)) { Set-ItemProperty $k $n ([byte[]]$p.('Kos' + $n)) -Type Binary; Remove-ItemProperty $k ('Kos' + $n) } } } }" < nul
 :: A reduced hiberfil.sys only serves fast startup; Hibernate needs the full one.
 powercfg /h /type full || set "failed=1"
 powercfg /setactive 381b4222-f694-41f0-9685-ff5bb260df2e || set "failed=1"
