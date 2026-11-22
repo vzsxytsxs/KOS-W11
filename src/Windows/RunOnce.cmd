@@ -933,6 +933,7 @@ powerrun /SW:0 Reg.exe delete "HKLM\System\CurrentControlSet\Control\Session Man
 powerrun /SW:0 Reg.exe delete "HKLM\System\CurrentControlSet\Control\Session Manager\KnownDLLs" /v "_wow64cpu" /f > NUL 2>&1
 
 :: CSRSS to high priority / io (RESPONSIBLE FOR RAW INPUT)
+:: Left off: Windows ignores PerfOptions for csrss (it already runs at High, base 13; Realtime changed no thread in a 26H2 test).
 :: echo [K?] CSRSS -> High Priority
 :: Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" /v "CpuPriorityClass" /t REG_DWORD /d "3" /f > NUL 2>&1
 :: Reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\csrss.exe\PerfOptions" /v "IoPriority" /t REG_DWORD /d "3" /f > NUL 2>&1
