@@ -254,10 +254,13 @@ Reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPla
 :: Notes: dispbrokerdesktopsvc is left out (with 4 the display configuration is not saved); CLFS too (the Common Log File
 :: System under registry and file transactions: without it every DISM/CBS change fails with 0x80071A91, ERROR_RM_NOT_ACTIVE,
 :: so optional features, Hyper-V, updates and repairs stop working); wuauserv, bits, dosvc, UsoSvc and
-:: WaaSMedicSvc = Windows Update (dosvc breaks the Store); CDPSvc, CDPUserSvc and wlidsvc = GDID tracking; whesvc = Windows
+:: WaaSMedicSvc = Windows Update (dosvc breaks the Store); whesvc = Windows
 :: Health and Optimized Experiences; WSAIFabricSvc = Windows AI Fabric, the AI runtime (the AIFabric package goes in prepareiso).
+:: Left at the Windows default on purpose (turning them off gains nothing and breaks something): FontCache (fonts load slower),
+:: EventSystem (COM+ and MSI installers), VaultSvc (saved sign-ins), cdrom and vdrvroot (mounting ISOs), PEAUTH (DRM video),
+:: DsmSvc (setup of new devices), defragsvc (SSD retrim), acpiex (ACPI devices on laptops), Tcpip6 (IPv6 is turned off with
+:: DisabledComponents instead), CDPSvc and wlidsvc (Microsoft account sign-in: GDID tracking is on). The toolbox has options for them.
 for %%z in (
-      DsmSvc
       autotimesvc
       W32Time
       DsSvc
@@ -268,9 +271,6 @@ for %%z in (
       tzautoupdate
       OneSyncSvc
       Beep
-      cdfs
-      cdrom
-      acpiex
       acpipagr
       acpipmi
       acpitime
@@ -286,15 +286,12 @@ for %%z in (
       rdyboost
       rdpbus
       umbus
-      vdrvroot
       CompositeBus
       rspndr
       NdisCap
       NetBIOS
       NetBT
       spaceport
-      VaultSvc
-      EventSystem
       bowser
       WarpJITSvc
       Wecsvc
@@ -313,12 +310,10 @@ for %%z in (
       ErrDev
       mrxsmb
       mrxsmb20
-      PEAUTH
       QWAVEdrv
       srv
       SiSRaid2
       SiSRaid4
-      Tcpip6
       tcpipreg
       vsmraid
       VSTXRAID
@@ -344,10 +339,7 @@ for %%z in (
       RDPDR
       hvservice
       HvHost     
-      defragsvc
       dam
-      FontCache
-      FontCache3.0.0.0
       lfsvc
       printworkflowusersvc
       PhoneSvc
@@ -357,7 +349,6 @@ for %%z in (
       Themes
       TapiSrv
       UnistoreSvc
-      udfs
       WSearch
       WPDBusEnum
       lltdsvc
@@ -374,9 +365,6 @@ for %%z in (
       dosvc
       UsoSvc
       WaaSMedicSvc
-      CDPSvc
-      CDPUserSvc
-      wlidsvc
       whesvc
       WSAIFabricSvc
 ) do (
@@ -1094,6 +1082,8 @@ reg add "HKLM\SYSTEM\ControlSet001\Control\GraphicsDrivers" /v "TdrDelay" /t REG
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\WinHttp" /v "DisableWpad" /t REG_DWORD /d "1" /f >NUL 2>&1
 :: A failed DNS lookup is remembered for 5 s instead of minutes (a site that was down works again right away).
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\Dnscache\Parameters" /v "MaxNegativeCacheTtl" /t REG_DWORD /d "5" /f >NUL 2>&1
+:: IPv6 off the supported way (every interface, the loopback ::1 stays): the Tcpip6 driver itself keeps running.
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters" /v "DisabledComponents" /t REG_DWORD /d "255" /f >NUL 2>&1
 
 :: Last Good Known Config Creation
 reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "ReportBootOk" /t REG_SZ /d "0" /f >NUL 2>&1
@@ -1150,8 +1140,9 @@ echo [K?] Suspend ctfmon fix
 reg add "HKLM\Software\Microsoft\Input" /v "InputServiceEnabled" /t REG_DWORD /d "0" /f
 reg add "HKLM\Software\Microsoft\Input" /v "InputServiceEnabledForCCI" /t REG_DWORD /d "0" /f
 
-:: block gdid tracking
-Reg.exe add "HKLM\SOFTWARE\TheKOS" /v "GDIDTRACKING" /t REG_SZ /d "1" /f >nul 2>&1
+:: GDID tracking on (CDPSvc and wlidsvc at the Windows default: Microsoft account sign-in for the Store, Xbox and Minecraft);
+:: GDID-Tracking.cmd / the toolbox turn it off.
+Reg.exe add "HKLM\SOFTWARE\TheKOS" /v "GDIDTRACKING" /t REG_SZ /d "0" /f >nul 2>&1
 :: %programdata%\TheKOS\bin\3\cleanup.cmd
 
 :: Baseline for the KOS Toolbox's state check: what the KOS keys hold now, before bin\2 is deleted.
