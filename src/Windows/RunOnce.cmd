@@ -389,6 +389,16 @@ for %%z in (
 for %%z in (DiagTrack SessionEnv cbdhsvc diagsvc WdiServiceHost WdiSystemHost RasMan RasAuto PolicyAgent RASSSTP StiSvc PrintNotify usbprint PrintScanBrokerService PrintDeviceConfigurationService) do (
     reg query "HKLM\SYSTEM\CurrentControlSet\Services\%%z" >nul 2>&1 && PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\%%z" /v "Start" /t REG_DWORD /d "4" /f
 )
+:: Services nothing in KOS uses (only where they exist): UCPD = User Choice Protection Driver, which blocks programs from
+:: setting the default browser and PDF reader (its "UCPD velocity" task turns it back on); MapsBroker = offline maps; kdnic =
+:: kernel debugging network adapter; storqosflt = storage QoS filter (Hyper-V/server); fhsvc = File History;
+:: CloudBackupRestoreSvc, CloudIdSvc = cloud backup and work-account identity; McpManagementService = cloud printing;
+:: WPCMonSvc = parental controls; semgrsvc = payments and NFC; diagnosticshub = Visual Studio diagnostics collector;
+:: MicrosoftEdgeElevationService = Edge.
+for %%z in (UCPD MapsBroker kdnic storqosflt fhsvc CloudBackupRestoreSvc CloudIdSvc McpManagementService WPCMonSvc semgrsvc diagnosticshub.standardcollector.service MicrosoftEdgeElevationService) do (
+    reg query "HKLM\SYSTEM\CurrentControlSet\Services\%%z" >nul 2>&1 && PowerRun.exe /SW:0 Reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\%%z" /v "Start" /t REG_DWORD /d "4" /f
+)
+powerrun "schtasks.exe" /change /disable /TN "\Microsoft\Windows\AppxDeploymentClient\UCPD velocity" >nul 2>&1
 cls
 
 echo [K?] Deleting Windows Defender Services
